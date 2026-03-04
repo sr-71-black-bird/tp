@@ -275,16 +275,30 @@ _{Explain here how the data archiving feature will be implemented}_
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                     | So that I can…​                                                        |
-| -------- | ------------------------------------------ | ------------------------------ | ---------------------------------------------------------------------- |
-| `* * *`  | new user                                   | see usage instructions         | refer to instructions when I forget how to use the App                 |
-| `* * *`  | user                                       | add a new person               |                                                                        |
-| `* * *`  | user                                       | delete a person                | remove entries that I no longer need                                   |
-| `* * *`  | user                                       | find a person by name          | locate details of persons without having to go through the entire list |
-| `* *`    | user                                       | hide private contact details   | minimize chance of someone else seeing them by accident                |
-| `*`      | user with many persons in the address book | sort persons by name           | locate a person easily                                                 |
+| Priority | As a …​                                    | I want to …​                                          | So that I can…​                                                             |
+|----------|--------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------|
+| `* * *`  | pet day care manager                       | see usage instructions                                | quickly refer to command formats when I forget them                         |
+| `* * *`  | pet day care manager                       | add a new owner                                       | record new clients and their contact details                                |
+| `* * *`  | pet day care manager                       | delete an owner                                       | remove owners who no longer use my services                                 |
+| `* * *`  | pet day care manager                       | add a new pet under an existing owner                 | keep track of all animals belonging to each owner                           |
+| `* * *`  | pet day care manager                       | delete a pet                                          | remove records of pets that no longer visit                                 |
+| `* * *`  | pet day care manager                       | update a pet’s remarks                                | ensure feeding instructions and special notes are always up to date         |
+| `* * *`  | pet day care manager                       | find owners by name, phone, or email                  | quickly retrieve contact details when communicating with them               |
+| `* * *`  | pet day care manager                       | view all pets belonging to a specific owner           | quickly understand the full profile of a client during communication        |
+| `* * *`  | pet day care manager                       | find pets by name, species, or remarks                | locate a pet’s standing information without scrolling through the full list |
+| `* * *`  | pet day care manager                       | list all owners                                       | get an overview of my client base                                           |
+| `* * *`  | pet day care manager                       | list all pets                                         | see all animals currently registered in the system                          |
+| `* *`    | pet day care manager                       | update owner contact details                          | keep phone numbers and emails accurate for urgent communication             |
+| `* *`    | pet day care manager                       | edit existing pet details (e.g. breed, age)           | correct outdated or incorrect information                                   |
+| `* *`    | pet day care manager                       | prevent deletion of an owner with existing pets       | avoid accidentally losing linked pet records                                |
+| `* *`    | pet day care manager                       | sort pets by specific part of remarks                 | quickly locate pets with certain special requirements (e.g. health status)  |
+| `* *`    | pet day care manager                       | receive clear error messages for invalid commands     | quickly correct mistakes without disrupting daily operations                |
+| `* *`    | pet day care manager                       | search using partial keywords                         | retrieve records quickly even if I don’t remember exact spellings           |
+| `* *`    | pet day care manager                       | display owners and pets in a compact, readable format | scan information efficiently during busy hours                              |
+| `*`      | pet day care manager managing many records | sort owners or pets by name                           | locate entries more easily when the list becomes large                      |
+| `*`      | pet day care manager                       | view a summary count of owners and pets               | understand the scale of my operations at a glance                           |
+| `*`      | pet day care manager                       | view recently added or updated records                | quickly track recent operational changes                                    |
 
-*{More to be added}*
 
 ### Use cases
 
