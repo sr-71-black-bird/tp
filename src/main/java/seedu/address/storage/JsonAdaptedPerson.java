@@ -29,6 +29,7 @@ class JsonAdaptedPerson {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedPet> pets = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -103,7 +104,7 @@ class JsonAdaptedPerson {
         final Address modelAddress = new Address(address);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, Set.of(null)); //placeholder
     }
 
 }
