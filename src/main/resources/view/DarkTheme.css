@@ -315,6 +315,8 @@
 .pet-scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
+    -fx-border-color: derive(#1d1d1d, 60%);
+    -fx-border-width: 0 0 0 1;
 }
 
 .pet-scroll-pane > .viewport {
