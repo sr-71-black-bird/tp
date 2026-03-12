@@ -312,6 +312,15 @@
     -fx-border-width: 0;
 }
 
+.pet-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.pet-scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
 #commandTypeLabel {
     -fx-font-size: 11px;
     -fx-text-fill: #F70D1A;
