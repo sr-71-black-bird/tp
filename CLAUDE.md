@@ -40,7 +40,7 @@ UI ──► Logic ──► Model
 - **`UI`** (`seedu.address.ui`): JavaFX-based. All UI parts extend `UiPart<T>`. Layouts defined in `.fxml` files under `src/main/resources/view/`. The `MainWindow` owns all panels.
 - **`Logic`** (`seedu.address.logic`): `AddressBookParser` dispatches command words to individual `XCommandParser` classes, which produce `Command` objects. Commands execute against `Model` and return `CommandResult`.
 - **`Model`** (`seedu.address.model`): In-memory state. `ModelManager` wraps `AddressBook` (which holds a `UniquePersonList`) and `UserPrefs`. Exposes `ObservableList<Person>` for UI binding.
-- **`Storage`** (`seedu.address.storage`): Jackson-based JSON persistence. `JsonAdaptedPerson` and `JsonAdaptedPet` are the JSON serialization wrappers. Data is saved to `addressbook.json` (path configurable in `UserPrefs`).
+- **`Storage`** (`seedu.address.storage`): Jackson-based JSON persistence. `JsonAdaptedPerson` and `JsonAdaptedPet` are the JSON serialization wrappers. Data is saved to `petlog.json` (path configurable in `UserPrefs`).
 - **`Commons`** (`seedu.address.commons`): Shared utilities, exceptions, and `Index` (1-based to 0-based wrapper).
 
 ## Domain Model
