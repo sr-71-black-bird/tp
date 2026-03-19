@@ -1,28 +1,42 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.person.FieldContainsKeywordsPredicate;
 
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
- * Keyword matching is case insensitive.
+ * Finds and lists all owners in PetLog whose specified fields contain the given prefixed search strings.
+ * Matching is case-insensitive.
  */
 public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names contain any of "
-            + "the specified keywords (case-insensitive) and displays them as a list with index numbers.\n"
-            + "Parameters: KEYWORD [MORE_KEYWORDS]...\n"
-            + "Example: " + COMMAND_WORD + " alice bob charlie";
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all owners whose specified fields contain "
+            + "the provided search strings (case-insensitive), and displays them as a list with index numbers.\n"
+            + "Parameters: "
+            + "[" + PREFIX_OWNER_NAME + "NAME] "
+            + "[" + PREFIX_PHONE + "PHONE] "
+            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "At least one prefix must be provided.\n"
+            + "Example: " + COMMAND_WORD + " "
+            + PREFIX_OWNER_NAME + "john "
+            + PREFIX_PHONE + "9876 "
+            + PREFIX_TAG + "friend";
 
-    private final NameContainsKeywordsPredicate predicate;
+    private final FieldContainsKeywordsPredicate predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(FieldContainsKeywordsPredicate predicate) {
         this.predicate = predicate;
     }
 
