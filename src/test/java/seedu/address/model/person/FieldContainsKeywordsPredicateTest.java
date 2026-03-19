@@ -1,0 +1,81 @@
+package seedu.address.model.person;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+
+import seedu.address.testutil.PersonBuilder;
+
+public class FieldContainsKeywordsPredicateTest {
+
+    @Test
+    public void equals() {
+        FieldContainsKeywordsPredicate firstPredicate = new FieldContainsKeywordsPredicate(
+                Optional.of("Alice"), Optional.empty(), Optional.empty(), Optional.empty(), List.of("friend"));
+        FieldContainsKeywordsPredicate secondPredicate = new FieldContainsKeywordsPredicate(
+                Optional.of("Bob"), Optional.empty(), Optional.empty(), Optional.empty(), List.of("friend"));
+
+        // same object -> returns true
+        assertTrue(firstPredicate.equals(firstPredicate));
+
+        // same values -> returns true
+        FieldContainsKeywordsPredicate firstPredicateCopy = new FieldContainsKeywordsPredicate(
+                Optional.of("Alice"), Optional.empty(), Optional.empty(), Optional.empty(), List.of("friend"));
+        assertTrue(firstPredicate.equals(firstPredicateCopy));
+
+        // different types -> returns false
+        assertFalse(firstPredicate.equals(1));
+
+        // null -> returns false
+        assertFalse(firstPredicate.equals(null));
+
+        // different predicate values -> returns false
+        assertFalse(firstPredicate.equals(secondPredicate));
+    }
+
+    @Test
+    public void test_allProvidedFieldsMatch_returnsTrue() {
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Optional.of("alice"),
+                Optional.of("9435"),
+                Optional.of("example.com"),
+                Optional.of("jurong"),
+                List.of("friend"));
+        assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").withPhone("94351253")
+                .withEmail("alice@example.com").withAddress("123 Jurong West").withTags("friends").build()));
+    }
+
+    @Test
+    public void test_anyProvidedFieldDoesNotMatch_returnsFalse() {
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Optional.of("alice"),
+                Optional.of("111"),
+                Optional.empty(),
+                Optional.empty(),
+                Collections.emptyList());
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").withPhone("94351253").build()));
+    }
+
+    @Test
+    public void test_allTagSearchStringsMustMatch_returnsFalse() {
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Optional.empty(), Optional.empty(), Optional.empty(), Optional.empty(), List.of("friend", "vip"));
+        assertFalse(predicate.test(new PersonBuilder().withName("Alice Bob").withTags("friends").build()));
+    }
+
+    @Test
+    public void toStringMethod() {
+        FieldContainsKeywordsPredicate predicate = new FieldContainsKeywordsPredicate(
+                Optional.of("alice"), Optional.of("9435"), Optional.empty(), Optional.empty(), List.of("friend"));
+        String expected = FieldContainsKeywordsPredicate.class.getCanonicalName()
+                + "{ownerNameKeyword=Optional[alice], phoneKeyword=Optional[9435], emailKeyword=Optional.empty, "
+                + "addressKeyword=Optional.empty, tagKeywords=[friend]}";
+        assertEquals(expected, predicate.toString());
+    }
+}

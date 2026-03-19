@@ -10,6 +10,7 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -142,7 +143,7 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
-        private Set<Pet> pets;
+        private Set<Pet> pets = new LinkedHashSet<>();
 
         public EditPersonDescriptor() {}
 
@@ -163,7 +164,7 @@ public class EditCommand extends Command {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, pets);
         }
 
         public void setName(Name name) {
@@ -220,7 +221,7 @@ public class EditCommand extends Command {
          * A defensive copy of {@code pets} is used internally.
          */
         public void setPets(Set<Pet> pets) {
-            this.pets = (pets != null) ? new HashSet<>(pets) : null;
+            this.pets = (pets != null) ? new LinkedHashSet<>(pets) : null;
         }
 
         /**
@@ -248,7 +249,8 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditPersonDescriptor.phone)
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
-                    && Objects.equals(tags, otherEditPersonDescriptor.tags);
+                    && Objects.equals(tags, otherEditPersonDescriptor.tags)
+                    && Objects.equals(pets, otherEditPersonDescriptor.pets);
         }
 
         @Override
