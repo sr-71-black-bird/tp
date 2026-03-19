@@ -80,6 +80,9 @@ public class Person {
      */
     public List<Pet> getPetList() {
         return Collections.unmodifiableList(new ArrayList<>(pets));
+    }
+
+    /**
      * Returns the number of pets the person has
      */
     public int getPetCount() {
