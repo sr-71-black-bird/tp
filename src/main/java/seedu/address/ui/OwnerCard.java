@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import java.util.Comparator;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -60,7 +58,6 @@ public class OwnerCard extends UiPart<Region> {
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
         person.getPets().stream()
-                .sorted(Comparator.comparing(pet -> pet.getName().value))
                 .forEach(pet -> petsContainer.getChildren().add(createPetLabel(pet)));
     }
 
