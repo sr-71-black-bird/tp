@@ -38,10 +38,16 @@ public class DeleteCommand extends Command {
     private final Index targetIndex;
     private final Optional<Index> petIndex;
 
+    /**
+     * Creates an DeleteCommand to delete the specified {@code Person}
+     */
     public DeleteCommand(Index targetIndex) {
         this(targetIndex, null);
     }
 
+    /**
+     * Creates an DeleteCommand to delete the specified {@code Pet}
+     */
     public DeleteCommand(Index targetIndex, Index petIndex) {
         requireNonNull(targetIndex);
         this.targetIndex = targetIndex;

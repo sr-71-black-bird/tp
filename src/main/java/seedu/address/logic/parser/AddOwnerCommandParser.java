@@ -22,7 +22,7 @@ import seedu.address.model.pet.Pet;
 import seedu.address.model.tag.Tag;
 
 /**
- * Parses input arguments and creates a new AddCommand object
+ * Parses input arguments and creates a new AddOwnerCommand object
  */
 public class AddOwnerCommandParser implements Parser<AddOwnerCommand> {
 
