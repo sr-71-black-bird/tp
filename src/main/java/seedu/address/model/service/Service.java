@@ -3,6 +3,8 @@ package seedu.address.model.service;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Objects;
+
 /**
  * Represents a service in PetLog.
  * Guarantees: immutable; name is valid as declared in {@link #isValidServiceName(String)}
@@ -67,6 +69,11 @@ public class Service {
 
         return otherService != null
                 && otherService.getName().equals(getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(serviceName, servicePrice);
     }
 
     /**
