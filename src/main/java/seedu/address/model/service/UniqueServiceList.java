@@ -50,26 +50,6 @@ public class UniqueServiceList implements Iterable<Service> {
     }
 
     /**
-     * Replaces the service {@code target} in the list with {@code editedService}.
-     * {@code target} must exist in the list.
-     * The service identity of {@code editedService} must not be the same as another existing service in the list.
-     */
-    public void setService(Service target, Service editedService) {
-        requireAllNonNull(target, editedService);
-
-        int index = internalList.indexOf(target);
-        if (index == -1) {
-            throw new ServiceNotFoundException();
-        }
-
-        if (!target.isSameService(editedService) && contains(editedService)) {
-            throw new DuplicateServiceException();
-        }
-
-        internalList.set(index, editedService);
-    }
-
-    /**
      * Removes the equivalent service from the list.
      * The service must exist in the list.
      */

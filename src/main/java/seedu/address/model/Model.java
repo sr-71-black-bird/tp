@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.Person;
 import seedu.address.model.pet.Pet;
+import seedu.address.model.service.Service;
 
 /**
  * The API of the Model component.
@@ -76,6 +77,23 @@ public interface Model {
      * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
      */
     void setPerson(Person target, Person editedPerson);
+
+    /**
+     * Returns true if a service with the same identity as {@code service} exists in the address book.
+     */
+    boolean hasService(Service service);
+
+    /**
+     * Deletes the given service.
+     * The service must exist in the address book.
+     */
+    void deleteService(Service target);
+
+    /**
+     * Adds the given service.
+     * {@code service} must not already exist in the address book.
+     */
+    void addService(Service service);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();

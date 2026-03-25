@@ -127,17 +127,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the given service {@code target} in the list with {@code editedService}.
-     * {@code target} must exist in the address book.
-     * The service identity of {@code editedService} must not be the same as another existing service in the address
-     * book.
-     */
-    public void setService(Service target, Service editedService) {
-        requireNonNull(editedService);
-        services.setService(target, editedService);
-    }
-
-    /**
      * Removes Service {@code key} from this {@code AddressBook}.
      * Service {@code key} must exist in the address book.
      */
