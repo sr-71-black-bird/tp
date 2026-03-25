@@ -14,16 +14,16 @@ import seedu.address.model.service.exceptions.ServiceNotFoundException;
 
 /**
  * A list of services that enforces uniqueness between its elements and does not allow nulls.
- * A service is considered unique by comparing using {@code Service#isSameService(Service)}. As such, adding and updating of
- * services uses Service#isSameService(Service) for equality so as to ensure that the service being added or updated is
- * unique in terms of identity in the UniqueServiceList. However, the removal of a service uses Service#equals(Object) so
- * as to ensure that the service with exactly the same fields will be removed.
+ * A service is considered unique by comparing using {@code Service#isSameService(Service)}. As such, adding and
+ * updating of services uses Service#isSameService(Service) for equality so as to ensure that the service being added
+ * or updated is unique in terms of identity in the UniqueServiceList. However, the removal of a service uses
+ * Service#equals(Object) so as to ensure that the service with exactly the same fields will be removed.
  *
  * Supports a minimal set of list operations.
  *
  * @see Service#isSameService(Service)
  */
-public class UniqueServiceList implements Iterable<Service>{
+public class UniqueServiceList implements Iterable<Service> {
 
     private final ObservableList<Service> internalList = FXCollections.observableArrayList();
     private final ObservableList<Service> internalUnmodifiableList =
