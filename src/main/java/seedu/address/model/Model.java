@@ -95,6 +95,9 @@ public interface Model {
      */
     void addService(Service service);
 
+    /** Returns an unmodifiable view of the services list */
+    ObservableList<Service> getServiceList();
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 

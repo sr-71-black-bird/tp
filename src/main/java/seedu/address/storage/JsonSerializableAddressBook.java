@@ -27,21 +27,17 @@ class JsonSerializableAddressBook {
     private final List<JsonAdaptedService> services = new ArrayList<>();
 
     /**
-     * Constructs a {@code JsonSerializableAddressBook} with the given persons.
-     */
-    @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
-        this.persons.addAll(persons);
-    }
-
-    /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons and services.
      */
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
                                        @JsonProperty("services") List<JsonAdaptedService> services) {
-        this.persons.addAll(persons);
-        this.services.addAll(services);
+        if (persons != null) {
+            this.persons.addAll(persons);
+        }
+        if (services != null) {
+            this.services.addAll(services);
+        }
     }
 
     /**
@@ -73,6 +69,7 @@ class JsonSerializableAddressBook {
             if (addressBook.hasService(service)) {
                 throw new IllegalValueException(MESSAGE_DUPLICATE_SERVICE);
             }
+            addressBook.addService(service);
         }
         return addressBook;
     }

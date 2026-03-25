@@ -146,6 +146,11 @@ public class ModelManager implements Model {
         addressBook.addService(service);
     }
 
+    @Override
+    public ObservableList<Service> getServiceList() {
+        return addressBook.getServiceList();
+    }
+
     //=========== Filtered Person List Accessors =============================================================
 
     /**
