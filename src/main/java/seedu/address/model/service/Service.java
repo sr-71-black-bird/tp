@@ -36,6 +36,10 @@ public class Service {
         return test.matches(VALIDATION_REGEX);
     }
 
+    public String getName() {
+        return this.serviceName;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
@@ -50,6 +54,19 @@ public class Service {
         Service otherService = (Service) other;
         return serviceName.equals(otherService.serviceName)
                 && Double.compare(servicePrice, otherService.servicePrice) == 0;
+    }
+
+    /**
+     * Returns true if both services have the same name.
+     * This defines a weaker notion of equality between two services.
+     */
+    public boolean isSameService(Service otherService) {
+        if (otherService == this) {
+            return true;
+        }
+
+        return otherService != null
+                && otherService.getName().equals(getName());
     }
 
     /**
