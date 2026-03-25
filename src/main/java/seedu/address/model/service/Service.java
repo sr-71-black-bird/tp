@@ -9,8 +9,9 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Service {
 
-    public static final String MESSAGE_CONSTRAINTS = "Service names should be alphanumeric";
-    public static final String VALIDATION_REGEX = "\\p{Alnum}+";
+    public static final String MESSAGE_CONSTRAINTS = "Service names should only contain alphanumeric characters or "
+            + "spaces";
+    public static final String VALIDATION_REGEX = "\\p{Alnum}+(?: \\p{Alnum}+)*";
 
     public final String serviceName;
     public final double servicePrice;
@@ -48,7 +49,7 @@ public class Service {
 
         Service otherService = (Service) other;
         return serviceName.equals(otherService.serviceName)
-                && servicePrice == otherService.servicePrice;
+                && Double.compare(servicePrice, otherService.servicePrice) == 0;
     }
 
     /**
