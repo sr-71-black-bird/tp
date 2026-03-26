@@ -1,6 +1,8 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_INDEX;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
@@ -9,6 +11,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.DeleteCommand;
 
 /**
@@ -41,17 +44,15 @@ public class DeleteCommandParserTest {
     @Test
     public void parse_repeatedPrefixes_throwsParseException() {
         assertParseFailure(parser, " oi/1 oi/2",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_OWNER_INDEX));
         assertParseFailure(parser, " oi/1 pi/1 pi/2",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+                Messages.getErrorMessageForDuplicatePrefixes(PREFIX_PET_INDEX));
     }
 
     @Test
     public void parse_invalidIndices_throwsParseException() {
-        assertParseFailure(parser, " oi/0",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
-        assertParseFailure(parser, " oi/1 pi/0",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE));
+        assertParseFailure(parser, " oi/0", MESSAGE_INVALID_INDEX);
+        assertParseFailure(parser, " oi/1 pi/0", MESSAGE_INVALID_INDEX);
     }
 
     @Test
