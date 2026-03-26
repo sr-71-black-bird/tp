@@ -123,6 +123,38 @@ public class AddSessionCommand extends Command {
         }
     }
 
+    /**
+     * Calculates the total fee for all services in this session.
+     *
+     * @param availServices Services currently stored in the model   the reference object with which to compare.
+     * @return Total fee for the selected services
+     * @throws CommandException If any requested service does not exist
+     */
+    private double calculateTotalFee(List<Service> availServices) throws CommandException {
+        double totalFee = 0;
+
+        for (String serviceName : serviceNames) {
+            Service matchedService = findServiceByName(availServices, serviceName);
+            if (matchedService == null) {
+                throw new CommandException(String.format(MESSAGE_UNKNOWN_SERVICE, serviceName));
+            }
+            totalFee += matchedService.getCost();
+        }
+        return totalFee;
+    }
+
+    /**
+     * Finds a service by name from the available services list.
+     */
+    private Service findServiceByName(List<Service> availServices, String serviceName) {
+        for (Service service : availServices) {
+            if (service.getName().equalsIgnoreCase(serviceName)) {
+                return service;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {

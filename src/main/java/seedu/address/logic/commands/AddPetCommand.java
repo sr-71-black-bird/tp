@@ -47,6 +47,7 @@ public class AddPetCommand extends Command {
      * Creates an AddPetCommand to add the specified {@code Pet} to the owner at {@code ownerIndex}.
      */
     public AddPetCommand(Index ownerIndex, Pet pet) {
+        assert (ownerIndex.getZeroBased() >= 0 && ownerIndex.getOneBased() >= 1);
         requireNonNull(ownerIndex);
         requireNonNull(pet);
         this.ownerIndex = ownerIndex;
@@ -58,6 +59,11 @@ public class AddPetCommand extends Command {
         requireNonNull(model);
 
         List<Person> lastShownList = model.getFilteredPersonList();
+
+        if (lastShownList.isEmpty()) {
+            throw new CommandException("Owner list is empty. Cannot add pet.");
+        }
+
         if (ownerIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
         }
