@@ -100,7 +100,7 @@ public class AddSessionCommand extends Command {
 
         validateServices(model.getServiceList());
 
-        pet.addSession(new Session(startTime, endTime));
+        pet.addSession(new Session(startTime, endTime, totalFee));
         model.setDisplayedPet(pet,
                 String.format(SESSION_PANEL_TITLE_FORMAT, owner.getName().fullName, pet.getName().value));
 
