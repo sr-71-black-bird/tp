@@ -31,6 +31,8 @@ public class ModelManager implements Model {
     private final ObservableList<Pet> allPets = FXCollections.observableArrayList();
     private final FilteredList<Pet> filteredPets;
     private final ObservableList<Session> displayedSessions = FXCollections.observableArrayList();
+    private final ObservableList<Session> unmodifiableDisplayedSessions =
+            FXCollections.unmodifiableObservableList(displayedSessions);
     private String sessionPanelTitle = "Sessions";
 
     /**
@@ -166,7 +168,7 @@ public class ModelManager implements Model {
 
     @Override
     public ObservableList<Session> getSessionList() {
-        return FXCollections.unmodifiableObservableList(displayedSessions);
+        return unmodifiableDisplayedSessions;
     }
 
     @Override

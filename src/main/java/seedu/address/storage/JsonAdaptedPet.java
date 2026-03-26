@@ -1,5 +1,9 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,6 +13,7 @@ import seedu.address.model.pet.Pet;
 import seedu.address.model.pet.PetName;
 import seedu.address.model.pet.PetRemark;
 import seedu.address.model.pet.Species;
+import seedu.address.model.session.Session;
 
 /**
  * Jackson-friendly version of {@link Pet}.
@@ -21,17 +26,22 @@ public class JsonAdaptedPet {
     private final String species;
     private final String ownerIndex;
     private final String remark;
+    private final List<JsonAdaptedSession> sessions = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPet} with the given pet details.
      */
     @JsonCreator
     public JsonAdaptedPet(@JsonProperty("name") String name, @JsonProperty("species") String species,
-            @JsonProperty("ownerIndex") String ownerIndex, @JsonProperty("remark") String remark) {
+            @JsonProperty("ownerIndex") String ownerIndex, @JsonProperty("remark") String remark,
+            @JsonProperty("sessions") List<JsonAdaptedSession> sessions) {
         this.name = name;
         this.species = species;
         this.ownerIndex = ownerIndex;
         this.remark = remark;
+        if (sessions != null) {
+            this.sessions.addAll(sessions);
+        }
     }
 
     /**
@@ -42,6 +52,9 @@ public class JsonAdaptedPet {
         species = source.getSpecies().value;
         ownerIndex = source.getOwnerIndex().value;
         remark = source.getRemark().value;
+        sessions.addAll(source.getSessions().stream()
+                .map(JsonAdaptedSession::new)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -83,6 +96,13 @@ public class JsonAdaptedPet {
         }
         final PetRemark modelRemark = new PetRemark(remark);
 
-        return new Pet(modelName, modelSpecies, modelOwnerIndex, modelRemark);
+        Pet pet = new Pet(modelName, modelSpecies, modelOwnerIndex, modelRemark);
+
+        for (JsonAdaptedSession adaptedSession : sessions) {
+            Session session = adaptedSession.toModelType();
+            pet.addSession(session);
+        }
+
+        return pet;
     }
 }
