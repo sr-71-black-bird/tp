@@ -18,6 +18,7 @@ import seedu.address.model.pet.Pet;
 import seedu.address.model.pet.PetName;
 import seedu.address.model.pet.PetRemark;
 import seedu.address.model.pet.Species;
+import seedu.address.model.service.Service;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -60,7 +61,20 @@ public class SampleDataUtil {
         for (Person samplePerson : getSamplePersons()) {
             sampleAb.addPerson(samplePerson);
         }
+        for (Service sampleService : getSampleServices()) {
+            sampleAb.addService(sampleService);
+        }
         return sampleAb;
+    }
+
+    public static Service[] getSampleServices() {
+        return new Service[] {
+            new Service("Base service charge", 20),
+            new Service("Shampoo", 30),
+            new Service("Fur trim", 25),
+            new Service("Nail trim", 10),
+            new Service("Walk", 15)
+        };
     }
 
     /**

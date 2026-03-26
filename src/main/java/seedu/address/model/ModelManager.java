@@ -16,6 +16,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
 import seedu.address.model.pet.Pet;
+import seedu.address.model.service.Service;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -127,6 +128,27 @@ public class ModelManager implements Model {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public boolean hasService(Service service) {
+        requireNonNull(service);
+        return addressBook.hasService(service);
+    }
+
+    @Override
+    public void deleteService(Service target) {
+        addressBook.removeService(target);
+    }
+
+    @Override
+    public void addService(Service service) {
+        addressBook.addService(service);
+    }
+
+    @Override
+    public ObservableList<Service> getServiceList() {
+        return addressBook.getServiceList();
     }
 
     //=========== Filtered Person List Accessors =============================================================

@@ -10,10 +10,12 @@ import java.util.regex.Pattern;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddOwnerCommand;
 import seedu.address.logic.commands.AddPetCommand;
+import seedu.address.logic.commands.AddServiceCommand;
 import seedu.address.logic.commands.AddSessionCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.DeleteServiceCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -85,6 +87,12 @@ public class AddressBookParser {
 
         case UpdatePetRemarkCommand.COMMAND_WORD:
             return new UpdatePetRemarkCommandParser().parse(arguments);
+
+        case AddServiceCommand.COMMAND_WORD:
+            return new AddServiceCommandParser().parse(arguments);
+
+        case DeleteServiceCommand.COMMAND_WORD:
+            return new DeleteServiceCommandParser().parse(arguments);
 
         case AddSessionCommand.COMMAND_WORD:
             return new AddSessionCommandParser().parse(arguments);

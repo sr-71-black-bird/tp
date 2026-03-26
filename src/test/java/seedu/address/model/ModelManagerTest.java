@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.person.FieldContainsKeywordsPredicate;
+import seedu.address.model.service.Service;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
@@ -90,8 +91,30 @@ public class ModelManagerTest {
     }
 
     @Test
+    public void hasService_nullService_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> modelManager.hasService(null));
+    }
+
+    @Test
+    public void hasService_serviceNotInAddressBook_returnsFalse() {
+        assertFalse(modelManager.hasService(new Service("Shampoo", 30.00)));
+    }
+
+    @Test
+    public void hasService_serviceInAddressBook_returnsTrue() {
+        Service service = new Service("Shampoo", 30.00);
+        modelManager.addService(service);
+        assertTrue(modelManager.hasService(service));
+    }
+
+    @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void getServiceList_modifyList_throwsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> modelManager.getServiceList().remove(0));
     }
 
     @Test
