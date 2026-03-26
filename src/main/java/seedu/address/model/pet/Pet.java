@@ -15,7 +15,6 @@ public class Pet {
     // Identity fields
     private final PetName name;
     private final Species species;
-    private final OwnerIndex ownerIndex;
 
     // Data fields
     private PetRemark remark;
@@ -23,11 +22,10 @@ public class Pet {
     /**
      * Every field must be present and not null.
      */
-    public Pet(PetName name, Species species, OwnerIndex ownerIndex, PetRemark remark) {
-        requireAllNonNull(name, species, ownerIndex, remark);
+    public Pet(PetName name, Species species, PetRemark remark) {
+        requireAllNonNull(name, species, remark);
         this.name = name;
         this.species = species;
-        this.ownerIndex = ownerIndex;
         this.remark = remark;
     }
 
@@ -39,16 +37,12 @@ public class Pet {
         return species;
     }
 
-    public OwnerIndex getOwnerIndex() {
-        return ownerIndex;
-    }
-
     public PetRemark getRemark() {
         return remark;
     }
 
     /**
-     * Returns true if both pets have the same name, species, and owner index.
+     * Returns true if both pets have the same name and species.
      * This defines a weaker notion of equality between two pets.
      */
     public boolean isSamePet(Pet otherPet) {
@@ -58,8 +52,7 @@ public class Pet {
 
         return otherPet != null
                 && otherPet.getName().equals(getName())
-                && otherPet.getSpecies().equals(getSpecies())
-                && otherPet.getOwnerIndex().equals(getOwnerIndex());
+                && otherPet.getSpecies().equals(getSpecies());
     }
 
     /**
@@ -88,14 +81,13 @@ public class Pet {
         Pet otherPet = (Pet) other;
         return name.equals(otherPet.name)
                 && species.equals(otherPet.species)
-                && ownerIndex.equals(otherPet.ownerIndex)
                 && remark.equals(otherPet.remark);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, species, ownerIndex, remark);
+        return Objects.hash(name, species, remark);
     }
 
     @Override
@@ -103,7 +95,6 @@ public class Pet {
         return new ToStringBuilder(this)
                 .add("name", name)
                 .add("species", species)
-                .add("ownerIndex", ownerIndex)
                 .add("remark", remark)
                 .toString();
     }
