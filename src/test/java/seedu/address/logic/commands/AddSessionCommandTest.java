@@ -48,7 +48,7 @@ public class AddSessionCommandTest {
                 INDEX_FIRST_PERSON, INDEX_FIRST_PERSON, VALID_START, VALID_END);
 
         String expectedMessage = String.format(AddSessionCommand.MESSAGE_SUCCESS,
-                owner.getName(), pet.getName(), VALID_START, VALID_END);
+                owner.getName(), pet.getName(), VALID_START, VALID_END) + ". Total fee: $0.00";
 
         // Model equality is unaffected by session addition (sessions excluded from equals)
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());

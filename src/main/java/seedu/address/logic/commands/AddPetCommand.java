@@ -12,6 +12,7 @@ import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
+import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
@@ -43,7 +44,7 @@ public class AddPetCommand extends Command {
     private final Pet toAdd;
 
     /**
-     * Creates an AddPetCommand to add the specified {@code Pet}
+     * Creates an AddPetCommand to add the specified {@code Pet} to the owner at {@code ownerIndex}.
      */
     public AddPetCommand(Index ownerIndex, Pet pet) {
         requireNonNull(ownerIndex);
@@ -58,12 +59,13 @@ public class AddPetCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
         if (ownerIndex.getZeroBased() >= lastShownList.size()) {
-            throw new CommandException("The owner index provided is invalid.");
+            throw new CommandException(Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
         }
 
         Person owner = lastShownList.get(ownerIndex.getZeroBased());
 
-        if (owner.hasPet(toAdd)) {
+        boolean isDuplicate = owner.getPets().stream().anyMatch(p -> p.isSamePet(toAdd));
+        if (isDuplicate) {
             throw new CommandException(MESSAGE_DUPLICATE_PET);
         }
 
