@@ -95,7 +95,7 @@ public class Pet {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, species, ownerIndex, remark);
+        return Objects.hash(name, species, ownerIndex);
     }
 
     @Override

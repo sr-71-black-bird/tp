@@ -42,6 +42,8 @@ public class UpdatePetRemarkCommand extends Command {
      * Creates an UpdatePetRemarkCommand to add the specified {@code Pet}
      */
     public UpdatePetRemarkCommand(Index ownerIndex, Index petIndex, String newRemark) {
+        requireNonNull(ownerIndex);
+        requireNonNull(petIndex);
         requireNonNull(newRemark);
         this.ownerIndex = ownerIndex;
         this.petIndex = petIndex;
@@ -73,14 +75,14 @@ public class UpdatePetRemarkCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof AddOwnerCommand)) {
+        if (!(other instanceof UpdatePetRemarkCommand)) {
             return false;
         }
 
-        UpdatePetRemarkCommand otherAddOwnerCommand = (UpdatePetRemarkCommand) other;
-        return (this.ownerIndex == otherAddOwnerCommand.ownerIndex)
-                && this.petIndex == otherAddOwnerCommand.petIndex
-                && newRemark.equals(otherAddOwnerCommand.newRemark);
+        UpdatePetRemarkCommand otherUpdatePetRemarkCommand = (UpdatePetRemarkCommand) other;
+        return ownerIndex.equals(otherUpdatePetRemarkCommand.ownerIndex)
+                && petIndex.equals(otherUpdatePetRemarkCommand.petIndex)
+                && newRemark.equals(otherUpdatePetRemarkCommand.newRemark);
     }
 
     @Override
