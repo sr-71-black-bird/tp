@@ -6,10 +6,15 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 
+import java.util.List;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.person.Person;
+import seedu.address.model.pet.Pet;
+import seedu.address.model.session.Session;
 
 /**
  * Adds a session for a specific owner and pet with a start and end time.
@@ -30,7 +35,7 @@ public class AddSessionCommand extends Command {
             + PREFIX_START_TIME + "2026-03-25 10:00 "
             + PREFIX_END_TIME + "2026-03-25 11:00";
 
-    public static final String MESSAGE_SUCCESS = "New session added";
+    public static final String MESSAGE_SUCCESS = "Session added for %s's pet %s from %s to %s";
 
     private final Index ownerIndex;
     private final Index petIndex;
@@ -40,10 +45,10 @@ public class AddSessionCommand extends Command {
     /**
      * Creates an AddSessionCommand.
      *
-     * @param ownerIndex Index of the owner in the list
-     * @param petIndex Index of the pet in the list
-     * @param startTime Start time of the session
-     * @param endTime End time of the session
+     * @param ownerIndex Index of the owner in the displayed list
+     * @param petIndex   Index of the pet within that owner's pet list
+     * @param startTime  Start time of the session
+     * @param endTime    End time of the session
      */
     public AddSessionCommand(Index ownerIndex, Index petIndex, String startTime, String endTime) {
         requireNonNull(ownerIndex);
@@ -56,35 +61,27 @@ public class AddSessionCommand extends Command {
         this.endTime = endTime;
     }
 
-    /**
-     * Executes the command to add a session.
-     *
-     * @param model Model used to access and modify data
-     * @return Result of the command execution
-     * @throws CommandException If execution fails
-     */
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (ownerIndex.getZeroBased() >= model.getFilteredPersonList().size()) {
-            throw new CommandException("Invalid owner index");
+        List<Person> lastShownList = model.getFilteredPersonList();
+        if (ownerIndex.getZeroBased() >= lastShownList.size()) {
+            throw new CommandException("The owner index provided is invalid.");
         }
 
-        if (petIndex.getZeroBased() >= model.getFilteredPetList().size()) {
-            throw new CommandException("Invalid pet index");
+        Person owner = lastShownList.get(ownerIndex.getZeroBased());
+
+        if (petIndex.getZeroBased() >= owner.getPetCount()) {
+            throw new CommandException("The pet index provided is invalid.");
         }
 
-        var owner = model.getFilteredPersonList().get(ownerIndex.getZeroBased());
-        var pet = model.getFilteredPetList().get(petIndex.getZeroBased());
+        Pet pet = owner.getPetList().get(petIndex.getZeroBased());
+        pet.addSession(new Session(startTime, endTime));
+        model.setDisplayedPet(pet);
 
-        return new CommandResult(String.format(
-                "Session added for %s's pet %s from %s to %s",
-                owner.getName(),
-                pet.getName(),
-                startTime,
-                endTime
-        ));
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+                owner.getName(), pet.getName(), startTime, endTime));
     }
 
     @Override
