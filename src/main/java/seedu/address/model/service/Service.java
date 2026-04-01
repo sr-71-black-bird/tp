@@ -94,7 +94,7 @@ public class Service {
         }
 
         return otherService != null
-                && otherService.getName().equals(getName());
+                && otherService.getName().equalsIgnoreCase(getName());
     }
 
     @Override
