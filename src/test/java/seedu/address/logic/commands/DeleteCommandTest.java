@@ -241,8 +241,8 @@ public class DeleteCommandTest {
         Model baseModel = new ModelManager(TypicalAddressBooks.getTypicalPetLog(), new UserPrefs());
         Person owner = baseModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Set<Pet> updatedPets = new LinkedHashSet<>(owner.getPets());
-        updatedPets.add(new PetBuilder().withName("Nova").withSpecies("Cat").
-                withPetRemark("Playful").build());
+        updatedPets.add(new PetBuilder().withName("Nova").withSpecies("Cat")
+                .withPetRemark("Playful").build());
 
         Person editedOwner = new Person(owner.getName(), owner.getPhone(), owner.getEmail(),
                 owner.getAddress(), owner.getTags(), updatedPets);
@@ -256,7 +256,8 @@ public class DeleteCommandTest {
         Person owner = baseModel.getFilteredPersonList().get(2);
         Person editedOwner = new Person(owner.getName(), owner.getPhone(), owner.getEmail(),
                 owner.getAddress(), owner.getTags(), new LinkedHashSet<>());
-        Model modelWithOwnerWithoutPets = new ModelManager(new AddressBook(baseModel.getAddressBook()), new UserPrefs());
+        Model modelWithOwnerWithoutPets = new ModelManager(new AddressBook(baseModel.getAddressBook()),
+                new UserPrefs());
         modelWithOwnerWithoutPets.setPerson(owner, editedOwner);
         return modelWithOwnerWithoutPets;
     }
