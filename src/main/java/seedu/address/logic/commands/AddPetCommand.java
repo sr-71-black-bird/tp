@@ -60,10 +60,6 @@ public class AddPetCommand extends Command {
 
         List<Person> lastShownList = model.getFilteredPersonList();
 
-        if (lastShownList.isEmpty()) {
-            throw new CommandException("Owner list is empty. Cannot add pet.");
-        }
-
         if (ownerIndex.getZeroBased() >= lastShownList.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
         }
