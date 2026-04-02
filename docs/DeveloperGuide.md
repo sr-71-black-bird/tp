@@ -575,6 +575,81 @@ testers are expected to do more *exploratory* testing.
 
 1. _{ more test cases …​ }_
 
+### Adding an owner
+
+1. Adding an owner
+
+   1. Prerequisites: App is launched with sample data (contains owner `Alex Yeoh`).
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com ad/12 Tampines Street 11, #03-55 ot/vip`<br>
+      Expected: A new owner is added and shown in the owner list. Success message starts with `New owner added:`.
+
+   1. Test case: `addowner on/Alex Yeoh ph/99998888 em/alex.new@example.com ad/1 New Address`<br>
+      Expected: Command fails with `This owner already exists in PetLog`.
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com`<br>
+      Expected: Command fails due to invalid format (missing required `ad/` prefix).
+
+### Finding an owner
+
+1. Finding owners using owner fields
+
+   1. Prerequisites: Use sample data (contains owner `Alex Yeoh`).
+
+   1. Test case: `find on/alex`<br>
+      Expected: Owner list shows matching owners whose names contain `alex` (case-insensitive), including `Alex Yeoh`.
+
+   1. Test case: `find ad/ang mo kio`<br>
+      Expected: Owner list shows only owners whose address contains `ang mo kio`.
+
+   1. Test case: `find on/nonexistentowner`<br>
+      Expected: Owner list shows 0 results and status message indicates `0 persons listed!`.
+
+### Finding a specific pet
+
+1. Finding owners that have a pet matching given pet fields
+
+   1. Prerequisites: Use sample data (contains pet `Buddy`, species `Dog`, under `Alex Yeoh`).
+
+   1. Test case: `find pn/buddy`<br>
+      Expected: Owner list shows owners with at least one pet whose name contains `buddy`.
+
+   1. Test case: `find pn/buddy ps/dog`<br>
+      Expected: Owner list shows owners with at least one pet matching both pet name and species criteria.
+
+   1. Test case: `find on/alex pn/buddy`<br>
+      Expected: Owner list shows owners matching both owner and pet criteria.
+
+### Adding a service
+
+1. Adding a service to the service list
+
+   1. Prerequisites: Service `Ear cleaning` does not already exist.
+
+   1. Test case: `addservice sn/Ear cleaning sp/12.50`<br>
+      Expected: Service is added to the service panel. Success message starts with `New service added:`.
+
+   1. Test case: `addservice sn/Ear cleaning sp/15.00`<br>
+      Expected: Command fails with `This service already exists in PetLog`.
+
+   1. Test case: `addservice sn/Ear cleaning sp/-1`<br>
+      Expected: Command fails with service price constraint error.
+
+### Deleting a service
+
+1. Deleting a service by service name
+
+   1. Prerequisites: Service `Ear cleaning` exists (add it first if needed).
+
+   1. Test case: `deleteservice sn/Ear cleaning`<br>
+      Expected: Service is removed from the service panel. Success message starts with `Deleted Service:`.
+
+   1. Test case: `deleteservice sn/Nonexistent Service`<br>
+      Expected: Command fails with `The service name provided is invalid`.
+
+   1. Test case: `deleteservice`<br>
+      Expected: Command fails due to invalid format (missing required `sn/` prefix).
+
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
@@ -599,3 +674,15 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Effort**
+
+This section aims to elaborate on the difficulty level, challenges faced, effort required, and achievements of this project.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+This section lists bugs we are aware of, and fixes that we propose to add in the near future.
