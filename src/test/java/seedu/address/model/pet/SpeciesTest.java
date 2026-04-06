@@ -1,4 +1,50 @@
 package seedu.address.model.pet;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.testutil.Assert.assertThrows;
+
+import org.junit.jupiter.api.Test;
+
 public class SpeciesTest {
+
+    private static final String VALID_MAX_LENGTH_SPECIES = "ABCDEFGHIJKLMNO";
+    private static final String INVALID_TOO_LONG_SPECIES = "ABCDEFGHIJKLMNOP";
+
+    @Test
+    public void constructor_null_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> new Species(null));
+    }
+
+    @Test
+    public void constructor_invalidSpecies_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new Species(""));
+    }
+
+    @Test
+    public void isValidSpecies() {
+        assertThrows(NullPointerException.class, () -> Species.isValidSpecies(null));
+
+        assertFalse(Species.isValidSpecies(""));
+        assertFalse(Species.isValidSpecies(" "));
+        assertFalse(Species.isValidSpecies("Cat-1"));
+        assertFalse(Species.isValidSpecies("Golden_Retriever"));
+        assertFalse(Species.isValidSpecies(INVALID_TOO_LONG_SPECIES));
+
+        assertTrue(Species.isValidSpecies("C"));
+        assertTrue(Species.isValidSpecies("Dog"));
+        assertTrue(Species.isValidSpecies("Sea Lion"));
+        assertTrue(Species.isValidSpecies(VALID_MAX_LENGTH_SPECIES));
+    }
+
+    @Test
+    public void equals() {
+        Species species = new Species("Dog");
+
+        assertTrue(species.equals(new Species("Dog")));
+        assertTrue(species.equals(species));
+        assertFalse(species.equals(null));
+        assertFalse(species.equals(5));
+        assertFalse(species.equals(new Species("Cat")));
+    }
 }
