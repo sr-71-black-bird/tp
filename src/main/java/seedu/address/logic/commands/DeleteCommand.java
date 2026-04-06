@@ -18,6 +18,7 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 import seedu.address.model.pet.Pet;
+import seedu.address.model.service.Service;
 import seedu.address.model.session.Session;
 
 /**
@@ -44,11 +45,11 @@ public class DeleteCommand extends Command {
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted owner: %1$s";
     public static final String MESSAGE_DELETE_PET_SUCCESS = "Deleted pet: %1$s";
     public static final String MESSAGE_DELETE_SESSION_SUCCESS = "Deleted session: %1$s";
-    public static final String MESSAGE_DELETE_SERVICE_SUCCESS = DeleteServiceCommand.MESSAGE_DELETE_SERVICE_SUCCESS;
+    public static final String MESSAGE_DELETE_SERVICE_SUCCESS = "Deleted service: %1$s";
     public static final String MESSAGE_INVALID_PET_DISPLAYED_INDEX = Messages.MESSAGE_INVALID_PET_DISPLAYED_INDEX;
     public static final String MESSAGE_INVALID_SESSION_DISPLAYED_INDEX =
             Messages.MESSAGE_INVALID_SESSION_DISPLAYED_INDEX;
-    public static final String MESSAGE_INVALID_SERVICE_NAME = DeleteServiceCommand.MESSAGE_INVALID_SERVICE_NAME;
+    public static final String MESSAGE_INVALID_SERVICE_NAME = "Service name not found.";
 
     private final Optional<Index> targetIndex;
     private final Optional<Index> petIndex;
@@ -140,7 +141,17 @@ public class DeleteCommand extends Command {
     }
 
     private CommandResult deleteService(Model model) throws CommandException {
-        return new DeleteServiceCommand(serviceName.get()).execute(model);
+        List<Service> services = model.getServiceList();
+        Optional<Service> serviceToDelete = services.stream()
+                .filter(service -> service.getName().equalsIgnoreCase(serviceName.get()))
+                .findFirst();
+
+        if (serviceToDelete.isEmpty()) {
+            throw new CommandException(MESSAGE_INVALID_SERVICE_NAME);
+        }
+
+        model.deleteService(serviceToDelete.get());
+        return new CommandResult(String.format(MESSAGE_DELETE_SERVICE_SUCCESS, serviceToDelete.get()));
     }
 
     private void validateOwnerIndex(List<Person> lastShownList) throws CommandException {

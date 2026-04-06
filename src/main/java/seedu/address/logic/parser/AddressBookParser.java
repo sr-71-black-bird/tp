@@ -15,7 +15,6 @@ import seedu.address.logic.commands.AddSessionCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
-import seedu.address.logic.commands.DeleteServiceCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
@@ -28,6 +27,7 @@ import seedu.address.logic.parser.exceptions.ParseException;
  * Parses user input.
  */
 public class AddressBookParser {
+    private static final String LEGACY_DELETE_SERVICE_COMMAND_WORD = "deleteservice";
 
     /**
      * Used for initial separation of command word and args.
@@ -91,8 +91,8 @@ public class AddressBookParser {
         case AddServiceCommand.COMMAND_WORD:
             return new AddServiceCommandParser().parse(arguments);
 
-        case DeleteServiceCommand.COMMAND_WORD:
-            return new DeleteServiceCommandParser().parse(arguments);
+        case LEGACY_DELETE_SERVICE_COMMAND_WORD:
+            return new DeleteCommandParser().parse(arguments);
 
         case AddSessionCommand.COMMAND_WORD:
             return new AddSessionCommandParser().parse(arguments);
