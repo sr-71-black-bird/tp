@@ -40,7 +40,7 @@ public class AddSessionCommand extends Command {
             + PREFIX_END_TIME + "2026-03-25 11:00 "
             + PREFIX_SERVICE_NAME + "Shampoo "
             + PREFIX_SERVICE_NAME + "Fur trim";
-    
+
     public static final String MESSAGE_SUCCESS = "Added session for %s's pet %s from %s to %s.";
     public static final String MESSAGE_UNKNOWN_SERVICE = "Unknown service: %1$s.";
     public static final String MESSAGE_OVERLAPPING_SESSION =
