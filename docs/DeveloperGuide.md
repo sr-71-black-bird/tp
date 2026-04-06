@@ -9,7 +9,8 @@ title: Developer Guide
 
 ## **Acknowledgements**
 
-* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org).
+* This project is based on the AddressBook-Level3 project created by the [SE-EDU initiative](https://se-education.org). We used the codebase as a starting point for our implementation of Owners.
+* The Sessions feature was inspired by NUS CS2103/T Project Duke's [Level 7](https://nus-cs2103-ay2526-s2.github.io/website/se-book-adapted/projectDuke/index.html#level-7-save) and [Level 8](https://nus-cs2103-ay2526-s2.github.io/website/se-book-adapted/projectDuke/index.html#level-8-dates-and-times). A similar implementation was used in understanding user inputs as dates and times for our Sessions.
 
 --------------------------------------------------------------------------------------------------------------------
 
