@@ -101,8 +101,7 @@ public class AddSessionCommand extends Command {
         double totalFee = calculateTotalFee(model.getServiceList());
 
         pet.addSession(new Session(startTime, endTime, totalFee));
-        model.setDisplayedPet(pet,
-                String.format(SESSION_PANEL_TITLE_FORMAT, owner.getName().fullName, pet.getName().value));
+        model.updateDisplayedSessions(model.getFilteredPersonList());
 
         String baseMessage = String.format(MESSAGE_SUCCESS, owner.getName(), pet.getName(), startTime, endTime);
         return new CommandResult(baseMessage + String.format(". Total fee: $%.2f", totalFee));
