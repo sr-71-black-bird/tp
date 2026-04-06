@@ -2,6 +2,10 @@ package seedu.address.model.session;
 
 import static java.util.Objects.requireNonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Objects;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -12,8 +16,15 @@ import seedu.address.commons.util.ToStringBuilder;
  */
 public class Session {
 
-    private final String startTime;
-    private final String endTime;
+    public static final String MESSAGE_DATETIME_CONSTRAINTS =
+            "Session date/time should be in the format yyyy-MM-dd HH:mm and be a valid date and time.";
+    public static final String MESSAGE_INVALID_TIME_RANGE =
+            "Session end time must be after the session start time.";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")
+            .withResolverStyle(ResolverStyle.STRICT);
+
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
     private final double fee;
 
     /**
@@ -23,7 +34,7 @@ public class Session {
      * @param endTime   The end time string of the session.
      */
     public Session(String startTime, String endTime) {
-        this(startTime, endTime, 0.0);
+        this(parseDateTime(startTime), parseDateTime(endTime), 0.0);
     }
 
     /**
@@ -34,23 +45,79 @@ public class Session {
      * @param fee       The total fee for this session.
      */
     public Session(String startTime, String endTime, double fee) {
+        this(parseDateTime(startTime), parseDateTime(endTime), fee);
+    }
+
+    /**
+     * Constructs a {@code Session}.
+     *
+     * @param startTime The session start time.
+     * @param endTime   The session end time.
+     * @param fee       The total fee for this session.
+     */
+    public Session(LocalDateTime startTime, LocalDateTime endTime, double fee) {
         requireNonNull(startTime);
         requireNonNull(endTime);
+        if (!endTime.isAfter(startTime)) {
+            throw new IllegalArgumentException(MESSAGE_INVALID_TIME_RANGE);
+        }
         this.startTime = startTime;
         this.endTime = endTime;
         this.fee = fee;
     }
 
     public String getStartTime() {
-        return startTime;
+        return formatDateTime(startTime);
     }
 
     public String getEndTime() {
+        return formatDateTime(endTime);
+    }
+
+    public LocalDateTime getStartDateTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndDateTime() {
         return endTime;
     }
 
     public double getFee() {
         return fee;
+    }
+
+    /**
+     * Returns true if this session overlaps with the other session.
+     * Sessions that touch exactly at the boundary do not overlap.
+     */
+    public boolean overlapsWith(Session otherSession) {
+        requireNonNull(otherSession);
+        return startTime.isBefore(otherSession.endTime)
+                && otherSession.startTime.isBefore(endTime);
+    }
+
+    public static boolean isValidDateTime(String dateTime) {
+        requireNonNull(dateTime);
+        try {
+            LocalDateTime.parse(dateTime, FORMATTER);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
+    }
+
+    public static LocalDateTime parseDateTime(String dateTime) {
+        requireNonNull(dateTime);
+        try {
+            return LocalDateTime.parse(dateTime, FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException(MESSAGE_DATETIME_CONSTRAINTS, e);
+        }
+    }
+
+    public static String formatDateTime(LocalDateTime dateTime) {
+        requireNonNull(dateTime);
+        return dateTime.format(FORMATTER);
     }
 
     @Override
