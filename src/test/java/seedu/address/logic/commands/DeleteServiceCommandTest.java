@@ -20,6 +20,7 @@ import seedu.address.testutil.TypicalAddressBooks;
 public class DeleteServiceCommandTest {
 
     private static final String EXISTING_SERVICE_NAME = "Base service charge";
+    private static final String EXISTING_SERVICE_NAME_DIFFERENT_CASE = "base service charge";
     private static final String ANOTHER_EXISTING_SERVICE_NAME = "Shampoo";
     private static final String NON_EXISTENT_SERVICE_NAME = "Non existent service";
 
@@ -32,6 +33,22 @@ public class DeleteServiceCommandTest {
                 .findFirst()
                 .get();
         DeleteServiceCommand deleteServiceCommand = new DeleteServiceCommand(EXISTING_SERVICE_NAME);
+
+        String expectedMessage = String.format(DeleteServiceCommand.MESSAGE_DELETE_SERVICE_SUCCESS, serviceToDelete);
+
+        Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        expectedModel.deleteService(serviceToDelete);
+
+        assertCommandSuccess(deleteServiceCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_validServiceNameDifferentCase_success() {
+        Service serviceToDelete = model.getServiceList().stream()
+                .filter(service -> service.getName().equals(EXISTING_SERVICE_NAME))
+                .findFirst()
+                .get();
+        DeleteServiceCommand deleteServiceCommand = new DeleteServiceCommand(EXISTING_SERVICE_NAME_DIFFERENT_CASE);
 
         String expectedMessage = String.format(DeleteServiceCommand.MESSAGE_DELETE_SERVICE_SUCCESS, serviceToDelete);
 

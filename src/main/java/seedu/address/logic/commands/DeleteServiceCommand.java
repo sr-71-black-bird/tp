@@ -42,7 +42,7 @@ public class DeleteServiceCommand extends Command {
         List<Service> lastShownServiceList = model.getServiceList();
 
         Optional<Service> serviceToDelete = lastShownServiceList.stream()
-                .filter(service -> service.getName().equals(targetServiceName))
+                .filter(service -> service.getName().equalsIgnoreCase(targetServiceName))
                 .findFirst();
 
         if (serviceToDelete.isEmpty()) {
