@@ -35,8 +35,8 @@ public class AddOwnerCommand extends Command {
             + PREFIX_TAG + "friends "
             + PREFIX_TAG + "owesMoney";
 
-    public static final String MESSAGE_SUCCESS = "New owner added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This owner already exists in PetLog";
+    public static final String MESSAGE_SUCCESS = "Added owner: %1$s";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Owner already exists.";
 
     private final Person toAdd;
 

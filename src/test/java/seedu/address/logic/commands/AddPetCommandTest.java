@@ -90,7 +90,7 @@ public class AddPetCommandTest {
 
         AddPetCommand command = new AddPetCommand(outOfBoundsOwnerIndex, petToAdd);
 
-        assertCommandFailure(command, model, "The owner index provided is invalid.");
+        assertCommandFailure(command, model, Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
     }
 
     @Test
@@ -196,7 +196,7 @@ public class AddPetCommandTest {
         AddPetCommand command = new AddPetCommand(negativeIndex, petToAdd);
 
         // This should fail because one-based index 0 is not a valid index
-        assertCommandFailure(command, model, "The owner index provided is invalid.");
+        assertCommandFailure(command, model, Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
     }
 
     @Test
@@ -243,7 +243,7 @@ public class AddPetCommandTest {
 
         AddPetCommand command = new AddPetCommand(negativeIndex, petToAdd);
 
-        assertCommandFailure(command, model, "The owner index provided is invalid.");
+        assertCommandFailure(command, model, Messages.MESSAGE_INVALID_OWNER_DISPLAYED_INDEX);
     }
      */
 }

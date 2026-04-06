@@ -31,8 +31,8 @@ public class DeleteCommand extends Command {
             + "Example: " + COMMAND_WORD + " " + PREFIX_OWNER_INDEX + "1 "
             + PREFIX_PET_INDEX + "1";
 
-    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Person: %1$s";
-    public static final String MESSAGE_DELETE_PET_SUCCESS = "Deleted Pet: %1$s";
+    public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted owner: %1$s";
+    public static final String MESSAGE_DELETE_PET_SUCCESS = "Deleted pet: %1$s";
     public static final String MESSAGE_INVALID_PET_DISPLAYED_INDEX = Messages.MESSAGE_INVALID_PET_DISPLAYED_INDEX;
 
     private final Index targetIndex;

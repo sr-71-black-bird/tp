@@ -9,7 +9,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Addresses should contain 1-60 characters";
+    public static final String MESSAGE_CONSTRAINTS = "Address must be 1 to 60 characters.";
 
     /*
      * The first character of the address must not be a whitespace,

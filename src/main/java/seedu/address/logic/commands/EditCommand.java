@@ -53,9 +53,9 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Owner: %1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This owner already exists in the address book.";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited owner: %1$s";
+    public static final String MESSAGE_NOT_EDITED = "No fields provided to edit.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "Owner already exists.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;

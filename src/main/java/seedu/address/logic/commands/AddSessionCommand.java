@@ -41,8 +41,8 @@ public class AddSessionCommand extends Command {
             + PREFIX_SERVICE_NAME + "Shampoo "
             + PREFIX_SERVICE_NAME + "Fur trim";
 
-    public static final String MESSAGE_SUCCESS = "Session added for %s's pet %s from %s to %s";
-    public static final String MESSAGE_UNKNOWN_SERVICE = "Unknown service: %1$s";
+    public static final String MESSAGE_SUCCESS = "Added session for %s's pet %s from %s to %s.";
+    public static final String MESSAGE_UNKNOWN_SERVICE = "Unknown service: %1$s.";
     public static final String SESSION_PANEL_TITLE_FORMAT = "%s's %s — Sessions";
 
     private final Index ownerIndex;
@@ -105,7 +105,7 @@ public class AddSessionCommand extends Command {
                 String.format(SESSION_PANEL_TITLE_FORMAT, owner.getName().fullName, pet.getName().value));
 
         String baseMessage = String.format(MESSAGE_SUCCESS, owner.getName(), pet.getName(), startTime, endTime);
-        return new CommandResult(baseMessage + String.format(". Total fee: $%.2f", totalFee));
+        return new CommandResult(baseMessage + String.format(" Total fee: $%.2f.", totalFee));
     }
 
     /**

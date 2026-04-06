@@ -11,11 +11,11 @@ import java.util.Objects;
  */
 public class Service {
 
-    public static final String MESSAGE_CONSTRAINTS = "Service names should only contain 1-30 alphanumeric characters "
-            + "or spaces";
+    public static final String MESSAGE_CONSTRAINTS = "Service name must be 1 to 30 characters and contain only "
+            + "alphanumeric characters or spaces.";
     public static final String VALIDATION_REGEX = "(?=.{1,30}$)\\p{Alnum}+(?: \\p{Alnum}+)*";
-    public static final String MESSAGE_PRICE_CONSTRAINTS = "Service price should be a non-negative number with up to "
-            + "2 decimal places";
+    public static final String MESSAGE_PRICE_CONSTRAINTS = "Service price must be a non-negative number with up to "
+            + "2 decimal places.";
     public static final String PRICE_VALIDATION_REGEX = "\\d+(?:\\.\\d{1,2})?";
 
     public final String serviceName;

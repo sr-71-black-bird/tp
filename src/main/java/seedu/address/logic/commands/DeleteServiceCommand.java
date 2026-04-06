@@ -23,8 +23,8 @@ public class DeleteServiceCommand extends Command {
             + "Parameters: " + PREFIX_SERVICE_NAME + "SERVICE_NAME\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_SERVICE_NAME + "Fur trim";
 
-    public static final String MESSAGE_DELETE_SERVICE_SUCCESS = "Deleted Service: %1$s";
-    public static final String MESSAGE_INVALID_SERVICE_NAME = "The service name provided is invalid";
+    public static final String MESSAGE_DELETE_SERVICE_SUCCESS = "Deleted service: %1$s";
+    public static final String MESSAGE_INVALID_SERVICE_NAME = "Service name not found.";
 
     private final String targetServiceName;
 
