@@ -74,10 +74,16 @@ public class Session {
         return formatDateTime(endTime);
     }
 
+    /**
+     * Returns the start date and time of this session.
+     */
     public LocalDateTime getStartDateTime() {
         return startTime;
     }
 
+    /**
+     * Returns the end date and time of this session.
+     */
     public LocalDateTime getEndDateTime() {
         return endTime;
     }
@@ -96,6 +102,9 @@ public class Session {
                 && otherSession.startTime.isBefore(endTime);
     }
 
+    /**
+     * Returns true if the given string is a valid session date/time in {@code yyyy-MM-dd HH:mm} format.
+     */
     public static boolean isValidDateTime(String dateTime) {
         requireNonNull(dateTime);
         try {
@@ -106,6 +115,11 @@ public class Session {
         }
     }
 
+    /**
+     * Parses the given string into a {@code LocalDateTime}.
+     *
+     * @throws IllegalArgumentException if the input is not a valid session date/time
+     */
     public static LocalDateTime parseDateTime(String dateTime) {
         requireNonNull(dateTime);
         try {
@@ -115,6 +129,9 @@ public class Session {
         }
     }
 
+    /**
+     * Formats the given {@code LocalDateTime} into the canonical session date/time string form.
+     */
     public static String formatDateTime(LocalDateTime dateTime) {
         requireNonNull(dateTime);
         return dateTime.format(FORMATTER);
