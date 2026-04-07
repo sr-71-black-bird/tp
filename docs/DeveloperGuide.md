@@ -327,7 +327,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 * 2a. The list is empty.
 
-  Use case ends.
+    Use case ends.
 
 * 3a. The given index is invalid.
 
@@ -339,63 +339,67 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1. User adds owner with relevant details
-2. PetLog adds owner into the list 
+1. User adds an owner with the relevant details
+2. PetLog adds the owner into the owner list
 3. PetLog informs user that the owner was added
-4. PetLog shows a list of owners with details
+4. PetLog shows the updated list of owners
 
     Use case ends.
 
 **Extensions**
 
 * 1a. Missing owner details or invalid entries
-  * 1a1. PetLog shows an error message 
-  
+  * 1a1. PetLog shows a relevant error message
+
     Use case ends.
-* 1b. Duplicate owner 
-  * 1b1. PetLog shows an error message
-  
+
+* 1b. Duplicate owner
+  * 1b1. PetLog shows a relevant error message
+
     Use case ends.
-       
+	       
 **Use case: Add Pet**
 
-**Preconditions: The owner of the pet exists**
+**Preconditions: The owner exists**
 
 **MSS**
 
-1. User adds pet to an owner
+1. User adds a pet to an existing owner
 2. PetLog adds pet to the specified owner
-3. PetLog informs user that the pet was added to the specified user
-4. PetLog shows the new list of owners with pet added 
+3. PetLog informs user that the pet was added
+4. PetLog shows the updated list of owners with the pet added
 
     Use case ends.
 
 **Extensions**
 
-* 1a. Invalid commands, invalid details
-  * 1a1. PetLog shows a relevant error message 
-  
-    Use case ends .
+* 1a. Missing owner index, invalid owner index, malformed command, or invalid pet details
+  * 1a1. PetLog shows a relevant error message
+
+    Use case ends.
+
 * 1b. Duplicate pet
   * 1b1. PetLog shows a relevant error message
-    
+
     Use case ends.
-  
+	  
 **Use case: Update Pet Remarks**
 
-**Preconditions: Pet and Owner exists**
+**Preconditions: Owner exists and pet exists under that owner**
 
 **MSS**
 
-1. User update remarks of an existing pet
+1. User updates the remarks of an existing pet
 2. PetLog updates the remarks
-3. PetLog informs user remark has been updated 
-4. PetLog updates the GUI to show list with added remark
+3. PetLog informs user that the remark has been updated
+4. PetLog displays the updated list with the new remark
+
+    Use case ends.
 
 **Extensions**
 
 * 1a. Missing or invalid indices, unrecognized prefixes, malformed command, repeated prefix
-  * 1a1. PetLog shows relevant error message 
+  * 1a1. PetLog shows a relevant error message
 
     Use case ends.
 
@@ -404,18 +408,22 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 **MSS**
 
 1. User requests to delete the owner
-2. PetLog deletes the owner 
-3. PetLog informs user about the successful deletion 
+2. PetLog deletes the owner
+3. PetLog informs user about the successful deletion
 4. PetLog displays new list without the deleted owner
+
+    Use case ends.
 
 **Extensions**
 
 * 1a. Missing, invalid, out-of-range index, malformed command, unrecognized prefixes
-  * 1a1. PetLog shows relevant error message 
+  * 1a1. PetLog shows a relevant error message
 
     Use case ends.
 
 **Use case: Delete Pet**
+
+**Preconditions: Owner exists and pet exists under that owner**
 
 **MSS**
 
@@ -424,54 +432,61 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 3. PetLog informs user about the successful deletion
 4. PetLog displays new list without the deleted pet
 
+    Use case ends.
+
 **Extensions**
 
 * 1a. Missing, invalid, out-of-range index, malformed command, unrecognized prefixes
-    * 1a1. PetLog shows relevant error message
+  * 1a1. PetLog shows a relevant error message
 
-      Use case ends.
+    Use case ends.
 
- **Use case: Find owner** 
+**Use case: Find Owner**
 
 **MSS**
 
-1. User attempts owner search by keywords 
+1. User searches for owners by keywords
 2. PetLog finds matching owners
 3. PetLog displays a list of matching owners
-4. PetLog informs in writing the number of matching owners
+4. PetLog informs user of the number of matching owners
+
+    Use case ends.
 
 **Extensions**
 
 * 1a. No prefixes, unrecognized prefixes, malformed command
-  * 1a1. PetLog displays relevant error 
-    
-    Use case ends.
-  
+    * 1a1. PetLog shows a relevant error message
+
+      Use case ends.
+
+	  
 * 1b. Invalid field contents entered in search
-  * 1b1. PetLog displays that there is 0 matches
-    
+  * 1b1. PetLog displays that there are 0 matches
+
     Use case ends.
 
-**Use case: Find pet**
+**Use case: Find Pet**
 
 **MSS**
 
-1. User attempts pet search by keywords
+1. User searches for pets by keywords
 2. PetLog finds matching pets
 3. PetLog displays a list of matching pets
-4. PetLog informs in writing the number of matching pets
+4. PetLog informs user of the number of matching pets
+
+    Use case ends.
 
 **Extensions**
 
 * 1a. No prefixes, unrecognized prefixes, malformed command
-    * 1a1. PetLog displays relevant error
+  * 1a1. PetLog shows a relevant error message
 
-      Use case ends.
+    Use case ends.
 
 * 1b. Invalid field contents entered in search
-    * 1b1. PetLog displays that there is 0 matches
+  * 1b1. PetLog displays that there are 0 matches
 
-      Use case ends.
+    Use case ends.
 
 **Use case: List**
 
@@ -479,12 +494,120 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 1. User requests to list all records of owners and pets
 2. PetLog displays the list of owners and pets
-3. PetLog confirms it is showing all records 
+3. PetLog confirms it is showing all records
+
+    Use case ends.
 
 **Extensions**
 
 * 1a. Misspelled command, unnecessary prefix inputs
   * 1a1. PetLog displays a relevant error message
+
+    Use case ends.
+
+**Use case: Add Service**
+
+**MSS**
+
+1. User adds a service with the service name and price
+2. PetLog adds the service into the service list
+3. PetLog informs user that the service was added
+4. PetLog displays the updated service list
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Missing service details or invalid entries
+  * 1a1. PetLog shows a relevant error message
+
+    Use case ends.
+
+* 1b. Duplicate service
+  * 1b1. PetLog shows a relevant error message
+
+    Use case ends.
+
+**Use case: Add Session**
+
+**Preconditions: Owner exists and pet exists under that owner**
+
+**MSS**
+
+1. User adds a session to a specified pet under a specified owner
+2. PetLog validates the owner, pet, time range, and optional services
+3. PetLog adds the session to the specified pet
+4. PetLog computes the total fee for the session
+5. PetLog informs user that the session was added
+6. PetLog displays the updated session list
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Missing indices, invalid indices, malformed command, or invalid date-time format
+  * 1a1. PetLog shows a relevant error message
+
+    Use case ends.
+
+* 2a. One or more specified services do not exist
+  * 2a1. PetLog shows a relevant error message
+
+    Use case ends.
+
+* 2b. End time is not after start time
+  * 2b1. PetLog shows a relevant error message
+
+    Use case ends.
+
+* 2c. Session overlaps with an existing session for the selected pet
+  * 2c1. PetLog shows a relevant error message
+
+    Use case ends.
+
+**Use case: Delete Session**
+
+**Preconditions: Owner exists, pet exists under that owner, and the pet has at least one session**
+
+**MSS**
+
+1. User requests to delete a session from a specified pet under a specified owner
+2. PetLog deletes the specified session
+3. PetLog informs user about the successful deletion
+4. PetLog displays the updated session list
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Missing indices, invalid indices, out-of-range indices, or malformed command
+  * 1a1. PetLog shows a relevant error message
+
+    Use case ends.
+
+**Use case: Delete Service**
+
+**Preconditions: Service exists**
+
+**MSS**
+
+1. User requests to delete a service by service name
+2. PetLog finds the matching service
+3. PetLog deletes the service
+4. PetLog informs user about the successful deletion
+5. PetLog displays the updated service list
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. Missing service name, malformed command, or unrecognized prefixes
+  * 1a1. PetLog shows a relevant error message
+
+    Use case ends.
+
+* 2a. Service name does not match any existing service
+  * 2a1. PetLog shows a relevant error message
 
     Use case ends.
 
