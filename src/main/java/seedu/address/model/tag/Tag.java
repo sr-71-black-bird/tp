@@ -11,9 +11,9 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
  */
 public class Tag {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Tag names should be 1 to 50 characters and may contain letters, numbers, ! and ?";
-    public static final String VALIDATION_REGEX = "[\\p{Alnum}!?]{1,50}";
+    public static final String MESSAGE_CONSTRAINTS = "Tag names should be 1 to 20 characters.";
+    private static final int MIN_LENGTH = 1;
+    private static final int MAX_LENGTH = 20;
 
     public final String tagName;
 
@@ -34,7 +34,8 @@ public class Tag {
      */
     public static boolean isValidTagName(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(VALIDATION_REGEX);
+        int normalizedLength = normalizeWhitespace(test).length();
+        return normalizedLength >= MIN_LENGTH && normalizedLength <= MAX_LENGTH;
     }
 
     @Override

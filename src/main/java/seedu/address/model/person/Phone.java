@@ -12,8 +12,9 @@ public class Phone {
 
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Phone number must be 3 to 15 characters and contain only digits, '+', '-', or spaces.";
-    public static final String VALIDATION_REGEX = "[0-9+\\- ]{2,14}[0-9]";
+            "Phone number must be 2 to 30 characters.";
+    private static final int MIN_LENGTH = 2;
+    private static final int MAX_LENGTH = 30;
     public final String value;
 
     /**
@@ -33,7 +34,15 @@ public class Phone {
      */
     public static boolean isValidPhone(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(VALIDATION_REGEX);
+        int normalizedLength = normalizeWhitespace(test).length();
+        return normalizedLength >= MIN_LENGTH && normalizedLength <= MAX_LENGTH;
+    }
+
+    /**
+     * Returns true if the phone number contains only numeric characters.
+     */
+    public boolean hasOnlyDigits() {
+        return value.chars().allMatch(Character::isDigit);
     }
 
     @Override

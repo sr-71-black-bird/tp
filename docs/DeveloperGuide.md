@@ -639,7 +639,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Remarks** - Optional free-text notes attached to a pet or owner record (e.g., special care instructions, dietary needs).
 * **Owner index (`oi/`)** - A 1-based index into the currently displayed owner list.
 * **Pet index (`pi/`)** - A 1-based index into the selected owner's pet list.
-* **Service** - A globally defined care item (e.g., shampoo, nail trim) with a non-negative price.
+* **Service** - A globally defined care item (e.g., shampoo, nail trim) with a price from 0 to 10000 (inclusive),
+  up to 2 decimal places, using only digits and `.`.
 * **Service catalogue** - The full list of services stored in PetLog and reused by sessions.
 * **Session** - A care booking/event attached to one pet, with start/end times and a computed total fee.
 * **Fee** - The monetary total for a session, computed from selected services at session creation.
@@ -687,11 +688,35 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com ad/12 Tampines Street 11, #03-55 ot/vip`<br>
       Expected: A new owner is added and shown in the owner list.
 
+   1. Test case: `addowner on/Jane_#VIP! ph/81234568 em/jane.vip@gmail.com ad/13 Tampines Street 12, #03-56`<br>
+      Expected: A new owner is added and shown in the owner list.
+
+   1. Test case: `addowner on/Jane Tan ph/8123-4567 em/jane.alt@gmail.com ad/14 Tampines Street 13, #03-57`<br>
+      Expected: A new owner is added and a warning is shown because the phone contains non-numeric characters.
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.special@gmail.com ad/Unit #05-01 @ Pet-Hub / Block A`<br>
+      Expected: A new owner is added and shown in the owner list.
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tags@gmail.com ad/15 Tampines Street 14, #03-58 ot/#VIP-Prime!`<br>
+      Expected: A new owner is added and shown in the owner list.
+
    1. Test case: `addowner on/Alex Yeoh ph/99998888 em/alex.new@example.com ad/1 New Address`<br>
       Expected: Command fails with `Owner already exists.`
 
    1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com`<br>
       Expected: Command fails due to invalid format (missing required `ad/` prefix).
+
+   1. Test case: `addowner on/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ph/81234567 em/jane.tan@gmail.com ad/12 Tampines Street 11, #03-55`<br>
+      Expected: Command fails with owner name validation error (owner name must be 1 to 50 characters).
+
+   1. Test case: `addowner on/Jane Tan ph/1 em/jane.tan@gmail.com ad/12 Tampines Street 11, #03-55`<br>
+      Expected: Command fails with phone validation error (phone number must be 2 to 30 characters).
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com ad/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`<br>
+      Expected: Command fails with address validation error (address must be 1 to 100 characters).
+
+   1. Test case: `addowner on/Jane Tan ph/81234567 em/jane.tan@gmail.com ad/12 Tampines Street 11, #03-55 ot/AAAAAAAAAAAAAAAAAAAAA`<br>
+      Expected: Command fails with tag validation error (tag must be 1 to 20 characters).
 
 ### Adding a pet
 
@@ -702,11 +727,29 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `addpet oi/1 pn/Milo ps/Cat pr/Needs medication after meals`<br>
       Expected: A new pet named `Milo` is added under `Alex Yeoh` and shown in the pet list for that owner.
 
+   1. Test case: `addpet oi/1 pn/@Milo! ps/Cat`<br>
+      Expected: Command succeeds. A new pet named `@Milo!` is added under `Alex Yeoh`.
+
+   1. Test case: `addpet oi/1 pn/Milo ps/D0g-@Home`<br>
+      Expected: Command succeeds. A new pet with species `D0g-@Home` is added under `Alex Yeoh`.
+
    1. Test case: `addpet oi/1 pn/Buddy ps/Dog pr/Very energetic`<br>
       Expected: Command fails with `This person already has this pet.`
 
    1. Test case: `addpet oi/999 pn/Milo ps/Cat pr/Friendly`<br>
       Expected: Command fails because the owner index is invalid.
+
+   1. Test case: `addpet oi/1 pn/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ps/Cat`<br>
+      Expected: Command fails with pet name validation error (`Pet name must be 1 to 30 characters.`).
+
+   1. Test case: `addpet oi/1 pn/Milo ps/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`<br>
+      Expected: Command fails with species validation error (`Species must be 1 to 30 characters.`).
+
+   1. Test case: `addpet oi/1 pn/Milo ps/Cat pr/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA`<br>
+      Expected: Command fails with remark validation error (`Remarks for addpet must be 1 to 100 characters.`).
+
+   1. Test case: `addpet oi/1 pn/Milo ps/Cat pr/`<br>
+      Expected: Command fails with remark validation error (`Remarks for addpet must be 1 to 100 characters.`).
 
    1. Test case: `addpet oi/1 pn/Milo pr/Friendly`<br>
       Expected: Command fails due to invalid format (missing required `ps/` prefix).
@@ -722,6 +765,12 @@ testers are expected to do more *exploratory* testing.
 
    1. Test case: `editowner oi/1 rt/friend at/enemy` <br>
       Expected: `Alex Yeoh`'s `friend` tag is removed, and a `enemy` tag is added.
+
+   1. Test case: `editowner oi/1 at/#VIP-Prime!` <br>
+      Expected: `Alex Yeoh` receives a new tag `#VIP-Prime!`.
+
+   1. Test case: `editowner oi/1 at/AAAAAAAAAAAAAAAAAAAAA` <br>
+      Expected: Command fails with tag validation error (tag must be 1 to 20 characters).
 
    1. Test case: `editowner oi/1 ot/` <br>
       Expected: `Alex Yeoh`'s existing tags are removed.
@@ -765,10 +814,22 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `addservice sn/Ear cleaning sp/12.50`<br>
       Expected: Service is added to the service panel.
 
+   1. Test case: `addservice sn/@wash!* sp/9.90`<br>
+      Expected: Service is added to the service panel.
+
    1. Test case: `addservice sn/Ear cleaning sp/15.00`<br>
       Expected: Command fails with `Service already exists.`
 
+   1. Test case: `addservice sn/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA sp/12.50`<br>
+      Expected: Command fails with service name validation error (`Service name must be 1 to 30 characters.`).
+
    1. Test case: `addservice sn/Ear cleaning sp/-1`<br>
+      Expected: Command fails with service price constraint error.
+
+   1. Test case: `addservice sn/Ear cleaning sp/10000.01`<br>
+      Expected: Command fails with service price constraint error.
+
+   1. Test case: `addservice sn/Ear cleaning sp/12a`<br>
       Expected: Command fails with service price constraint error.
 
 ### Deleting a service

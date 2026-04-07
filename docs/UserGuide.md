@@ -53,16 +53,16 @@ It helps you manage owners, pets, services, and sessions quickly with structured
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `addowner on/NAME`, `NAME` is a parameter which can be used as `addowner on/John Doe`.
+  e.g. in `addowner on/OWNER_NAME`, `OWNER_NAME` is a parameter which can be used as `addowner on/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g. `on/NAME [ot/TAG]` can be used as `on/John Doe ot/priority` or as `on/John Doe`.
+  e.g. `on/OWNER_NAME [ot/TAG]` can be used as `on/John Doe ot/priority` or as `on/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
   e.g. `[ot/TAG]…​` can be used as ` ` (i.e. 0 times), `ot/friend`, `ot/friend ot/family` etc.
 
 * Parameters can be in any order.<br>
-  e.g. if the command specifies `on/NAME ph/PHONE_NUMBER`, `ph/PHONE_NUMBER on/NAME` is also acceptable.
+  e.g. if the command specifies `on/OWNER_NAME ph/PHONE_NUMBER`, `ph/PHONE_NUMBER on/OWNER_NAME` is also acceptable.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -82,14 +82,15 @@ Format: `help`
 
 Adds an owner to PetLog.
 
-Format: `addowner on/NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​`
+Format: `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​`
 
 * An owner can have any number of tags (including 0).
-* `NAME` must be 1 to 50 characters and use only letters, numbers, and spaces.
-* `PHONE_NUMBER` must be 3 to 15 characters and use only digits, spaces, `+`, or `-`.
+* `OWNER_NAME` must be 1 to 50 characters.
+* `PHONE_NUMBER` must be 2 to 30 characters.
+* If `PHONE_NUMBER` contains any non-numeric characters, the command still succeeds and shows a warning.
 * `EMAIL` must be of the form `local-part@domain`.
-* `ADDRESS` must be 1 to 60 characters.
-* Each `TAG`, if provided, must be 1 to 50 characters and use only letters, numbers, `!`, or `?`.
+* `ADDRESS` must be 1 to 100 characters.
+* Each `TAG`, if provided, must be 1 to 20 characters, with no restrictions on character type.
 
 Examples:
 * `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
@@ -99,21 +100,22 @@ Examples:
 
 Edits an existing owner in PetLog.
 
-Format: `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`
+Format: `editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`
 
-* Edits the person at the specified `OWNER_INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
+* Edits the owner at the specified `OWNER_INDEX`. The index refers to the index number shown in the displayed owner list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
-* Existing values, excepts tags will be updated to the input values.
+* Existing values, except tags, will be updated to the input values.
 * To add to existing tags, use `at/`.
 * To remove existing tags, use `rt/`.
 * To overwrite the existing tags, use `ot/`.
-* You can remove all the person’s tags by typing `ot/` without specifying any tags after it.
-* Note that `ot/` cannot be used with `at/` or rt/`.
+* Each supplied tag in `ot/`, `at/`, or `rt/` must be 1 to 20 characters, with no restrictions on character type.
+* You can remove all the owner's tags by typing `ot/` without specifying any tags after it.
+* Note that `ot/` cannot be used with `at/` or `rt/`.
 
 Examples:
-*  `editowner oi/1 ph/91234567 em/johndoe@example.com` edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `editowner oi/3 rt/member at/VIP` removes the (assumed existing) `member` tag and adds a `VIP` tag to the 3rd person.
-*  `editowner oi/2 on/Betsy Crower ot/` edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `editowner oi/1 ph/91234567 em/johndoe@example.com` edits the phone number and email address of the 1st owner to be `91234567` and `johndoe@example.com` respectively.
+*  `editowner oi/3 rt/member at/VIP` removes the (assumed existing) `member` tag and adds a `VIP` tag to the 3rd owner.
+*  `editowner oi/2 on/Betsy Crower ot/` edits the name of the 2nd owner to be `Betsy Crower` and clears all existing tags.
 
 ### Adding a pet under an owner: `addpet`
 
@@ -121,9 +123,9 @@ Format: `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]`
 
 * Adds the pet with specified `PET_NAME` and `SPECIES` (and optional remark) under the owner specified by `OWNER_INDEX`.
 * `OWNER_INDEX` refers to the currently displayed owner list and must be a positive integer.
-* `PET_NAME` must be 1 to 15 characters and use only letters, spaces, hyphens, or apostrophes.
-* `SPECIES` must be 1 to 15 characters and use only letters and spaces.
-* `REMARKS`, if provided, must be at most 300 characters.
+* `PET_NAME` must be 1 to 30 characters, with no restrictions on character type.
+* `SPECIES` must be 1 to 30 characters, with no restrictions on character type.
+* `REMARKS`, if provided, must be 1 to 100 characters, with no restrictions on character type.
 * A pet is considered a duplicate under the same owner if both its name and species match an existing pet for that owner.
 
 Examples:
@@ -144,7 +146,7 @@ Examples:
 
 Finds owners whose details match at least one of the given keywords.
 
-Format: `find [on/OWNER_NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`
+Format: `find [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`
 
 * At least one of the optional fields must be provided.
 * The search is case-insensitive. e.g `hans` will match `Hans`.
@@ -155,11 +157,10 @@ Format: `find [on/OWNER_NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]�
 Examples:
 * `find ps/Dog` returns owners who own pets that are `Dog`s.
 * `find on/avi jon` returns owners whose names contain `avi` OR `jon`, e.g. `Avi`, `Xavier`, `Jonathan`.
-* `find on/avi jon` returns owners whose names contain `avi` OR `jon`, e.g. `Avi`, `Xavier`, `Jonathan`.
 * `find ad/Tampines ot/VIP` returns owners whose address contains `Tampines` OR who are tagged as `VIP`s _(screenshot cropped to show relevant UI elements)_:
 ![[result for 'find ad/Tampines ot/VIP']](images/findAdTampinesOtVip.png)
 
-### Listing all persons : `list`
+### Listing all owners : `list`
 
 Shows a list of all owners and pets in PetLog.
 
@@ -194,8 +195,10 @@ Adds a service to the list of services.
 
 Format: `addservice sn/SERVICE_NAME sp/SERVICE_PRICE`
 
+* `SERVICE_NAME` must be 1 to 30 characters, with no restrictions on character type.
 * The service name must not match that of an existing service in the list (case-insensitive).
-* The price must be a non-negative number with up to 2 decimal places.
+* `SERVICE_PRICE` must be a number from `0` to `10000` (inclusive), with up to 2 decimal places.
+* `SERVICE_PRICE` can contain only digits and `.`.
 
 Examples:
 * `addservice sn/Ear Cleaning sp/12.50` adds Ear Cleaning as a service to the list with the price of 12.50.
@@ -284,11 +287,11 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Help** | `help`
-**Add Owner** | `addowner on/NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​` <br> e.g., `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
-**Edit Owner** | `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
+**Add Owner** | `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​` <br> e.g., `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
+**Edit Owner** | `editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
 **Add Pet** | `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]` <br> e.g., `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly`
 **Update Pet Remarks** | `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS` <br> e.g., `update oi/1 pi/3 pr/aggressive`
-**Find Owner** | `find [on/OWNER_NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`<br> e.g., `find on/Hans ps/Dog`
+**Find Owner** | `find [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`<br> e.g., `find on/Hans ps/Dog`
 **List All Owners and Pets** | `list`
 **Delete Owner or Pet** | `delete INDEX`<br> e.g., `delete 3`
 **Add Service** | `addservice sn/SERVICE_NAME sp/SERVICE_PRICE` <br> e.g., `addservice sn/Ear Cleaning sp/12.50`

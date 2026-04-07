@@ -10,13 +10,9 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Address must be 1 to 60 characters.";
-
-    /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
-    public static final String VALIDATION_REGEX = "(?=.{1,60}$)[^\\s].*";
+    public static final String MESSAGE_CONSTRAINTS = "Address must be 1 to 100 characters.";
+    private static final int MIN_LENGTH = 1;
+    private static final int MAX_LENGTH = 100;
 
     public final String value;
 
@@ -33,11 +29,12 @@ public class Address {
     }
 
     /**
-     * Returns true if a given string is a valid email.
+     * Returns true if a given string is a valid address.
      */
     public static boolean isValidAddress(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(VALIDATION_REGEX);
+        int normalizedLength = normalizeWhitespace(test).length();
+        return normalizedLength >= MIN_LENGTH && normalizedLength <= MAX_LENGTH;
     }
 
     @Override

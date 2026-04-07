@@ -7,6 +7,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 import org.junit.jupiter.api.Test;
 
 public class TagTest {
+    private static final String INVALID_TOO_LONG_TAG = "A".repeat(21);
+    private static final String VALID_MAX_LENGTH_TAG = "A".repeat(20);
 
     @Test
     public void constructor_null_throwsNullPointerException() {
@@ -26,17 +28,15 @@ public class TagTest {
 
         // invalid tag names
         assertFalse(Tag.isValidTagName("")); // empty
-        assertFalse(Tag.isValidTagName("tag_name")); // underscore
-        assertFalse(Tag.isValidTagName("tag-name")); // hyphen
-        assertFalse(Tag.isValidTagName("a".repeat(51))); // invalid length, exceeds 50 characters
+        assertFalse(Tag.isValidTagName(INVALID_TOO_LONG_TAG)); // exceeds 20 characters
 
         // valid tag names
         assertTrue(Tag.isValidTagName("a")); // 1 char
         assertTrue(Tag.isValidTagName("abc123")); // alphanumeric
-        assertTrue(Tag.isValidTagName("123456789012345678901")); // 21 chars
-        assertTrue(Tag.isValidTagName("a".repeat(50))); // 50 chars
-        assertTrue(Tag.isValidTagName("hello!")); // includes !
-        assertTrue(Tag.isValidTagName("what?")); // includes ?
+        assertTrue(Tag.isValidTagName("tag_name")); // underscore is allowed
+        assertTrue(Tag.isValidTagName("tag-name")); // hyphen is allowed
+        assertTrue(Tag.isValidTagName("hello!")); // symbols are allowed
+        assertTrue(Tag.isValidTagName(VALID_MAX_LENGTH_TAG)); // 20 chars
         assertTrue(Tag.isValidTagName("  abc123  ")); // leading/trailing whitespace is normalized
     }
 

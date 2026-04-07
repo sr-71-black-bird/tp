@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.StringUtil.normalizeForComparison;
 import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 
+import java.math.BigDecimal;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -14,12 +15,14 @@ import java.util.Objects;
  */
 public class Service {
 
-    public static final String MESSAGE_CONSTRAINTS = "Service name must be 1 to 30 characters and contain only "
-            + "alphanumeric characters or spaces.";
-    public static final String VALIDATION_REGEX = "(?=.{1,30}$)\\p{Alnum}+(?: \\p{Alnum}+)*";
-    public static final String MESSAGE_PRICE_CONSTRAINTS = "Service price must be a non-negative number with up to "
-            + "2 decimal places.";
+    public static final String MESSAGE_CONSTRAINTS = "Service name must be 1 to 30 characters.";
+    public static final int MIN_NAME_LENGTH = 1;
+    public static final int MAX_NAME_LENGTH = 30;
+    public static final String MESSAGE_PRICE_CONSTRAINTS = "Service price must be a number from 0 to 10000 inclusive, "
+            + "with up to 2 decimal places. Only digits and '.' are allowed.";
     public static final String PRICE_VALIDATION_REGEX = "\\d+(?:\\.\\d{1,2})?";
+    public static final double MIN_PRICE = 0.0;
+    public static final double MAX_PRICE = 10000.0;
 
     public final String serviceName;
     public final double servicePrice;
@@ -44,7 +47,8 @@ public class Service {
      */
     public static boolean isValidServiceName(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(VALIDATION_REGEX);
+        int normalizedLength = normalizeWhitespace(test).length();
+        return normalizedLength >= MIN_NAME_LENGTH && normalizedLength <= MAX_NAME_LENGTH;
     }
 
     /**
@@ -52,14 +56,24 @@ public class Service {
      */
     public static boolean isValidServicePrice(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(PRICE_VALIDATION_REGEX);
+        String normalizedPrice = normalizeWhitespace(test);
+        if (!normalizedPrice.matches(PRICE_VALIDATION_REGEX)) {
+            return false;
+        }
+
+        BigDecimal price = new BigDecimal(normalizedPrice);
+        return price.compareTo(BigDecimal.valueOf(MIN_PRICE)) >= 0
+                && price.compareTo(BigDecimal.valueOf(MAX_PRICE)) <= 0;
     }
 
     /**
      * Returns true if a given number is a valid service price.
      */
     public static boolean isValidServicePrice(double test) {
-        return Double.isFinite(test) && test >= 0 && Math.abs(test - roundTo2Dp(test)) < 1e-9;
+        return Double.isFinite(test)
+                && test >= MIN_PRICE
+                && test <= MAX_PRICE
+                && Math.abs(test - roundTo2Dp(test)) < 1e-9;
     }
 
     private static double roundTo2Dp(double value) {
