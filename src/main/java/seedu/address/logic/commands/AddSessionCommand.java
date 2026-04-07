@@ -7,6 +7,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SERVICE_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import seedu.address.commons.core.index.Index;
@@ -101,10 +102,11 @@ public class AddSessionCommand extends Command {
 
         Pet pet = owner.getPetList().get(petIndex.getZeroBased());
 
-        double totalFee = calculateTotalFee(model.getServiceList());
+        List<Service> selectedServices = resolveServices(model.getServiceList());
+        double totalFee = calculateTotalFee(selectedServices);
         Session newSession;
         try {
-            newSession = new Session(startTime, endTime, totalFee);
+            newSession = new Session(startTime, endTime, totalFee, selectedServices);
         } catch (IllegalArgumentException e) {
             throw new CommandException(e.getMessage(), e);
         }
@@ -120,38 +122,28 @@ public class AddSessionCommand extends Command {
         return new CommandResult(baseMessage + String.format(" Total fee: $%.2f.", totalFee));
     }
 
-    /**
-     * Validates that all requested service names exist in the model.
-     *
-     * @throws CommandException if any service name is not found
-     */
-    private void validateServices(List<Service> availServices) throws CommandException {
-        for (String serviceName : serviceNames) {
-            boolean found = availServices.stream()
-                    .anyMatch(s -> s.getName().equalsIgnoreCase(serviceName));
-            if (!found) {
-                throw new CommandException(String.format(MESSAGE_UNKNOWN_SERVICE, serviceName));
-            }
-        }
-    }
-
-    /**
-     * Calculates the total fee for all services in this session.
-     *
-     * @param availServices Services currently stored in the model
-     * @return Total fee for the selected services
-     * @throws CommandException If any requested service does not exist
-     */
-    private double calculateTotalFee(List<Service> availServices) throws CommandException {
-        double totalFee = 0;
+    private List<Service> resolveServices(List<Service> availServices) throws CommandException {
+        List<Service> resolvedServices = new ArrayList<>();
         for (String serviceName : serviceNames) {
             Service matchedService = findServiceByName(availServices, serviceName);
             if (matchedService == null) {
                 throw new CommandException(String.format(MESSAGE_UNKNOWN_SERVICE, serviceName));
             }
-            totalFee += matchedService.getCost();
+            resolvedServices.add(matchedService);
         }
-        return totalFee;
+        return resolvedServices;
+    }
+
+    /**
+     * Calculates the total fee for all services in this session.
+     *
+     * @param selectedServices Services chosen for this session
+     * @return Total fee for the selected services
+     */
+    private double calculateTotalFee(List<Service> selectedServices) {
+        return selectedServices.stream()
+                .mapToDouble(Service::getCost)
+                .sum();
     }
 
     /**
