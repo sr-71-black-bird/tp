@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.pet.Pet;
 import seedu.address.model.tag.Tag;
 
@@ -180,14 +180,33 @@ public class Person {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("phone", phone)
-                .add("email", email)
-                .add("address", address)
-                .add("tags", tags)
-                .add("pets", pets)
-                .toString();
+        return "Name: " + name
+                + "; Phone: " + phone
+                + "; Email: " + email
+                + "; Address: " + address
+                + "; Tags: " + formatTags()
+                + "; Pets: " + formatPets();
+    }
+
+    private String formatTags() {
+        if (tags.isEmpty()) {
+            return "None";
+        }
+
+        return tags.stream()
+                .map(tag -> tag.tagName)
+                .sorted()
+                .collect(Collectors.joining(", "));
+    }
+
+    private String formatPets() {
+        if (pets.isEmpty()) {
+            return "None";
+        }
+
+        return getPetList().stream()
+                .map(pet -> String.format("%s (%s)", pet.getName(), pet.getSpecies()))
+                .collect(Collectors.joining(", "));
     }
 
 }

@@ -63,4 +63,21 @@ public class SessionTest {
 
         assertFalse(shampooSession.equals(nailTrimSession));
     }
+
+    @Test
+    public void toStringMethod_withoutServices() {
+        Session session = new Session(VALID_START, VALID_END, 0.0);
+        String expected = "Start: 2026-03-25 10:00; End: 2026-03-25 11:00; Fee: $0.00; Services: None";
+
+        assertEquals(expected, session.toString());
+    }
+
+    @Test
+    public void toStringMethod_withServices() {
+        Session session = new Session(VALID_START, VALID_END, 40.0, List.of(SHAMPOO, NAIL_TRIM));
+        String expected = "Start: 2026-03-25 10:00; End: 2026-03-25 11:00; Fee: $40.00; "
+                + "Services: Shampoo, Nail trim";
+
+        assertEquals(expected, session.toString());
+    }
 }

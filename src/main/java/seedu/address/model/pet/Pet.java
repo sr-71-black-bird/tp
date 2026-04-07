@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.session.Session;
 
 /**
@@ -130,11 +129,10 @@ public class Pet {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("name", name)
-                .add("species", species)
-                .add("remark", remark)
-                .toString();
+        String readableRemark = remark.toString().isBlank() ? "None" : remark.toString();
+        return "Name: " + name
+                + "; Species: " + species
+                + "; Remark: " + readableRemark;
     }
 
 }

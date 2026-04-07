@@ -1,5 +1,6 @@
 package seedu.address.model.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
@@ -89,5 +90,13 @@ public class ServiceTest {
         assertFalse(service.equals(5));
         assertFalse(service.equals(new Service("Shampoo", 31.00)));
         assertFalse(service.equals(new Service("Walk", 30.00)));
+    }
+
+    @Test
+    public void toStringMethod() {
+        Service service = new Service("Shampoo", 30.0);
+        String expected = "Name: Shampoo; Price: $30.00";
+
+        assertEquals(expected, service.toString());
     }
 }
