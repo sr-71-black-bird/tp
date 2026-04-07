@@ -14,7 +14,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.Person;
 
 /**
- * Adds a person to the address book.
+ * Adds an Owner to PetLog.
  */
 public class AddOwnerCommand extends Command {
 

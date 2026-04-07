@@ -5,7 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 
 /**
- * Represents a Person's address in the address book.
+ * Represents an owner's address.
  * Guarantees: immutable; is valid as declared in {@link #isValidAddress(String)}
  */
 public class Address {

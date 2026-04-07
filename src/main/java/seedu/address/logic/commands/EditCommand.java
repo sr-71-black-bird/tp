@@ -34,7 +34,7 @@ import seedu.address.model.pet.Pet;
 import seedu.address.model.tag.Tag;
 
 /**
- * Edits the details of an existing person in the address book.
+ * Edits the details of an existing owner in PetLog.
  * Copies the pet list.
  * Change pet list with delete or add pet instead.
  */
