@@ -711,8 +711,15 @@ testers are expected to do more *exploratory* testing.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Effort**
+Difficulty level of our project: medium.
 
-This section aims to elaborate on the difficulty level, challenges faced, effort required, and achievements of this project.
+Compared to AB3, which primarily manages a single core entity type, our project required more effort because it supports multiple related entity types, namely owners, pets, services, and sessions. This introduced additional complexity in both the codebase and the product design, as we had to maintain clear relationships between these entities while keeping commands intuitive for users.
+
+The main challenges faced were in extending the original owner-centric data model to support nested pet records and session tracking, ensuring that commands remained consistent despite operating on different entity types, and keeping the UI and documentation aligned with the evolving feature set. Features such as service-linked sessions and indexed operations on pets and sessions also required more careful handling than the original AB3 workflow.
+
+The team spent about 10 hours per week over 5 weeks, for a team of 5. This gives an estimated overall effort of about 250 person-hours.
+
+Our key achievements were redesigning the model to support richer domain relationships, implementing features for managing pets, services, and care sessions, and producing a coherent user guide and developer guide that reflect the current architecture and feature set.
 
 --------------------------------------------------------------------------------------------------------------------
 
