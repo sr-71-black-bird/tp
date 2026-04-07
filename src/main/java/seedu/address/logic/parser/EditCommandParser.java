@@ -74,10 +74,10 @@ public class EditCommandParser implements Parser<EditCommand> {
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG))
                 .ifPresent(editPersonDescriptor::setTags);
 
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_ADD_TAG))
+        parseTagsForIncrementalEdit(argMultimap.getAllValues(PREFIX_ADD_TAG))
                 .ifPresent(editPersonDescriptor::setTagsToAdd);
 
-        parseTagsForEdit(argMultimap.getAllValues(PREFIX_REMOVE_TAG))
+        parseTagsForIncrementalEdit(argMultimap.getAllValues(PREFIX_REMOVE_TAG))
                 .ifPresent(editPersonDescriptor::setTagsToRemove);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {
@@ -107,6 +107,19 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         Collection<String> tagSet = tags.size() == 1 && tags.contains("") ? Collections.emptySet() : tags;
         return Optional.of(ParserUtil.parseTags(tagSet));
+    }
+
+    /**
+     * Parses tags for incremental updates ({@code at/} and {@code rt/}).
+     * Unlike full tag replacement, empty values are invalid.
+     */
+    private Optional<Set<Tag>> parseTagsForIncrementalEdit(Collection<String> tags) throws ParseException {
+        assert tags != null;
+
+        if (tags.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(ParserUtil.parseTags(tags));
     }
 
 }

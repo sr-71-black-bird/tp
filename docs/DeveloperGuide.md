@@ -724,6 +724,9 @@ testers are expected to do more *exploratory* testing.
    1. Test case: `editowner oi/1 em/yeohalex@example.com` <br>
       Expected: `Alex Yeoh`'s email updates to `yeohalex@example.com`.
 
+   1. Test case: `editowner oi/1 rt/friend at/enemy` <br>
+      Expected: `Alex Yeoh`'s `friend` tag is removed, and a `enemy` tag is added.
+
    1. Test case: `editowner oi/1 ot/` <br>
       Expected: `Alex Yeoh`'s existing tags are removed.
 

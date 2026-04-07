@@ -32,6 +32,6 @@ public class CliSyntax {
     /* Tags */
     public static final Prefix PREFIX_ADD_TAG = new Prefix("at/");
     public static final Prefix PREFIX_TAG = new Prefix("ot/");
-    public static final Prefix PREFIX_REMOVE_TAG = new Prefix("rt");
+    public static final Prefix PREFIX_REMOVE_TAG = new Prefix("rt/");
 
 }

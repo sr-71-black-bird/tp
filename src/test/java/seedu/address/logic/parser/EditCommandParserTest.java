@@ -35,8 +35,6 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_THIRD_PERSON;
 
-import java.util.Collections;
-
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
@@ -287,28 +285,18 @@ public class EditCommandParserTest {
     }
 
     @Test
-    public void parse_emptyAddTag_success() {
+    public void parse_emptyAddTag_failure() {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = " " + PREFIX_OWNER_INDEX + targetIndex.getOneBased() + " " + PREFIX_ADD_TAG;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptor();
-        descriptor.setTagsToAdd(Collections.emptySet());
-
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseFailure(parser, userInput, Tag.MESSAGE_CONSTRAINTS);
     }
 
     @Test
-    public void parse_emptyRemoveTag_success() {
+    public void parse_emptyRemoveTag_failure() {
         Index targetIndex = INDEX_FIRST_PERSON;
         String userInput = " " + PREFIX_OWNER_INDEX + targetIndex.getOneBased() + REMOVE_TAG_EMPTY;
 
-        EditPersonDescriptor descriptor = new EditPersonDescriptor();
-        descriptor.setTagsToRemove(Collections.emptySet());
-
-        EditCommand expectedCommand = new EditCommand(targetIndex, descriptor);
-
-        assertParseSuccess(parser, userInput, expectedCommand);
+        assertParseFailure(parser, userInput, Tag.MESSAGE_CONSTRAINTS);
     }
 }

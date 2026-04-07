@@ -2,10 +2,12 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ADD_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_REMOVE_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -48,7 +50,9 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_TAG + "TAG]...\n"
+            + "[" + PREFIX_TAG + "OVERWRITE_TAG]..."
+            + "[" + PREFIX_ADD_TAG + "ADD_TAG]..."
+            + "[" + PREFIX_REMOVE_TAG + "REMOVE_TAG]...\n"
             + "Example: " + COMMAND_WORD + " " + PREFIX_OWNER_INDEX + "1 "
             + PREFIX_PHONE + "91234567 "
             + PREFIX_EMAIL + "johndoe@example.com";
@@ -56,6 +60,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited owner: %1$s";
     public static final String MESSAGE_NOT_EDITED = "No fields provided to edit.";
     public static final String MESSAGE_DUPLICATE_PERSON = "Owner already exists.";
+    public static final String MESSAGE_TAG_NOT_FOUND = "Tag not found for this owner: %1$s";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
@@ -82,6 +87,7 @@ public class EditCommand extends Command {
         }
 
         Person personToEdit = lastShownList.get(index.getZeroBased());
+        validateTagsToRemoveExist(personToEdit, editPersonDescriptor);
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
         if (!personToEdit.isSamePerson(editedPerson) && model.hasPerson(editedPerson)) {
@@ -91,6 +97,27 @@ public class EditCommand extends Command {
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+    }
+
+    /**
+     * Validates that every requested tag to remove currently exists on the owner.
+     */
+    private static void validateTagsToRemoveExist(Person personToEdit, EditPersonDescriptor descriptor)
+            throws CommandException {
+        Optional<Set<Tag>> tagsToRemoveOptional = descriptor.getTagsToRemove();
+        if (tagsToRemoveOptional.isEmpty()) {
+            return;
+        }
+
+        Set<Tag> ownerTags = personToEdit.getTags();
+        Optional<Tag> missingTag = tagsToRemoveOptional.get().stream()
+                .filter(tag -> !ownerTags.contains(tag))
+                .sorted((tag1, tag2) -> tag1.tagName.compareToIgnoreCase(tag2.tagName))
+                .findFirst();
+
+        if (missingTag.isPresent()) {
+            throw new CommandException(String.format(MESSAGE_TAG_NOT_FOUND, missingTag.get().tagName));
+        }
     }
 
     /**
@@ -180,7 +207,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, address, tags,
-                    pets, tagsToAdd, tagsToRemove, tagsToRemove);
+                    pets, tagsToAdd, tagsToRemove);
         }
 
         public void setName(Name name) {

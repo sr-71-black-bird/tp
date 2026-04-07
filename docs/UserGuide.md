@@ -99,17 +99,21 @@ Examples:
 
 Edits an existing owner in PetLog.
 
-Format: `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [t/TAG]…​`
+Format: `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`
 
 * Edits the person at the specified `OWNER_INDEX`. The index refers to the index number shown in the displayed person list. The index **must be a positive integer** 1, 2, 3, …​
 * At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
+* Existing values, excepts tags will be updated to the input values.
+* To add to existing tags, use `at/`.
+* To remove existing tags, use `rt/`.
+* To overwrite the existing tags, use `ot/`.
 * You can remove all the person’s tags by typing `ot/` without specifying any tags after it.
+* Note that `ot/` cannot be used with `at/` or rt/`.
 
 Examples:
-*  `editowner oi/1 ph/91234567 em/johndoe@example.com` Edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
-*  `editowner oi/2 on/Betsy Crower ot/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+*  `editowner oi/1 ph/91234567 em/johndoe@example.com` edits the phone number and email address of the 1st person to be `91234567` and `johndoe@example.com` respectively.
+*  `editowner oi/3 rt/member at/VIP` removes the (assumed existing) `member` tag and adds a `VIP` tag to the 3rd person.
+*  `editowner oi/2 on/Betsy Crower ot/` edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 
 ### Adding a pet under an owner: `addpet`
 
@@ -153,7 +157,7 @@ Examples:
 * `find on/avi jon` returns owners whose names contain `avi` OR `jon`, e.g. `Avi`, `Xavier`, `Jonathan`.
 * `find on/avi jon` returns owners whose names contain `avi` OR `jon`, e.g. `Avi`, `Xavier`, `Jonathan`.
 * `find ad/Tampines ot/VIP` returns owners whose address contains `Tampines` OR who are tagged as `VIP`s _(screenshot cropped to show relevant UI elements)_:
-[[result for 'find ad/Tampines ot/VIP']](images/findAdTampinesOtVip.png)
+![[result for 'find ad/Tampines ot/VIP']](images/findAdTampinesOtVip.png)
 
 ### Listing all persons : `list`
 
@@ -247,22 +251,22 @@ _Details coming soon ..._
 **Q**: How do I transfer my PetLog data to another computer?<br>
 **A**: Install PetLog in the other computer, and overwrite the empty data file it creates with the file that contains the data of your previous PetLog home folder.
 
-**Q**: Why do indexes become invalid after I run `find`?
+**Q**: Why do indexes become invalid after I run `find`?<br>
 **A**: Indexes always refer to the current displayed list. After filtering, either use the new filtered indexes or run `list` to reset the indexes, before deleting/updating.
 
-**Q**: How do I clear a pet’s remark?
+**Q**: How do I clear a pet’s remark?<br>
 **A**: Use an empty remark value: `update oi/OWNER_INDEX pi/PET_INDEX pr/`.
 
-**Q**: Can I create a session without services?
+**Q**: Can I create a session without services?<br>
 **A**: Yes. `sn/` is optional in `addsession`. If no services are provided, the session fee is `0.00`.
 
-**Q**: How is a session’s total fee calculated?
+**Q**: How is a session’s total fee calculated?<br>
 **A**: It is the sum of all services provided in the `addsession` command, using the current service prices in PetLog.
 
-**Q**: Why does `addsession` fail with “Unknown service”?
+**Q**: Why does `addsession` fail with “Unknown service”?<br>
 **A**: At least one `sn/SERVICE_NAME` does not exist in your current service list. Add it first with `addservice`, or correct the name.
 
-**Q**: Where is my data stored, and how do I reset to sample data?
+**Q**: Where is my data stored, and how do I reset to sample data?<br>
 **A**: Data is stored at `[JAR location]/data/petlog.json`. Back up that file to migrate data. To reset to sample data, delete `petlog.json` and restart the app.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -281,7 +285,7 @@ Action | Format, Examples
 --------|------------------
 **Help** | `help`
 **Add Owner** | `addowner on/NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​` <br> e.g., `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
-**Edit Owner** | `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [t/TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
+**Edit Owner** | `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
 **Add Pet** | `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]` <br> e.g., `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly`
 **Update Pet Remarks** | `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS` <br> e.g., `update oi/1 pi/3 pr/aggressive`
 **Find Owner** | `find [on/OWNER_NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`<br> e.g., `find on/Hans ps/Dog`
