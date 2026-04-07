@@ -135,6 +135,20 @@ public class AddOwnerCommandParserTest {
     }
 
     @Test
+    public void parse_nameWithSpecialCharacters_success() {
+        String ownerName = "@lex #1!";
+        Person expectedPerson = new PersonBuilder()
+                .withName(ownerName)
+                .withPhone(VALID_PHONE_BOB)
+                .withEmail(VALID_EMAIL_BOB)
+                .withAddress(VALID_ADDRESS_BOB)
+                .build();
+
+        assertParseSuccess(parser, " on/" + ownerName + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB,
+                new AddOwnerCommand(expectedPerson));
+    }
+
+    @Test
     public void parse_fieldsWithLongWhitespace_success() {
         Person expectedPerson = new PersonBuilder()
                 .withName("Bob Choo")

@@ -53,7 +53,7 @@ It helps you manage owners, pets, services, and sessions quickly with structured
 **:information_source: Notes about the command format:**<br>
 
 * Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `addowner on/NAME`, `NAME` is a parameter which can be used as `addowner on/John Doe`.
+  e.g. in `addowner on/OWNER_NAME`, `OWNER_NAME` is a parameter which can be used as `addowner on/John Doe`.
 
 * Items in square brackets are optional.<br>
   e.g. `on/NAME [ot/TAG]` can be used as `on/John Doe ot/priority` or as `on/John Doe`.
@@ -82,10 +82,10 @@ Format: `help`
 
 Adds an owner to PetLog.
 
-Format: `addowner on/NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​`
+Format: `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​`
 
 * An owner can have any number of tags (including 0).
-* `NAME` must be 1 to 50 characters and use only letters, numbers, and spaces.
+* `OWNER_NAME` must be 1 to 50 characters.
 * `PHONE_NUMBER` must be 3 to 15 characters and use only digits, spaces, `+`, or `-`.
 * `EMAIL` must be of the form `local-part@domain`.
 * `ADDRESS` must be 1 to 60 characters.
@@ -284,7 +284,7 @@ _Details coming soon ..._
 Action | Format, Examples
 --------|------------------
 **Help** | `help`
-**Add Owner** | `addowner on/NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​` <br> e.g., `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
+**Add Owner** | `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​` <br> e.g., `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
 **Edit Owner** | `editowner oi/OWNER_INDEX [on/NAME] [ph/PHONE] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
 **Add Pet** | `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]` <br> e.g., `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly`
 **Update Pet Remarks** | `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS` <br> e.g., `update oi/1 pi/3 pr/aggressive`

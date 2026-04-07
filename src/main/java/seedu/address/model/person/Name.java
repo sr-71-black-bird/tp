@@ -10,14 +10,9 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
  */
 public class Name {
 
-    public static final String MESSAGE_CONSTRAINTS =
-            "Name must be 1 to 50 characters and contain only alphanumeric characters or spaces.";
-
-    /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
-     */
-    public static final String VALIDATION_REGEX = "(?=.{1,50}$)[\\p{Alnum}][\\p{Alnum} ]*";
+    public static final String MESSAGE_CONSTRAINTS = "Name must be 1 to 50 characters.";
+    private static final int MIN_LENGTH = 1;
+    private static final int MAX_LENGTH = 50;
 
     public final String fullName;
 
@@ -38,7 +33,8 @@ public class Name {
      */
     public static boolean isValidName(String test) {
         requireNonNull(test);
-        return normalizeWhitespace(test).matches(VALIDATION_REGEX);
+        int normalizedLength = normalizeWhitespace(test).length();
+        return normalizedLength >= MIN_LENGTH && normalizedLength <= MAX_LENGTH;
     }
 
 
