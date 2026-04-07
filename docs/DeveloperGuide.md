@@ -311,7 +311,6 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 (For all use cases below, the **System** is the `PetLog` and the **Actor** is the `user`, unless specified otherwise)
 
- <!-- The sample format to refer to
 **Use case: Delete a person**
 
 **MSS**
