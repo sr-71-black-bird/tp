@@ -104,8 +104,18 @@ public class EditCommand extends Command {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
         Set<Pet> updatedPets = personToEdit.getPets();
+        Set<Tag> updatedTags;
+
+        if (editPersonDescriptor.getTags().isPresent()) {
+            // full replacement: existing behaviour
+            updatedTags = new HashSet<>(editPersonDescriptor.getTags().get());
+        } else {
+            // increment update
+            updatedTags = new HashSet<>(personToEdit.getTags());
+            editPersonDescriptor.getTagsToAdd().ifPresent(updatedTags::addAll);
+            editPersonDescriptor.getTagsToRemove().ifPresent(updatedTags::removeAll);
+        }
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedPets);
     }
@@ -145,6 +155,8 @@ public class EditCommand extends Command {
         private Address address;
         private Set<Tag> tags;
         private Set<Pet> pets;
+        private Set<Tag> tagsToAdd;
+        private Set<Tag> tagsToRemove;
 
         public EditPersonDescriptor() {}
 
@@ -159,13 +171,16 @@ public class EditCommand extends Command {
             setAddress(toCopy.address);
             setTags(toCopy.tags);
             setPets(toCopy.pets);
+            setTagsToAdd(toCopy.tagsToAdd);
+            setTagsToRemove(toCopy.tagsToRemove);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, pets);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags,
+                    pets, tagsToAdd, tagsToRemove, tagsToRemove);
         }
 
         public void setName(Name name) {
@@ -234,6 +249,44 @@ public class EditCommand extends Command {
             return (pets != null) ? Optional.of(Collections.unmodifiableSet(pets)) : Optional.empty();
         }
 
+        /**
+         * Sets the tags to be added, replaces many existing tagsToAdd with a copy of provided set.
+         *
+         * @param tags A set of tags to be added, or {@code null} if none are to be added.
+         */
+        public void setTagsToAdd(Set<Tag> tags) {
+            this.tagsToAdd = (tags != null) ? new HashSet<>(tags) : null;
+        }
+
+        /**
+         * Returns and unmodifiable view of the tags to be added (if present).
+         *
+         * @return An {@code Optional} containing the set of tags to add,
+         *         or {@code Optional.empty()} if no tags set.
+         */
+        public Optional<Set<Tag>> getTagsToAdd() {
+            return (tagsToAdd != null) ? Optional.of(Collections.unmodifiableSet(tagsToAdd)) : Optional.empty();
+        }
+
+        /**
+         * Sets tags to be removed, replaces any existing tagsToRemove with copy of provided set.
+         *
+         * @param tags A set of tags to remove, or {@code null} if no tags are to be removed.
+         */
+        public void setTagsToRemove(Set<Tag> tags) {
+            this.tagsToRemove = (tags != null) ? new HashSet<>(tags) : null;
+        }
+
+        /**
+         * Returns an unmodifiable view of tags to be removed (if present).
+         *
+         * @return An {@code Optional} containing set of tags to remove,
+         *         or {@code Optional.empty()} if no tags set.
+         */
+        public Optional<Set<Tag>> getTagsToRemove() {
+            return (tagsToRemove != null) ? Optional.of(Collections.unmodifiableSet(tagsToRemove)) : Optional.empty();
+        }
+
         @Override
         public boolean equals(Object other) {
             if (other == this) {
@@ -251,7 +304,9 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(pets, otherEditPersonDescriptor.pets);
+                    && Objects.equals(pets, otherEditPersonDescriptor.pets)
+                    && Objects.equals(tagsToAdd, otherEditPersonDescriptor.tagsToAdd)
+                    && Objects.equals(tagsToRemove, otherEditPersonDescriptor.tagsToRemove);
         }
 
         @Override
@@ -263,6 +318,8 @@ public class EditCommand extends Command {
                     .add("address", address)
                     .add("tags", tags)
                     .add("pets", pets)
+                    .add("tagsToAdd", tagsToAdd)
+                    .add("tagsToRemove", tagsToRemove)
                     .toString();
         }
     }
