@@ -12,8 +12,8 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 public class Tag {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Tag names should be 1 to 20 alphanumeric characters.";
-    public static final String VALIDATION_REGEX = "\\p{Alnum}{1,20}";
+            "Tag names should be 1 to 50 characters and may contain letters, numbers, ! and ?";
+    public static final String VALIDATION_REGEX = "[\\p{Alnum}!?]{1,50}";
 
     public final String tagName;
 
