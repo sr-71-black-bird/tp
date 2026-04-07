@@ -3,6 +3,7 @@ package seedu.address.model.service;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -106,6 +107,6 @@ public class Service {
      * Format state as text for viewing.
      */
     public String toString() {
-        return "[Service: " + serviceName + ", Price: " + servicePrice + ']';
+        return String.format(Locale.ROOT, "Name: %s; Price: $%.2f", serviceName, servicePrice);
     }
 }

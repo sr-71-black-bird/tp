@@ -7,9 +7,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.model.service.Service;
 
 /**
@@ -195,11 +196,17 @@ public class Session {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this)
-                .add("startTime", startTime)
-                .add("endTime", endTime)
-                .add("fee", fee)
-                .add("services", services)
-                .toString();
+        return String.format(Locale.ROOT, "Start: %s; End: %s; Fee: $%.2f; Services: %s",
+                getStartTime(), getEndTime(), fee, formatServices());
+    }
+
+    private String formatServices() {
+        if (services.isEmpty()) {
+            return "None";
+        }
+
+        return services.stream()
+                .map(Service::getName)
+                .collect(Collectors.joining(", "));
     }
 }
