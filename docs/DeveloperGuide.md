@@ -274,7 +274,7 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 <img src="images/CommitActivityDiagram.png" width="250" />
 
-#### Design considerations:
+#### Design considerations
 
 **Aspect: How undo & redo executes:**
 
@@ -354,7 +354,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `PetLog` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is PetLog and the **Actor** is the user, unless specified otherwise)
 
 **Use case: Add Owner**
 
