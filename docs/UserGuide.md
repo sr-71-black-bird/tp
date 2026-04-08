@@ -65,7 +65,7 @@ It helps you manage owners, pets, services, and sessions quickly with structured
   e.g. if the command specifies `on/OWNER_NAME ph/PHONE_NUMBER`, `ph/PHONE_NUMBER on/OWNER_NAME` is also acceptable.
 
 * Command words and prefixes are case-insensitive.<br>
-  e.g. `AdDoWnEr On/John Doe Ph/98765432 eM/j@example.com AD/123, Street` is accepted.
+  e.g. `AdDoWnEr on/John Doe Ph/98765432 eM/j@example.com AD/123, Street` is accepted.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -104,7 +104,7 @@ Edits an existing owner in PetLog.
 
 Format: `editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`
 
-* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `OWNER_INDEX` refers to the index number shown in the displayed owner list. It must be a positive integer.
 * At least one of the optional fields must be provided, following the same input validation rules as in `addowner`.
 * Existing values, except tags, will be updated to the input values.
 * To add to existing tags, use `at/`.
@@ -124,9 +124,9 @@ Adds a pet belonging to an existing owner in PetLog. A pet has an owner, a name,
 
 Format: `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]`
 
-* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `OWNER_INDEX` refers to the index number shown in the displayed owner list. It must be a positive integer.
 * `PET_NAME` must be 1 to 30 characters.
-* `SPECIES` must be 1 to 30 characters,.
+* `SPECIES` must be 1 to 30 characters.
 * `REMARKS`, if provided, must be 1 to 100 characters.
 * Attempting to add a duplicate pet, if both its name and species match an existing pet for the specified owner, will not succeed.
 
@@ -140,8 +140,8 @@ Format: `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS`
 
 Updates the remarks of a pet.
 
-* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
-* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* `OWNER_INDEX` refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
 * Existing remarks will be overwritten and updated to the provided input.
 
 Examples:
@@ -183,7 +183,7 @@ Format: `addservice sn/SERVICE_NAME sp/SERVICE_PRICE`
 
 * `SERVICE_NAME` must be 1 to 30 characters.
 * `SERVICE_PRICE` is in dollars, and must be a number from `0` to `10000` (inclusive), with up to 2 decimal places.
-* Attempting to add a duplicate service, if its name matches an service in the service catalogue, will not succeed.
+* Attempting to add a duplicate service, if its name matches an existing service in the service catalogue, will not succeed.
 
 Examples:
 * `addservice sn/Ear Cleaning sp/12.50` adds Ear Cleaning as a service to the list with the price of $12.50.
@@ -194,24 +194,28 @@ Adds a session for the specified pet. A session has a pet, a start time, an end 
 
 Format: `addsession oi/OWNER_INDEX pi/PET_INDEX st/START_TIME et/END_TIME [sn/SERVICE_NAME]…​`
 
-* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
-* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* `OWNER_INDEX` refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
 * `START_TIME` and `END_TIME` must be of the format `yyyy-MM-dd HH:mm`.
 * `END_TIME` must be chronologically after `START_TIME`.
 * `SERVICE_NAME`, if provided, must match an existing service in the service catalogue.
 * Attempting to add a session which timing overlaps with an existing session for the specified pet will not succeed.
 
 Examples:
-* `addsession oi/1 pi/2 st/2026-05-15 14:30 et/2026-05-15 15:30 sn/Base service charge sn/Shampoo` adds a session for the 2nd pet listed under the 1st owner; it is from 2:30pm to 3:30pm on 15 May 2025; its list of services are `Base service charge` and `Shampoo`.
+* `addsession oi/1 pi/2 st/2026-05-15 14:30 et/2026-05-15 15:30 sn/Base service charge sn/Shampoo` adds a session for the 2nd pet listed under the 1st owner; it is from 2:30pm to 3:30pm on 15 May 2026; its list of services are `Base service charge` and `Shampoo`.
 
-### Deleting an owner, pet or session : `delete`
+### Deleting an owner, pet, session or service : `delete`
+
+`delete` has two usages with their own respective formats.
+
+1. Deleting an owner, pet or session
 
 Deletes the specified owner, pet or session from PetLog.
 
 Format: `delete oi/OWNER_INDEX [pi/PET_INDEX [si/SESSION_INDEX]]`
 
-* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
-* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* `OWNER_INDEX` refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
 * `SESSION_INDEX` index refers to the index number shown in the displayed session list of the specified pet. It must be a positive integer.
 * Using `delete` with the `oi/` prefix only deletes the owner at `OWNER_INDEX`.
 * Using `delete` with the `oi/` and `pi/` prefixes only deletes the pet at `PET_INDEX` of that owner.
@@ -224,13 +228,13 @@ Examples:
 * `list` followed by `delete oi/2` deletes the 2nd owner listed.
 * `find Betsy` followed by `delete oi/1 pi/2` deletes the 2nd pet of the 1st owner in the results of the `find` command.
 
-### Deleting a service : `delete`
+1. Deleting a service : `delete`
 
 Deletes a service from the service catalogue.
 
 Format: `delete sn/SERVICE_NAME`
 
-* `SERVICE_NAME`, if provided, must match an existing service in the service catalogue.
+* `SERVICE_NAME` must match an existing service in the service catalogue.
 
 Examples:
 * `delete sn/Ear Cleaning` deletes Ear Cleaning as a service from the list (if it exists).
