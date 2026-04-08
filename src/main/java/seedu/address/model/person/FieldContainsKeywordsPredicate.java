@@ -211,7 +211,7 @@ public class FieldContainsKeywordsPredicate implements Predicate<Person> {
                 matched.add("pet \"" + pet.getName().value + "\" (remark)");
             }
         }
-        return String.join("\n ", matched);
+        return String.join(", ", matched);
     }
 
     @Override
