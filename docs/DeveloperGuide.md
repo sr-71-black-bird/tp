@@ -320,30 +320,37 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                    | I want to …​                                          | So that I can…​                                                             |
-|----------|--------------------------------------------|-------------------------------------------------------|-----------------------------------------------------------------------------|
-| `* * *`  | pet day care manager                       | see usage instructions                                | quickly refer to command formats when I forget them                         |
-| `* * *`  | pet day care manager                       | add a new owner                                       | record new clients and their contact details                                |
-| `* * *`  | pet day care manager                       | delete an owner                                       | remove owners who no longer use my services                                 |
-| `* * *`  | pet day care manager                       | add a new pet under an existing owner                 | keep track of all animals belonging to each owner                           |
-| `* * *`  | pet day care manager                       | delete a pet                                          | remove records of pets that no longer visit                                 |
-| `* * *`  | pet day care manager                       | update a pet’s remarks                                | ensure feeding instructions and special notes are always up to date         |
-| `* * *`  | pet day care manager                       | find owners by name, phone, or email                  | quickly retrieve contact details when communicating with them               |
-| `* * *`  | pet day care manager                       | view all pets belonging to a specific owner           | quickly understand the full profile of a client during communication        |
-| `* * *`  | pet day care manager                       | find pets by name, species, or remarks                | locate a pet’s standing information without scrolling through the full list |
-| `* * *`  | pet day care manager                       | list all owners                                       | get an overview of my client base                                           |
-| `* * *`  | pet day care manager                       | list all pets                                         | see all animals currently registered in the system                          |
-| `* *`    | pet day care manager                       | update owner contact details                          | keep phone numbers and emails accurate for urgent communication             |
-| `* *`    | pet day care manager                       | edit existing pet details (e.g. breed, age)           | correct outdated or incorrect information                                   |
-| `* *`    | pet day care manager                       | prevent deletion of an owner with existing pets       | avoid accidentally losing linked pet records                                |
-| `* *`    | pet day care manager                       | sort pets by specific part of remarks                 | quickly locate pets with certain special requirements (e.g. health status)  |
-| `* *`    | pet day care manager                       | receive clear error messages for invalid commands     | quickly correct mistakes without disrupting daily operations                |
-| `* *`    | pet day care manager                       | search using partial keywords                         | retrieve records quickly even if I don’t remember exact spellings           |
-| `* *`    | pet day care manager                       | display owners and pets in a compact, readable format | scan information efficiently during busy hours                              |
-| `*`      | pet day care manager managing many records | sort owners or pets by name                           | locate entries more easily when the list becomes large                      |
-| `*`      | pet day care manager                       | view a summary count of owners and pets               | understand the scale of my operations at a glance                           |
-| `*`      | pet day care manager                       | view recently added or updated records                | quickly track recent operational changes                                    |
-
+| Priority | As a …​              | I want to …​                                                                  | So that I can…​                                                                      |
+|----------|----------------------|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| `* * *`  | pet day care manager | add a new owner                                                               | record new clients and their contact details                                         |
+| `* * *`  | pet day care manager | delete an owner                                                               | remove clients who no longer use my services                                         |
+| `* * *`  | pet day care manager | view all owners                                                               | see an overview of my client base                                                    |
+| `* * *`  | pet day care manager | add a new pet under an existing owner                                         | record the detaills of pets belonging to each owner                                  |
+| `* * *`  | pet day care manager | delete a pet                                                                  | remove records of pets that no longer visit                                          |
+| `* * *`  | pet day care manager | view all pets                                                                 | see all pets currently registered in the system                                      |
+| `* * *`  | pet day care manager | view all pets belonging to a specific owner                                   | see all the pets of a client quickly during communication                            |
+| `* * *`  | pet day care manager | add a new service                                                             | update my list of available services offered when new ones are introduced            |
+| `* * *`  | pet day care manager | delete a service                                                              | update my list of available services offered when old ones are no longer offered     |
+| `* * *`  | pet day care manager | view all services                                                             | see what services are in my most updated service catalogue at a glance               |
+| `* * *`  | pet day care manager | add a session for an existing pet                                             | record appointment timings, services and fees of various pets                        |
+| `* * *`  | pet day care manager | delete a session                                                              | remove past or cancelled appointments                                                |
+| `* * *`  | pet day care manager | view all sessions                                                             | see what appointments are scheduled at a glance                                      |
+| `* * *`  | pet day care manager | view records (owners, pets, services, sessions) in a compact, readable format | scan for information efficiently during busy hours                                   |
+| `* *`    | pet day care manager | view usage instructions                                                       | refer to command formats quickly and conveniently when I forget them                 |
+| `* *`    | pet day care manager | filter owners by name, phone, or email                                        | find owners by their details of the specific fields quickly                          |
+| `* *`    | pet day care manager | filter pets by name, species, or remarks                                      | find a pet’s information quickly                                                     |
+| `* *`    | pet day care manager | update an owner's contact details                                             | keep phone numbers and emails accurate and up-to-date for urgent communication       |
+| `* *`    | pet day care manager | update a pet's details                                                        | keep critical details accurate and up-to-date in case of emergencies                 |
+| `* *`    | pet day care manager | update a pet’s remarks                                                        | keep feeding instructions and special notes are accurate and up-to-date              |
+| `* *`    | pet day care manager | update a service's price                                                      | keep the price of my services up to date without having to delete and re-add them    |
+| `* *`    | pet day care manager | update a sessions's start/end time and services                               | keep the details of appointments up to date without having to delete and re-add them |
+| `* *`    | pet day care manager | receive clear error messages for invalid commands                             | quickly correct mistakes without disrupting daily operations                         |
+| `* *`    | pet day care manager | filter using partial keywords                                                 | search for specific records quickly even if I don’t remember exact spellings         |
+| `*`      | pet day care manager | be warned before I delete an owner with existing pets                         | avoid accidentally losing linked pet and session records                             |
+| `*`      | pet day care manager | be warned before I delete a pet with existing sessions                        | avoid accidentally losing linked session records                                     |
+| `*`      | pet day care manager | sort owners and pets by name                                                  | organise entries easily when the list becomes large                                  |
+| `*`      | pet day care manager | view an overview of owners, pets and sessions (e.g. count)                    | understand the scale of my operations at a glance                                    |
+| `*`      | pet day care manager | view recently added or updated records                                        | get visual feedback for my most recent commands and track recent operational changes |
 
 ### Use cases
 
