@@ -9,6 +9,18 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.logic.commands.AddOwnerCommand;
+import seedu.address.logic.commands.AddPetCommand;
+import seedu.address.logic.commands.AddServiceCommand;
+import seedu.address.logic.commands.AddSessionCommand;
+import seedu.address.logic.commands.ClearCommand;
+import seedu.address.logic.commands.DeleteCommand;
+import seedu.address.logic.commands.EditCommand;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.FindCommand;
+import seedu.address.logic.commands.HelpCommand;
+import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.UpdatePetRemarkCommand;
 
 /**
  * Controller for a help page
@@ -17,22 +29,7 @@ public class HelpWindow extends UiPart<Stage> {
 
     public static final String USERGUIDE_URL = "https://ay2526s2-cs2103t-w14-1.github.io/tp/UserGuide.html";
     public static final String HELP_MESSAGE = "For more detailed guide, refer to the user guide: " + USERGUIDE_URL;
-    public static final String COMMANDS_MESSAGE = "Available Commands:\n"
-            + "• help\n"
-            + "• addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]...\n"
-            + "• editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS]"
-            + " [ot/OVERWRITE_TAG]... [at/ADD_TAG]... [rt/REMOVE_TAG]...\n"
-            + "• addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]\n"
-            + "• update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS\n"
-            + "• addservice sn/SERVICE_NAME sp/SERVICE_PRICE\n"
-            + "• addsession oi/OWNER_INDEX pi/PET_INDEX st/START_TIME et/END_TIME [sn/SERVICE_NAME]...\n"
-            + "• delete oi/OWNER_INDEX [pi/PET_INDEX [si/SESSION_INDEX]]\n"
-            + "• delete sn/SERVICE_NAME\n"
-            + "• find [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS]"
-            + " [ot/OWNER_TAG]... [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]\n"
-            + "• list\n"
-            + "• clear\n"
-            + "• exit";
+    public static final String COMMANDS_MESSAGE = buildCommandsMessage();
 
     private static final Logger logger = LogsCenter.getLogger(HelpWindow.class);
     private static final String FXML = "HelpWindow.fxml";
@@ -62,6 +59,23 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow() {
         this(new Stage());
+    }
+
+    private static String buildCommandsMessage() {
+        return String.join("\n\n",
+                "Available Commands:",
+                HelpCommand.MESSAGE_USAGE,
+                AddOwnerCommand.MESSAGE_USAGE,
+                EditCommand.MESSAGE_USAGE,
+                AddPetCommand.MESSAGE_USAGE,
+                UpdatePetRemarkCommand.MESSAGE_USAGE,
+                AddServiceCommand.MESSAGE_USAGE,
+                AddSessionCommand.MESSAGE_USAGE,
+                DeleteCommand.MESSAGE_USAGE,
+                FindCommand.MESSAGE_USAGE,
+                ListCommand.MESSAGE_USAGE,
+                ClearCommand.MESSAGE_USAGE,
+                ExitCommand.MESSAGE_USAGE);
     }
 
     /**
