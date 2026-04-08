@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -80,37 +82,14 @@ class JsonAdaptedPerson {
             personTags.add(tag.toModelType());
         }
 
-        if (name == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
-        }
-        if (!Name.isValidName(name)) {
-            throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
-        }
-        final Name modelName = new Name(name);
-
-        if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
-            throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
-        }
-        final Phone modelPhone = new Phone(phone);
-
-        if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
-            throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
-        }
-        final Email modelEmail = new Email(email);
-
-        if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
-        final Address modelAddress = new Address(address);
+        final Name modelName = parseRequiredField(name, Name.class, Name::isValidName, Name.MESSAGE_CONSTRAINTS,
+                Name::new);
+        final Phone modelPhone = parseRequiredField(phone, Phone.class, Phone::isValidPhone, Phone.MESSAGE_CONSTRAINTS,
+                Phone::new);
+        final Email modelEmail = parseRequiredField(email, Email.class, Email::isValidEmail, Email.MESSAGE_CONSTRAINTS,
+                Email::new);
+        final Address modelAddress = parseRequiredField(address, Address.class, Address::isValidAddress,
+                Address.MESSAGE_CONSTRAINTS, Address::new);
 
         final List<Pet> personPets = new ArrayList<>();
         for (JsonAdaptedPet pet : pets) {
@@ -120,6 +99,20 @@ class JsonAdaptedPerson {
         final Set<Tag> modelTags = new HashSet<>(personTags);
         final Set<Pet> modelPets = new LinkedHashSet<>(personPets);
         return new Person(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelPets);
+    }
+
+    private static <T> T parseRequiredField(String rawValue,
+                                            Class<?> fieldType,
+                                            Predicate<String> validator,
+                                            String constraintMessage,
+                                            Function<String, T> constructor) throws IllegalValueException {
+        if (rawValue == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, fieldType.getSimpleName()));
+        }
+        if (!validator.test(rawValue)) {
+            throw new IllegalValueException(constraintMessage);
+        }
+        return constructor.apply(rawValue);
     }
 
 }
