@@ -46,7 +46,7 @@ public class EditCommandParser implements Parser<EditCommand> {
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_OWNER_INDEX, PREFIX_OWNER_NAME,
                 PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
 
-        // precent mixing replace tags with add / remove tags
+        // prevent mixing replace tags with add / remove tags
         if (!argMultimap.getAllValues(PREFIX_TAG).isEmpty()
                 && (!argMultimap.getAllValues(PREFIX_ADD_TAG).isEmpty()
                 || !argMultimap.getAllValues(PREFIX_REMOVE_TAG).isEmpty())) {

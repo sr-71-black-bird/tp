@@ -24,7 +24,7 @@ import seedu.address.model.service.Service;
 import seedu.address.model.session.Session;
 
 /**
- * Deletes a person identified using it's displayed index from the address book.
+ * Deletes an entity identified using its displayed index from the address book.
  */
 public class DeleteCommand extends Command {
     private enum DeleteTargetType {
