@@ -228,7 +228,7 @@ Examples:
 * `list` followed by `delete oi/2` deletes the 2nd owner listed.
 * `find Betsy` followed by `delete oi/1 pi/2` deletes the 2nd pet of the 1st owner in the results of the `find` command.
 
-**2. Deleting a service : `delete`**
+**2. Deleting a service**
 
 Deletes a service from the service catalogue.
 
