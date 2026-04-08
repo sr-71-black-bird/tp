@@ -58,14 +58,14 @@ It helps you manage owners, pets, services, and sessions quickly with structured
 * Items in square brackets are optional.<br>
   e.g. `on/OWNER_NAME [ot/TAG]` can be used as `on/John Doe ot/priority` or as `on/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
+* Items with `…​` after them can be used multiple times including zero times.<br>
   e.g. `[ot/TAG]…​` can be used as ` ` (i.e. 0 times), `ot/friend`, `ot/friend ot/family` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `on/OWNER_NAME ph/PHONE_NUMBER`, `ph/PHONE_NUMBER on/OWNER_NAME` is also acceptable.
 
 * Command words and prefixes are case-insensitive.<br>
-  e.g. `AdDoWnEr On/John Doe Ph/98765432 Em/j@example.com Ad/123, Street` is accepted.
+  e.g. `AdDoWnEr On/John Doe Ph/98765432 eM/j@example.com AD/123, Street` is accepted.
 
 * Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
@@ -83,17 +83,16 @@ Format: `help`
 
 ### Adding an owner: `addowner`
 
-Adds an owner to PetLog.
+Adds an owner to PetLog. An owner has a name, a phone number, an email, an address, and any number of tags.
 
 Format: `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]…​`
 
-* An owner can have any number of tags (including 0).
 * `OWNER_NAME` must be 1 to 50 characters.
 * `PHONE_NUMBER` must be 2 to 30 characters.
-* If `PHONE_NUMBER` contains any non-numeric characters, the command still succeeds and shows a warning.
+* If `PHONE_NUMBER` contains any non-numeric characters, the command succeeds but shows a warning in case it was not intentional.
 * `EMAIL` must be of the form `local-part@domain`.
 * `ADDRESS` must be 1 to 100 characters.
-* Each `TAG`, if provided, must be 1 to 20 characters, with no restrictions on character type.
+* Each `TAG`, if provided, must be 1 to 20 characters.
 
 Examples:
 * `addowner on/John Doe ph/98765432 em/johnd@example.com ad/John street, block 123, #01-01`
@@ -105,15 +104,14 @@ Edits an existing owner in PetLog.
 
 Format: `editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`
 
-* Edits the owner at the specified `OWNER_INDEX`. The index refers to the index number shown in the displayed owner list. The index **must be a positive integer** 1, 2, 3, …​
-* At least one of the optional fields must be provided.
+* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* At least one of the optional fields must be provided, following the same input validation rules as in `addowner`.
 * Existing values, except tags, will be updated to the input values.
 * To add to existing tags, use `at/`.
 * To remove existing tags, use `rt/`.
 * To overwrite the existing tags, use `ot/`.
-* Each supplied tag in `ot/`, `at/`, or `rt/` must be 1 to 20 characters, with no restrictions on character type.
 * You can remove all the owner's tags by typing `ot/` without specifying any tags after it.
-* Note that `ot/` cannot be used with `at/` or `rt/`.
+* `ot/` cannot be used with `at/` or `rt/`.
 
 Examples:
 *  `editowner oi/1 ph/91234567 em/johndoe@example.com` edits the phone number and email address of the 1st owner to be `91234567` and `johndoe@example.com` respectively.
@@ -122,30 +120,34 @@ Examples:
 
 ### Adding a pet under an owner: `addpet`
 
+Adds a pet belonging to an existing owner in PetLog. A pet has an owner, a name, a species, and may have remarks.
+
 Format: `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]`
 
-* Adds the pet with specified `PET_NAME` and `SPECIES` (and optional remark) under the owner specified by `OWNER_INDEX`.
-* `OWNER_INDEX` refers to the currently displayed owner list and must be a positive integer.
-* `PET_NAME` must be 1 to 30 characters, with no restrictions on character type.
-* `SPECIES` must be 1 to 30 characters, with no restrictions on character type.
-* `REMARKS`, if provided, must be 1 to 100 characters, with no restrictions on character type.
-* A pet is considered a duplicate under the same owner if both its name and species match an existing pet for that owner.
+* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_NAME` must be 1 to 30 characters.
+* `SPECIES` must be 1 to 30 characters,.
+* `REMARKS`, if provided, must be 1 to 100 characters.
+* Attempting to add a duplicate pet, if both its name and species match an existing pet for the specified owner, will not succeed.
 
 Examples:
-* `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly` Adds a cuddly golden retriever called Molly under the second
-    owner in the list of owners; Molly will have a remark that she is cuddly.
-* `addpet oi/1 pn/Dave ps/Great Dane` Adds a great dane called Dave under the first owner on the list of owners.
+* `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly` adds a golden retriever called Molly under the 2nd owner in the list of owners; Molly will have a remark that she is cuddly.
+* `addpet oi/1 pn/Dave ps/Great Dane` adds a great dane called Dave under the 1st owner on the list of owners.
 
 ### Updating the remarks of a pet: `update`
 
 Format: `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS`
 
-* Sets the remark of the pet specified by `PET_INDEX` under the owner specified by `OWNER_INDEX`.
+Updates the remarks of a pet.
+
+* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* Existing remarks will be overwritten and updated to the provided input.
 
 Examples:
-* `update oi/1 pi/3 pr/aggressive` updates the remark of the third pet listed under the first owner to be "aggressive".
+* `update oi/1 pi/3 pr/aggressive` updates the remark of the 3rd pet listed under the 1st owner to be "aggressive".
 
-### Locating an owner: `find`
+### Searching for owners: `find`
 
 Finds owners whose details match at least one of the given keywords.
 
@@ -173,17 +175,47 @@ Format: `list`
 Use `list` after using `find` to go back to displaying all owners and pets.
 </div>
 
+### Adding a service : `addservice`
+
+Adds a service to the service catalogue. A service has a name and a price.
+
+Format: `addservice sn/SERVICE_NAME sp/SERVICE_PRICE`
+
+* `SERVICE_NAME` must be 1 to 30 characters.
+* `SERVICE_PRICE` is in dollars, and must be a number from `0` to `10000` (inclusive), with up to 2 decimal places.
+* Attempting to add a duplicate service, if its name matches an service in the service catalogue, will not succeed.
+
+Examples:
+* `addservice sn/Ear Cleaning sp/12.50` adds Ear Cleaning as a service to the list with the price of $12.50.
+
+### Adding a session : `addsession`
+
+Adds a session for the specified pet. A session has a pet, a start time, an end time, and a list of services, from which the fee is calculated.
+
+Format: `addsession oi/OWNER_INDEX pi/PET_INDEX st/START_TIME et/END_TIME [sn/SERVICE_NAME]…​`
+
+* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* `START_TIME` and `END_TIME` must be of the format `yyyy-MM-dd HH:mm`.
+* `END_TIME` must be chronologically after `START_TIME`.
+* `SERVICE_NAME`, if provided, must match an existing service in the service catalogue.
+* Attempting to add a session which timing overlaps with an existing session for the specified pet will not succeed.
+
+Examples:
+* `addsession oi/1 pi/2 st/2026-05-15 14:30 et/2026-05-15 15:30 sn/Base service charge sn/Shampoo` adds a session for the 2nd pet listed under the 1st owner; it is from 2:30pm to 3:30pm on 15 May 2025; its list of services are `Base service charge` and `Shampoo`.
+
 ### Deleting an owner, pet or session : `delete`
 
 Deletes the specified owner, pet or session from PetLog.
 
 Format: `delete oi/OWNER_INDEX [pi/PET_INDEX [si/SESSION_INDEX]]`
 
-* Using `delete` with just the `oi/` prefix deletes the owner at `OWNER_INDEX`.
-* Using `delete` with the `oi/` and `pi/` prefixes deletes the pet at `PET_INDEX` of that owner.
-* Using `delete` with just `oi/`, `pi/` and `si/` prefixes deletes the session at `SESSION_INDEX` of that pet.
-* The index refers to the index number shown in the displayed lists.
-* The indexes **must be a positive integer** 1, 2, 3, …​
+* `OWNER_INDEX` index refers to the index number shown in the displayed owner list. It must be a positive integer.
+* `PET_INDEX` index refers to the index number shown in the displayed pet list of the specified owner. It must be a positive integer.
+* `SESSION_INDEX` index refers to the index number shown in the displayed session list of the specified pet. It must be a positive integer.
+* Using `delete` with the `oi/` prefix only deletes the owner at `OWNER_INDEX`.
+* Using `delete` with the `oi/` and `pi/` prefixes only deletes the pet at `PET_INDEX` of that owner.
+* Using `delete` with the `oi/`, `pi/` and `si/` prefixes deletes the session at `SESSION_INDEX` of that pet.
 
 Examples:
 * `delete oi/4` deletes the 4th owner listed.
@@ -192,34 +224,20 @@ Examples:
 * `list` followed by `delete oi/2` deletes the 2nd owner listed.
 * `find Betsy` followed by `delete oi/1 pi/2` deletes the 2nd pet of the 1st owner in the results of the `find` command.
 
-### Adding a service : `addservice`
-
-Adds a service to the list of services.
-
-Format: `addservice sn/SERVICE_NAME sp/SERVICE_PRICE`
-
-* `SERVICE_NAME` must be 1 to 30 characters, with no restrictions on character type.
-* The service name must not match that of an existing service in the list (case-insensitive).
-* `SERVICE_PRICE` must be a number from `0` to `10000` (inclusive), with up to 2 decimal places.
-* `SERVICE_PRICE` can contain only digits and `.`.
-
-Examples:
-* `addservice sn/Ear Cleaning sp/12.50` adds Ear Cleaning as a service to the list with the price of 12.50.
-
 ### Deleting a service : `delete`
 
 Deletes a service from the service catalogue.
 
 Format: `delete sn/SERVICE_NAME`
 
-* The service name must match that of an existing service in the list (case-insensitive).
+* `SERVICE_NAME`, if provided, must match an existing service in the service catalogue.
 
 Examples:
 * `delete sn/Ear Cleaning` deletes Ear Cleaning as a service from the list (if it exists).
 
 ### Clearing all owners, pets, services and sessions : `clear`
 
-Clears all owners, pets, services and sessions from PetLog.
+Deletes all owners, pets, services and sessions from PetLog.
 
 Format: `clear`
 
@@ -229,13 +247,13 @@ Use `clear` to remove the sample data when you first run PetLog so you can start
 
 ### Exiting the program : `exit`
 
-Exits the program.
+Exits PetLog.
 
 Format: `exit`
 
 ### Saving the data
 
-PetLog data is saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+PetLog data is saved in the hard disk automatically after any command that changes the data, and upon exiting. There is no need to save manually.
 
 ### Editing the data file
 
@@ -294,10 +312,11 @@ Action | Format, Examples
 **Edit Owner** | `editowner oi/OWNER_INDEX [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OVERWRITE_TAG]…​ [at/ADD_TAG]…​ [rt/REMOVE_TAG]…​`<br> e.g., `editowner oi/1 ph/91234567 em/johndoe@example.com`
 **Add Pet** | `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]` <br> e.g., `addpet oi/2 pn/Molly ps/Golden Retriever pr/cuddly`
 **Update Pet Remarks** | `update oi/OWNER_INDEX pi/PET_INDEX pr/REMARKS` <br> e.g., `update oi/1 pi/3 pr/aggressive`
-**Find Owner** | `find [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`<br> e.g., `find on/Hans ps/Dog`
+**Search for Owner** | `find [on/OWNER_NAME] [ph/PHONE_NUMBER] [em/EMAIL] [ad/ADDRESS] [ot/OWNER_TAG]…​ [oi/OWNER_INDEX] [pn/PET_NAME] [ps/SPECIES] [pr/REMARKS]`<br> e.g., `find on/Hans ps/Dog`
 **List All Owners and Pets** | `list`
-**Delete Owner or Pet** | `delete INDEX`<br> e.g., `delete 3`
 **Add Service** | `addservice sn/SERVICE_NAME sp/SERVICE_PRICE` <br> e.g., `addservice sn/Ear Cleaning sp/12.50`
+**Add Session** | `addsession oi/OWNER_INDEX pi/PET_INDEX st/START_TIME et/END_TIME [sn/SERVICE_NAME]…​` <br> e.g., `addsession oi/1 pi/2 st/2026-05-15 14:30 et/2026-05-15 15:30 sn/Base service charge sn/Shampoo`
+**Delete Owner, Pet or Session** | `delete oi/OWNER_INDEX [pi/PET_INDEX [si/SESSION_INDEX]]`<br> e.g., `delete oi/4 pi/2`
 **Delete Service** | `delete sn/SERVICE_NAME` <br> e.g., `delete sn/Ear Cleaning`
 **Clear All Entries** | `clear`
 **Exit Application** | `exit`
