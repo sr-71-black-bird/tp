@@ -1,6 +1,5 @@
 package seedu.address.logic.parser;
 
-import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_NAME;
@@ -19,11 +18,6 @@ import seedu.address.model.pet.Species;
  * Parses input arguments and creates a new AddPetCommand object
  */
 public class AddPetCommandParser implements Parser<AddPetCommand> {
-    public static final String MESSAGE_PET_REMARK_CONSTRAINTS =
-            "Remarks for addpet must be 1 to 100 characters.";
-    private static final int MIN_REMARK_LENGTH = 1;
-    private static final int MAX_REMARK_LENGTH = 100;
-
     /**
      * Parses the given {@code String} of arguments in the context of the AddPetCommand
      * and returns an AddPetCommand object for execution.
@@ -46,19 +40,9 @@ public class AddPetCommandParser implements Parser<AddPetCommand> {
         Species species = ParserUtil.parseSpecies(argMultimap.getValue(PREFIX_SPECIES).get());
         PetRemark petRemark = new PetRemark("");
         if (ParserUtil.arePrefixesPresent(argMultimap, PREFIX_PET_REMARK)) {
-            String normalizedRemark = normalizeWhitespace(argMultimap.getValue(PREFIX_PET_REMARK).get());
-            if (!isValidAddPetRemark(normalizedRemark)) {
-                throw new ParseException(MESSAGE_PET_REMARK_CONSTRAINTS);
-            }
-            petRemark = new PetRemark(normalizedRemark);
+            petRemark = ParserUtil.parsePetRemark(argMultimap.getValue(PREFIX_PET_REMARK).get());
         }
         Pet newPet = new Pet(petName, species, petRemark);
         return new AddPetCommand(ownerIndex, newPet);
     }
-
-    private static boolean isValidAddPetRemark(String remark) {
-        int length = remark.length();
-        return length >= MIN_REMARK_LENGTH && length <= MAX_REMARK_LENGTH;
-    }
-
 }
