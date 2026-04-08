@@ -48,7 +48,6 @@ public class AddSessionCommand extends Command {
     public static final String MESSAGE_UNKNOWN_SERVICE = "Unknown service: %1$s.";
     public static final String MESSAGE_OVERLAPPING_SESSION =
             "Session overlaps with an existing session for the selected pet.";
-    public static final String SESSION_PANEL_TITLE_FORMAT = "%s's %s — Sessions";
 
 
     private final Index ownerIndex;
