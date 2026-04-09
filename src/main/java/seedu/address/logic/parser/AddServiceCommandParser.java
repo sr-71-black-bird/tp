@@ -4,8 +4,6 @@ import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SERVICE_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SERVICE_PRICE;
 
-import java.util.stream.Stream;
-
 import seedu.address.logic.commands.AddServiceCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.service.Service;
@@ -25,7 +23,7 @@ public class AddServiceCommandParser implements Parser<AddServiceCommand> {
     public AddServiceCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_SERVICE_NAME, PREFIX_SERVICE_PRICE);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_SERVICE_NAME, PREFIX_SERVICE_PRICE)
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_SERVICE_NAME, PREFIX_SERVICE_PRICE)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddServiceCommand.MESSAGE_USAGE));
         }
@@ -38,11 +36,4 @@ public class AddServiceCommandParser implements Parser<AddServiceCommand> {
         return new AddServiceCommand(newService);
     }
 
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
 }

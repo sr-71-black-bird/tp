@@ -25,12 +25,12 @@ public class AddPetCommandParserTest {
     private static final String VALID_MAX_NAME = "A".repeat(30);
     private static final String VALID_MIN_SPECIES = "C";
     private static final String VALID_MAX_SPECIES = "A".repeat(30);
-    private static final String VALID_MAX_REMARK = "a".repeat(100);
+    private static final String VALID_MAX_REMARK = "a".repeat(PetRemark.MAX_LENGTH);
     private static final String INVALID_ZERO_INDEX = "0";
     private static final String INVALID_NON_NUMERIC_INDEX = "one";
     private static final String INVALID_LONG_NAME = "A".repeat(31);
     private static final String INVALID_LONG_SPECIES = "A".repeat(31);
-    private static final String INVALID_LONG_REMARK = "a".repeat(101);
+    private static final String INVALID_LONG_REMARK = "a".repeat(PetRemark.MAX_LENGTH + 1);
 
     private final AddPetCommandParser parser = new AddPetCommandParser();
 
@@ -90,6 +90,14 @@ public class AddPetCommandParserTest {
     }
 
     @Test
+    public void parse_blankRemark_returnsAddPetCommandWithEmptyRemark() {
+        assertParseSuccess(parser,
+                " oi/1 pn/" + VALID_MIN_NAME + " ps/" + VALID_MIN_SPECIES + " pr/   ",
+                new AddPetCommand(INDEX_FIRST_PERSON,
+                        new Pet(new PetName(VALID_MIN_NAME), new Species(VALID_MIN_SPECIES), new PetRemark(""))));
+    }
+
+    @Test
     public void parse_missingCompulsoryPrefixes_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddPetCommand.MESSAGE_USAGE);
 
@@ -126,10 +134,7 @@ public class AddPetCommandParserTest {
                 Species.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser,
                 " oi/1 pn/" + VALID_MIN_NAME + " ps/" + VALID_MIN_SPECIES + " pr/" + INVALID_LONG_REMARK,
-                AddPetCommandParser.MESSAGE_PET_REMARK_CONSTRAINTS);
-        assertParseFailure(parser,
-                " oi/1 pn/" + VALID_MIN_NAME + " ps/" + VALID_MIN_SPECIES + " pr/   ",
-                AddPetCommandParser.MESSAGE_PET_REMARK_CONSTRAINTS);
+                PetRemark.MESSAGE_CONSTRAINTS);
     }
 
     @Test

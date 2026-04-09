@@ -153,15 +153,30 @@ public class ModelManager implements Model {
         requireNonNull(persons);
         List<SessionEntry> entries = new ArrayList<>();
         for (Person owner : persons) {
-            for (Pet pet : owner.getPetList()) {
-                List<Session> sessions = pet.getSessions();
-                for (int i = 0; i < sessions.size(); i++) {
-                    entries.add(new SessionEntry(
-                            sessions.get(i), owner.getName().fullName, pet.getName().value, i + 1));
-                }
-            }
+            entries.addAll(getSessionEntriesForOwner(owner));
         }
         displayedSessions.setAll(entries);
+    }
+
+    private List<SessionEntry> getSessionEntriesForOwner(Person owner) {
+        List<SessionEntry> entries = new ArrayList<>();
+        for (Pet pet : owner.getPetList()) {
+            entries.addAll(getSessionEntriesForPet(owner, pet));
+        }
+        return entries;
+    }
+
+    private List<SessionEntry> getSessionEntriesForPet(Person owner, Pet pet) {
+        List<SessionEntry> entries = new ArrayList<>();
+        List<Session> sessions = pet.getSessions();
+        for (int i = 0; i < sessions.size(); i++) {
+            entries.add(createSessionEntry(owner, pet, sessions.get(i), i));
+        }
+        return entries;
+    }
+
+    private SessionEntry createSessionEntry(Person owner, Pet pet, Session session, int zeroBasedSessionIndex) {
+        return new SessionEntry(session, owner.getName().fullName, pet.getName().value, zeroBasedSessionIndex + 1);
     }
 
     @Override

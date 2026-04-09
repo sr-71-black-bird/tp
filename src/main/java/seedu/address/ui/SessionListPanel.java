@@ -1,7 +1,5 @@
 package seedu.address.ui;
 
-import java.util.logging.Logger;
-
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -10,7 +8,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.session.SessionEntry;
 
 /**
@@ -19,7 +16,6 @@ import seedu.address.model.session.SessionEntry;
 public class SessionListPanel extends UiPart<Region> {
 
     private static final String FXML = "SessionListPanel.fxml";
-    private final Logger logger = LogsCenter.getLogger(SessionListPanel.class);
 
     @FXML
     private Label sessionPanelTitle;

@@ -5,8 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_OWNER_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_INDEX;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PET_REMARK;
 
-import java.util.stream.Stream;
-
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.UpdatePetRemarkCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
@@ -25,7 +23,7 @@ public class UpdatePetRemarkCommandParser {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_OWNER_INDEX, PREFIX_PET_INDEX, PREFIX_PET_REMARK);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_OWNER_INDEX, PREFIX_PET_INDEX, PREFIX_PET_REMARK)
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_OWNER_INDEX, PREFIX_PET_INDEX, PREFIX_PET_REMARK)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
                     UpdatePetRemarkCommand.MESSAGE_USAGE));
@@ -38,11 +36,4 @@ public class UpdatePetRemarkCommandParser {
         return new UpdatePetRemarkCommand(ownerIndex, petIndex, petRemark.toString());
     }
 
-    /**
-     * Returns true if none of the prefixes contains empty {@code Optional} values in the given
-     * {@code ArgumentMultimap}.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
-    }
 }

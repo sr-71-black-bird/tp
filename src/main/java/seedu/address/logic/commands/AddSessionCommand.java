@@ -10,6 +10,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import seedu.address.commons.core.index.Index;
@@ -48,7 +49,6 @@ public class AddSessionCommand extends Command {
     public static final String MESSAGE_UNKNOWN_SERVICE = "Unknown service: %1$s.";
     public static final String MESSAGE_OVERLAPPING_SESSION =
             "Session overlaps with an existing session for the selected pet.";
-    public static final String SESSION_PANEL_TITLE_FORMAT = "%s's %s — Sessions";
 
 
     private final Index ownerIndex;
@@ -126,13 +126,11 @@ public class AddSessionCommand extends Command {
         return new CommandResult(baseMessage + String.format(" Total fee: $%.2f.", totalFee));
     }
 
-    private List<Service> resolveServices(List<Service> availServices) throws CommandException {
+    private List<Service> resolveServices(List<Service> availableServices) throws CommandException {
         List<Service> resolvedServices = new ArrayList<>();
         for (String serviceName : serviceNames) {
-            Service matchedService = findServiceByName(availServices, serviceName);
-            if (matchedService == null) {
-                throw new CommandException(String.format(MESSAGE_UNKNOWN_SERVICE, serviceName));
-            }
+            Service matchedService = findServiceByName(availableServices, serviceName)
+                    .orElseThrow(() -> new CommandException(String.format(MESSAGE_UNKNOWN_SERVICE, serviceName)));
             resolvedServices.add(matchedService);
         }
         return resolvedServices;
@@ -153,13 +151,13 @@ public class AddSessionCommand extends Command {
     /**
      * Finds a service by name from the available services list.
      */
-    private Service findServiceByName(List<Service> availServices, String serviceName) {
-        for (Service service : availServices) {
+    private Optional<Service> findServiceByName(List<Service> availableServices, String serviceName) {
+        for (Service service : availableServices) {
             if (service.hasSameName(serviceName)) {
-                return service;
+                return Optional.of(service);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     private static String normalizeServiceName(String serviceName) {

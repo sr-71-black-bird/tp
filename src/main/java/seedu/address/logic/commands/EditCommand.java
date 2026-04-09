@@ -13,7 +13,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -181,7 +180,6 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
-        private Set<Pet> pets;
         private Set<Tag> tagsToAdd;
         private Set<Tag> tagsToRemove;
 
@@ -197,7 +195,6 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
-            setPets(toCopy.pets);
             setTagsToAdd(toCopy.tagsToAdd);
             setTagsToRemove(toCopy.tagsToRemove);
         }
@@ -207,7 +204,7 @@ public class EditCommand extends Command {
          */
         public boolean isAnyFieldEdited() {
             return CollectionUtil.isAnyNonNull(name, phone, email, address, tags,
-                    pets, tagsToAdd, tagsToRemove);
+                    tagsToAdd, tagsToRemove);
         }
 
         public void setName(Name name) {
@@ -257,23 +254,6 @@ public class EditCommand extends Command {
          */
         public Optional<Set<Tag>> getTags() {
             return (tags != null) ? Optional.of(Collections.unmodifiableSet(tags)) : Optional.empty();
-        }
-
-        /**
-         * Sets {@code pets} to this object's {@code pets}.
-         * A defensive copy of {@code pets} is used internally.
-         */
-        public void setPets(Set<Pet> pets) {
-            this.pets = (pets != null) ? new LinkedHashSet<>(pets) : null;
-        }
-
-        /**
-         * Returns an unmodifiable pet set, which throws {@code UnsupportedOperationException}
-         * if modification is attempted.
-         * Returns {@code Optional#empty()} if {@code pets} is null.
-         */
-        public Optional<Set<Pet>> getPets() {
-            return (pets != null) ? Optional.of(Collections.unmodifiableSet(pets)) : Optional.empty();
         }
 
         /**
@@ -331,7 +311,6 @@ public class EditCommand extends Command {
                     && Objects.equals(email, otherEditPersonDescriptor.email)
                     && Objects.equals(address, otherEditPersonDescriptor.address)
                     && Objects.equals(tags, otherEditPersonDescriptor.tags)
-                    && Objects.equals(pets, otherEditPersonDescriptor.pets)
                     && Objects.equals(tagsToAdd, otherEditPersonDescriptor.tagsToAdd)
                     && Objects.equals(tagsToRemove, otherEditPersonDescriptor.tagsToRemove);
         }
@@ -344,7 +323,6 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
-                    .add("pets", pets)
                     .add("tagsToAdd", tagsToAdd)
                     .add("tagsToRemove", tagsToRemove)
                     .toString();

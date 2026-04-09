@@ -9,7 +9,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_START_TIME;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddSessionCommand;
@@ -33,7 +32,7 @@ public class AddSessionCommandParser implements Parser<AddSessionCommand> {
                         PREFIX_START_TIME, PREFIX_END_TIME, PREFIX_SERVICE_NAME);
 
         // Required fields (services are optional)
-        if (!arePrefixesPresent(argMultimap, PREFIX_OWNER_INDEX, PREFIX_PET_INDEX,
+        if (!ParserUtil.arePrefixesPresent(argMultimap, PREFIX_OWNER_INDEX, PREFIX_PET_INDEX,
                 PREFIX_START_TIME, PREFIX_END_TIME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
@@ -55,12 +54,5 @@ public class AddSessionCommandParser implements Parser<AddSessionCommand> {
             serviceNames.add(ParserUtil.parseServiceName(rawServiceName));
         }
         return new AddSessionCommand(ownerIndex, petIndex, startTime, endTime, serviceNames);
-    }
-
-    /**
-     * Returns true if all required prefixes are present.
-     */
-    private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
-        return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 }

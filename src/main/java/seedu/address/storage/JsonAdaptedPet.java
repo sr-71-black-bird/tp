@@ -31,7 +31,8 @@ public class JsonAdaptedPet {
      */
     @JsonCreator
     public JsonAdaptedPet(@JsonProperty("name") String name, @JsonProperty("species") String species,
-            @JsonProperty("remark") String remark, @JsonProperty("sessions") List<JsonAdaptedSession> sessions) {
+            @JsonProperty("remark") String remark,
+            @JsonProperty("sessions") List<JsonAdaptedSession> sessions) {
         this.name = name;
         this.species = species;
         this.remark = remark;
