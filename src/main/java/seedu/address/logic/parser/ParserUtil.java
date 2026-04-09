@@ -6,6 +6,7 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
@@ -35,7 +36,7 @@ public class ParserUtil {
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String normalizedIndex = normalizeWhitespace(oneBasedIndex);
-        if (!StringUtil.isNonZeroUnsignedInteger(normalizedIndex)) {
+        if (!StringUtil.isValidOneBasedInt(normalizedIndex)) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(normalizedIndex));
@@ -48,11 +49,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code name} is invalid.
      */
     public static Name parseName(String name) throws ParseException {
-        requireNonNull(name);
-        String normalizedName = normalizeWhitespace(name);
-        if (!Name.isValidName(normalizedName)) {
-            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedName = parseValidatedString(name, Name::isValidName, Name.MESSAGE_CONSTRAINTS);
         return new Name(normalizedName);
     }
 
@@ -63,11 +60,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code phone} is invalid.
      */
     public static Phone parsePhone(String phone) throws ParseException {
-        requireNonNull(phone);
-        String normalizedPhone = normalizeWhitespace(phone);
-        if (!Phone.isValidPhone(normalizedPhone)) {
-            throw new ParseException(Phone.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedPhone = parseValidatedString(phone, Phone::isValidPhone, Phone.MESSAGE_CONSTRAINTS);
         return new Phone(normalizedPhone);
     }
 
@@ -78,11 +71,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code address} is invalid.
      */
     public static Address parseAddress(String address) throws ParseException {
-        requireNonNull(address);
-        String normalizedAddress = normalizeWhitespace(address);
-        if (!Address.isValidAddress(normalizedAddress)) {
-            throw new ParseException(Address.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedAddress = parseValidatedString(address, Address::isValidAddress, Address.MESSAGE_CONSTRAINTS);
         return new Address(normalizedAddress);
     }
 
@@ -93,11 +82,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code email} is invalid.
      */
     public static Email parseEmail(String email) throws ParseException {
-        requireNonNull(email);
-        String normalizedEmail = normalizeWhitespace(email);
-        if (!Email.isValidEmail(normalizedEmail)) {
-            throw new ParseException(Email.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedEmail = parseValidatedString(email, Email::isValidEmail, Email.MESSAGE_CONSTRAINTS);
         return new Email(normalizedEmail);
     }
 
@@ -108,11 +93,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code tag} is invalid.
      */
     public static Tag parseTag(String tag) throws ParseException {
-        requireNonNull(tag);
-        String normalizedTag = normalizeWhitespace(tag);
-        if (!Tag.isValidTagName(normalizedTag)) {
-            throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedTag = parseValidatedString(tag, Tag::isValidTagName, Tag.MESSAGE_CONSTRAINTS);
         return new Tag(normalizedTag);
     }
 
@@ -135,11 +116,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code petName} is invalid.
      */
     public static PetName parsePetName(String petName) throws ParseException {
-        requireNonNull(petName);
-        String normalizedPetName = normalizeWhitespace(petName);
-        if (!PetName.isValidName(normalizedPetName)) {
-            throw new ParseException(PetName.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedPetName = parseValidatedString(petName, PetName::isValidName, PetName.MESSAGE_CONSTRAINTS);
         return new PetName(normalizedPetName);
     }
 
@@ -150,11 +127,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code species} is invalid.
      */
     public static Species parseSpecies(String species) throws ParseException {
-        requireNonNull(species);
-        String normalizedSpecies = normalizeWhitespace(species);
-        if (!Species.isValidSpecies(normalizedSpecies)) {
-            throw new ParseException(Species.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedSpecies = parseValidatedString(species, Species::isValidSpecies, Species.MESSAGE_CONSTRAINTS);
         return new Species(normalizedSpecies);
     }
 
@@ -165,11 +138,8 @@ public class ParserUtil {
      * @throws ParseException if the given {@code petRemark} is invalid.
      */
     public static PetRemark parsePetRemark(String petRemark) throws ParseException {
-        requireNonNull(petRemark);
-        String normalizedPetRemark = normalizeWhitespace(petRemark);
-        if (!PetRemark.isValidRemark(normalizedPetRemark)) {
-            throw new ParseException(PetRemark.MESSAGE_CONSTRAINTS);
-        }
+        String normalizedPetRemark = parseValidatedString(petRemark,
+                PetRemark::isValidRemark, PetRemark.MESSAGE_CONSTRAINTS);
         return new PetRemark(normalizedPetRemark);
     }
 
@@ -180,12 +150,7 @@ public class ParserUtil {
      * @throws ParseException if the given {@code serviceName} is invalid.
      */
     public static String parseServiceName(String serviceName) throws ParseException {
-        requireNonNull(serviceName);
-        String normalizedServiceName = normalizeWhitespace(serviceName);
-        if (!Service.isValidServiceName(normalizedServiceName)) {
-            throw new ParseException(Service.MESSAGE_CONSTRAINTS);
-        }
-        return normalizedServiceName;
+        return parseValidatedString(serviceName, Service::isValidServiceName, Service.MESSAGE_CONSTRAINTS);
     }
 
     /**
@@ -195,11 +160,8 @@ public class ParserUtil {
      * @throws ParseException if the given {@code servicePrice} is invalid.
      */
     public static double parseServicePrice(String servicePrice) throws ParseException {
-        requireNonNull(servicePrice);
-        String normalizedServicePrice = normalizeWhitespace(servicePrice);
-        if (!Service.isValidServicePrice(normalizedServicePrice)) {
-            throw new ParseException(Service.MESSAGE_PRICE_CONSTRAINTS);
-        }
+        String normalizedServicePrice = parseValidatedString(servicePrice,
+                Service::isValidServicePrice, Service.MESSAGE_PRICE_CONSTRAINTS);
         return Double.parseDouble(normalizedServicePrice);
     }
 
@@ -210,11 +172,29 @@ public class ParserUtil {
      * @throws ParseException if the given {@code dateTime} is invalid.
      */
     public static String parseDateTime(String dateTime) throws ParseException {
-        requireNonNull(dateTime);
-        String normalizedDateTime = normalizeWhitespace(dateTime);
-        if (!Session.isValidDateTime(normalizedDateTime)) {
-            throw new ParseException(Session.MESSAGE_DATETIME_CONSTRAINTS);
+        return parseValidatedString(dateTime, Session::isValidDateTime, Session.MESSAGE_DATETIME_CONSTRAINTS);
+    }
+
+    /**
+     * Returns true if all specified prefixes are present in {@code argumentMultimap}.
+     */
+    public static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
+        requireNonNull(argumentMultimap);
+        for (Prefix prefix : prefixes) {
+            if (argumentMultimap.getValue(prefix).isEmpty()) {
+                return false;
+            }
         }
-        return normalizedDateTime;
+        return true;
+    }
+
+    private static String parseValidatedString(String rawValue, Predicate<String> validator, String errorMessage)
+            throws ParseException {
+        requireNonNull(rawValue);
+        String normalizedValue = normalizeWhitespace(rawValue);
+        if (!validator.test(normalizedValue)) {
+            throw new ParseException(errorMessage);
+        }
+        return normalizedValue;
     }
 }

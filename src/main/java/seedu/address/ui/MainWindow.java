@@ -31,7 +31,7 @@ public class MainWindow extends UiPart<Stage> {
     private Logic logic;
 
     // Independent Ui parts residing in this Ui container
-    private OwnerListPanel personListPanel;
+    private OwnerListPanel ownerListPanel;
     private SessionListPanel sessionListPanel;
     private ServiceListPanel serviceListPanel;
     private ResultDisplay resultDisplay;
@@ -44,7 +44,7 @@ public class MainWindow extends UiPart<Stage> {
     private MenuItem helpMenuItem;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane ownerListPanelPlaceholder;
 
     @FXML
     private StackPane sessionListPanelPlaceholder;
@@ -91,21 +91,7 @@ public class MainWindow extends UiPart<Stage> {
     private void setAccelerator(MenuItem menuItem, KeyCombination keyCombination) {
         menuItem.setAccelerator(keyCombination);
 
-        /*
-         * TODO: the code below can be removed once the bug reported here
-         * https://bugs.openjdk.java.net/browse/JDK-8131666
-         * is fixed in later version of SDK.
-         *
-         * According to the bug report, TextInputControl (TextField, TextArea) will
-         * consume function-key events. Because CommandBox contains a TextField, and
-         * ResultDisplay contains a TextArea, thus some accelerators (e.g F1) will
-         * not work when the focus is in them because the key event is consumed by
-         * the TextInputControl(s).
-         *
-         * For now, we add following event filter to capture such key events and open
-         * help window purposely so to support accelerators even when focus is
-         * in CommandBox or ResultDisplay.
-         */
+        // Preserve menu accelerators when focus is inside text input controls.
         getRoot().addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (event.getTarget() instanceof TextInputControl && keyCombination.match(event)) {
                 menuItem.getOnAction().handle(new ActionEvent());
@@ -118,8 +104,8 @@ public class MainWindow extends UiPart<Stage> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        personListPanel = new OwnerListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        ownerListPanel = new OwnerListPanel(logic.getFilteredPersonList());
+        ownerListPanelPlaceholder.getChildren().add(ownerListPanel.getRoot());
 
         sessionListPanel = new SessionListPanel(logic.getSessionList());
         sessionListPanelPlaceholder.getChildren().add(sessionListPanel.getRoot());
@@ -176,6 +162,11 @@ public class MainWindow extends UiPart<Stage> {
         helpWindow.hide();
         primaryStage.hide();
     }
+
+    public OwnerListPanel getOwnerListPanel() {
+        return ownerListPanel;
+    }
+
 
     /**
      * Executes the command and returns the result.

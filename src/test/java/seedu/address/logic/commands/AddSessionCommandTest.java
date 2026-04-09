@@ -215,6 +215,16 @@ public class AddSessionCommandTest {
     }
 
     @Test
+    public void execute_withUnknownService_throwsCommandException() {
+        Model modelWithServices = new ModelManager(TypicalAddressBooks.getTypicalPetLog(), new UserPrefs());
+        AddSessionCommand command = new AddSessionCommand(
+                INDEX_FIRST_PERSON, INDEX_FIRST_PERSON, VALID_START, VALID_END, List.of("Unknown service"));
+
+        assertCommandFailure(command, modelWithServices,
+                String.format(AddSessionCommand.MESSAGE_UNKNOWN_SERVICE, "Unknown service"));
+    }
+
+    @Test
     public void equals() {
         AddSessionCommand commandA = new AddSessionCommand(
                 INDEX_FIRST_PERSON, INDEX_FIRST_PERSON, VALID_START, VALID_END);
