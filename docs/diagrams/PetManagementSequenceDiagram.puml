@@ -1,0 +1,78 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddPetCommandParser" as AddPetCommandParser LOGIC_COLOR
+participant "c:AddPetCommand" as AddPetCommand LOGIC_COLOR
+participant "r:CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "owner:Person" as Person MODEL_COLOR
+end box
+
+[-> LogicManager : execute(...)
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand(...)
+activate AddressBookParser
+
+create AddPetCommandParser
+AddressBookParser -> AddPetCommandParser
+activate AddPetCommandParser
+
+AddPetCommandParser --> AddressBookParser
+deactivate AddPetCommandParser
+
+AddressBookParser -> AddPetCommandParser : parse(...)
+activate AddPetCommandParser
+
+create AddPetCommand
+AddPetCommandParser -> AddPetCommand
+activate AddPetCommand
+
+AddPetCommand --> AddPetCommandParser
+deactivate AddPetCommand
+
+AddPetCommandParser --> AddressBookParser : c
+deactivate AddPetCommandParser
+AddPetCommandParser -[hidden]-> AddressBookParser
+destroy AddPetCommandParser
+
+AddressBookParser --> LogicManager : c
+deactivate AddressBookParser
+
+LogicManager -> AddPetCommand : execute(m)
+activate AddPetCommand
+
+AddPetCommand -> Model : getFilteredPersonList()
+activate Model
+Model --> AddPetCommand : owners
+deactivate Model
+
+AddPetCommand -> Person : hasPet(newPet)
+activate Person
+Person --> AddPetCommand : false
+deactivate Person
+
+AddPetCommand -> Model : setPerson(owner, updatedOwner)
+activate Model
+Model --> AddPetCommand
+deactivate Model
+
+create CommandResult
+AddPetCommand -> CommandResult
+activate CommandResult
+CommandResult --> AddPetCommand
+deactivate CommandResult
+
+AddPetCommand --> LogicManager : r
+deactivate AddPetCommand
+
+[<-- LogicManager
+deactivate LogicManager
+@enduml

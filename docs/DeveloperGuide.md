@@ -121,7 +121,7 @@ How the parsing works:
 
 <img src="images/ModelClassDiagram.png" width="500" />
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** Owner and pet fields (e.g. `Address`, `Species`) have been omitted from the diagram.
+<div markdown="span" class="alert alert-info">:information_source: **Note:** Lower-level details such as owner and pet fields (e.g. `Address`, `Species`) have been omitted from the diagram.
 
 </div>
 
@@ -178,6 +178,10 @@ Key implementation points:
 * On successful `addpet`, the command rebuilds that owner with an updated pet set and applies it through `Model#setPerson(...)`.
 * Pet remarks are updated through `update oi/... pi/... pr/...` (`UpdatePetRemarkCommand`), which edits the selected pet and writes the owner back via `Model#setPerson(...)`.
 * The model also maintains a derived filtered pet list (`Model#getFilteredPetList`) so the UI can render pets directly without recalculating from owners.
+
+The sequence diagram below shows the main interaction flow for a successful `addpet` operation.
+
+<img src="images/PetManagementSequenceDiagram.png" width="700" />
 
 ### Service catalogue
 
