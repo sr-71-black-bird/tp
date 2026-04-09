@@ -36,7 +36,7 @@ public class ParserUtil {
      */
     public static Index parseIndex(String oneBasedIndex) throws ParseException {
         String normalizedIndex = normalizeWhitespace(oneBasedIndex);
-        if (!StringUtil.isNonZeroUnsignedInteger(normalizedIndex)) {
+        if (!StringUtil.isValidOneBasedInt(normalizedIndex)) {
             throw new ParseException(MESSAGE_INVALID_INDEX);
         }
         return Index.fromOneBased(Integer.parseInt(normalizedIndex));

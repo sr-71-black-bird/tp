@@ -11,39 +11,39 @@ import org.junit.jupiter.api.Test;
 
 public class StringUtilTest {
 
-    //---------------- Tests for isNonZeroUnsignedInteger --------------------------------------
+    //---------------- Tests for isValidOneBasedInt --------------------------------------
 
     @Test
-    public void isNonZeroUnsignedInteger() {
+    public void isValidOneBasedInt() {
 
         // EP: empty strings
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("")); // Boundary value
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("  "));
+        assertFalse(StringUtil.isValidOneBasedInt("")); // Boundary value
+        assertFalse(StringUtil.isValidOneBasedInt("  "));
 
         // EP: not a number
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("a"));
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("aaa"));
+        assertFalse(StringUtil.isValidOneBasedInt("a"));
+        assertFalse(StringUtil.isValidOneBasedInt("aaa"));
 
         // EP: zero
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("0"));
+        assertFalse(StringUtil.isValidOneBasedInt("0"));
 
         // EP: zero as prefix
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("01"));
+        assertTrue(StringUtil.isValidOneBasedInt("01"));
 
         // EP: signed numbers
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("-1"));
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("+1"));
+        assertFalse(StringUtil.isValidOneBasedInt("-1"));
+        assertFalse(StringUtil.isValidOneBasedInt("+1"));
 
         // EP: numbers with white space
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(" 10 ")); // Leading/trailing spaces
-        assertFalse(StringUtil.isNonZeroUnsignedInteger("1 0")); // Spaces in the middle
+        assertFalse(StringUtil.isValidOneBasedInt(" 10 ")); // Leading/trailing spaces
+        assertFalse(StringUtil.isValidOneBasedInt("1 0")); // Spaces in the middle
 
         // EP: number larger than Integer.MAX_VALUE
-        assertFalse(StringUtil.isNonZeroUnsignedInteger(Long.toString(Integer.MAX_VALUE + 1)));
+        assertFalse(StringUtil.isValidOneBasedInt(Long.toString(Integer.MAX_VALUE + 1)));
 
         // EP: valid numbers, should return true
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("1")); // Boundary value
-        assertTrue(StringUtil.isNonZeroUnsignedInteger("10"));
+        assertTrue(StringUtil.isValidOneBasedInt("1")); // Boundary value
+        assertTrue(StringUtil.isValidOneBasedInt("10"));
     }
 
 
