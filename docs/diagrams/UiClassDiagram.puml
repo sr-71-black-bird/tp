@@ -3,31 +3,43 @@
 skinparam arrowThickness 1.1
 skinparam arrowColor UI_COLOR_T4
 skinparam classBackgroundColor UI_COLOR
+skinparam linetype ortho
 
 left to right direction
 
-package UI <<Rectangle>>{
-Class "<<interface>>\nUi" as Ui
-Class "{abstract}\nUiPart" as UiPart
-Class UiManager
-Class MainWindow
-Class HelpWindow
-Class ResultDisplay
-Class OwnerListPanel
-Class OwnerCard
-Class StatusBarFooter
-Class CommandBox
-Class SessionListPanel
-Class SessionCard
-Class ServiceListPanel
+package UI <<Rectangle>> {
+    Class "<<interface>>\nUi" as Ui
+    Class "{abstract}\nUiPart" as UiPart
+    Class UiManager
+    Class MainWindow
+
+    together {
+        Class StatusBarFooter
+        Class ResultDisplay
+        Class CommandBox
+        Class HelpWindow
+        Class ServiceListPanel
+        together {
+            Class OwnerListPanel
+            Class OwnerCard
+        }
+        together {
+            Class SessionListPanel
+            Class SessionCard
+        }
+    }
+
+
+    Class OwnerCard
+    Class SessionCard
 }
 
 package Model <<Rectangle>> {
-Class HiddenModel #FFFFFF
+    Class HiddenModel #FFFFFF
 }
 
 package Logic <<Rectangle>> {
-Class HiddenLogic #FFFFFF
+    Class HiddenLogic #FFFFFF
 }
 
 Class H #FFFFFF
@@ -35,31 +47,36 @@ H ..> Ui
 
 UiManager .|> Ui
 UiManager --> "1" MainWindow
+UiManager --> Logic
+
+MainWindow --|> UiPart
+MainWindow --> Logic
+MainWindow --> "0..1" HelpWindow
 MainWindow *--> "1" CommandBox
 MainWindow *--> "1" ResultDisplay
-MainWindow *--> "1" OwnerListPanel
 MainWindow *--> "1" StatusBarFooter
-MainWindow *--> "1" SessionListPanel
+MainWindow *--> "1" OwnerListPanel
 MainWindow *--> "1" ServiceListPanel
-MainWindow --> "0..1" HelpWindow
+MainWindow *--> "1" SessionListPanel
 
+
+HelpWindow --|> UiPart
+ResultDisplay --|> UiPart
+StatusBarFooter --|> UiPart
+CommandBox --|> UiPart
+ServiceListPanel --|> UiPart
+
+OwnerListPanel --|> UiPart
 OwnerListPanel --> "*" OwnerCard
+OwnerCard --|> UiPart
+
+SessionListPanel --|> UiPart
 SessionListPanel --> "*" SessionCard
+SessionCard --|> UiPart
+
+ServiceListPanel ..> Model
+OwnerListPanel ..> Model
+SessionListPanel ..> Model
 
 note right of OwnerCard : renders pets inline
-
-ResultDisplay --|> UiPart
-CommandBox --|> UiPart
-OwnerListPanel --|> UiPart
-OwnerCard --|> UiPart
-StatusBarFooter --|> UiPart
-HelpWindow --|> UiPart
-SessionListPanel --|> UiPart
-SessionCard --|> UiPart
-ServiceListPanel --|> UiPart
-MainWindow --|> UiPart
-
-OwnerCard ..> Model
-UiManager --> Logic
-MainWindow --> Logic
 @enduml
