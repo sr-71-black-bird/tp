@@ -46,7 +46,7 @@ public class SessionCard extends UiPart<Region> {
         startTime.setText("Start: " + entry.session().getStartTime());
         endTime.setText("End:   " + entry.session().getEndTime());
         services.setText("Service(s): " + formatServices(entry));
-        fee.setText(String.format("Total Fee:   $%.2f", entry.session().getFee()));
+        fee.setText(String.format("Total Fee: $%.2f", entry.session().getFee()));
     }
 
     private String formatServices(SessionEntry sessionEntry) {

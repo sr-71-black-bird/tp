@@ -1,23 +1,29 @@
-#copyButton, #helpMessage, #commandsLabel {
+#helpWindowContainer {
+    -fx-background-color: #ffdab9;
+}
+
+#commandScrollPane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent transparent linear-gradient(to right, -pl-separator-light, -pl-separator-dark) transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+#commandScrollPane > .viewport {
+    -fx-background-color: #ffdab9;
+}
+
+#commandsLabel {
+    -fx-font-family: "Comfortaa";
+    -fx-font-size: 13px;
     -fx-text-fill: #3c2f2f;
 }
 
-#copyButton {
-    -fx-background-color: #fcd0a8;
-}
-
-#copyButton:hover {
-    -fx-background-color: #c4a07a;
-}
-
-#copyButton:armed {
-    -fx-background-color: #a0785a;
-}
-
 #helpMessageContainer {
-    -fx-background-color: #ffdab9;
+    -fx-border-color: linear-gradient(to right, -pl-separator-light, -pl-separator-dark);
+    -fx-border-width: 1 0 0 0;
 }
 
-#commandScrollPane, #commandScrollPane > .viewport {
-    -fx-background-color: #ffdab9;
+#helpMessage {
+    -fx-text-fill: #3c2f2f;
 }

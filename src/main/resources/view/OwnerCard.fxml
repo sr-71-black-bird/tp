@@ -32,15 +32,15 @@
       </HBox>
       <FlowPane fx:id="tags" />
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <FontIcon iconLiteral="fas-phone" iconSize="12" iconColor="white" scaleX="-1"/>
+        <FontIcon iconLiteral="fas-phone" iconSize="12" iconColor="#3c2f2f" scaleX="-1"/>
         <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" wrapText="true" HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <FontIcon iconLiteral="fas-map-marker-alt" iconSize="12" iconColor="white" />
+        <FontIcon iconLiteral="fas-map-marker-alt" iconSize="12" iconColor="#3c2f2f" />
         <Label fx:id="address" styleClass="cell_small_label" text="\$address" wrapText="true" HBox.hgrow="ALWAYS" />
       </HBox>
       <HBox spacing="6" alignment="CENTER_LEFT">
-        <FontIcon iconLiteral="fas-envelope" iconSize="12" iconColor="white" />
+        <FontIcon iconLiteral="fas-envelope" iconSize="12" iconColor="#3c2f2f" />
         <Label fx:id="email" styleClass="cell_small_label" text="\$email" wrapText="true" HBox.hgrow="ALWAYS" />
       </HBox>
     </VBox>

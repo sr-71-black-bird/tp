@@ -3,6 +3,12 @@
     background-color: #ffdab9; /* Used in the default.html file */
 }
 
+.root {
+    -pl-separator-light: #f8d8b9;
+    -pl-separator-mid: #e0b38e;
+    -pl-separator-dark: #be8f68;
+}
+
 .label {
     -fx-font-size: 11pt;
     -fx-font-family: "Segoe UI Semibold";
@@ -77,8 +83,8 @@
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: #fcd0a8;
-    -fx-border-color: transparent transparent transparent #fcd0a8;
+    -fx-background-color: linear-gradient(to right, -pl-separator-light, -pl-separator-dark);
+    -fx-border-color: transparent transparent transparent -pl-separator-dark;
 }
 
 .split-pane {
@@ -149,8 +155,8 @@
 
 .pane-with-border {
      -fx-background-color: #ffdab9;
-     -fx-border-color: #fcd0a8;
-     -fx-border-top-width: 1px;
+     -fx-border-color: linear-gradient(to right, -pl-separator-light, -pl-separator-dark);
+     -fx-border-width: 1px 0 0 0;
 }
 
 .status-bar {
@@ -187,7 +193,7 @@
 
 .grid-pane {
     -fx-background-color: #ffdab9;
-    -fx-border-color: #fcd0a8;
+    -fx-border-color: linear-gradient(to right, -pl-separator-light, -pl-separator-mid);
     -fx-border-width: 1px;
 }
 
@@ -203,6 +209,18 @@
     -fx-text-fill: #3c2f2f;
 }
 
+.context-menu .menu-item:focused,
+.context-menu .menu-item:hover,
+.context-menu .menu-item:armed {
+    -fx-background-color: #fcb97c;
+}
+
+.context-menu .menu-item:focused .label,
+.context-menu .menu-item:hover .label,
+.context-menu .menu-item:armed .label {
+    -fx-text-fill: #3c2f2f;
+}
+
 .menu-bar {
     -fx-background-color: #fcd0a8;
 }
@@ -212,6 +230,15 @@
     -fx-font-family: "Segoe UI Light";
     -fx-text-fill: #3c2f2f;
     -fx-opacity: 0.9;
+}
+
+.menu-bar > .container > .menu-button {
+    -fx-background-color: transparent;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: #fcb97c;
 }
 
 .menu .left-container {
@@ -326,7 +353,7 @@
 .pet-scroll-pane {
     -fx-background-color: transparent;
     -fx-background: transparent;
-    -fx-border-color: #fcd0a8;
+    -fx-border-color: linear-gradient(to bottom, -pl-separator-light, -pl-separator-dark);
     -fx-border-width: 0 0 0 1;
 }
 
@@ -383,7 +410,7 @@
 
 .owner-pet-header {
     -fx-padding: 6 0 6 0;
-    -fx-border-color: #fcd0a8;
+    -fx-border-color: transparent transparent linear-gradient(to right, -pl-separator-light, -pl-separator-dark) transparent;
     -fx-border-width: 0 0 1 0;
 }
 

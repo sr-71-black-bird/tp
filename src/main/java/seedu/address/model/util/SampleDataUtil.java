@@ -42,8 +42,8 @@ public class SampleDataUtil {
                                 "Dog",
                                 "Loyal and friendly",
                                 createSession(
-                                        "2026-04-10 10:00",
-                                        "2026-04-10 11:00",
+                                        "2026-06-15 10:00",
+                                        "2026-06-15 11:00",
                                         List.of(SAMPLE_BASE_SERVICE_CHARGE, SAMPLE_SHAMPOO, SAMPLE_WALK))),
                         new Pet(new PetName("Luna"), new Species("Rabbit"),
                                 new PetRemark("Loves leafy treats"))))),
@@ -56,9 +56,13 @@ public class SampleDataUtil {
                                 "Cat",
                                 "Likes to scratch furniture",
                                 createSession(
-                                        "2026-04-11 14:00",
-                                        "2026-04-11 15:00",
-                                        List.of(SAMPLE_BASE_SERVICE_CHARGE, SAMPLE_FUR_TRIM, SAMPLE_NAIL_TRIM))),
+                                        "2026-05-13 14:00",
+                                        "2026-05-13 15:00",
+                                        List.of(SAMPLE_BASE_SERVICE_CHARGE, SAMPLE_FUR_TRIM, SAMPLE_NAIL_TRIM)),
+                                createSession(
+                                        "2026-05-21 11:00",
+                                        "2026-05-21 12:00",
+                                        List.of(SAMPLE_BASE_SERVICE_CHARGE, SAMPLE_SHAMPOO))),
                         new Pet(new PetName("Pebble"), new Species("Turtle"),
                                 new PetRemark("Enjoys basking by the window"))))),
             new Person(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
