@@ -764,13 +764,11 @@ It aims to complement the UG by suggesting a simple path for testing and providi
 
 1. Positive tests: Add, search, and edit one owner
 
-   1. Test inputs (copy-paste one by one):
-      ```text
-      addowner on/Manual Tester ph/81234567 em/manual.tester@example.com ad/123 Test Avenue, #01-02 ot/VIP
-      find on/Manual Tester
-      editowner oi/1 ph/87654321 at/premium rt/VIP
-      find on/Manual Tester
-      ```
+   1. Test inputs (copy-paste one by one): <br>
+      `addowner on/Manual Tester ph/81234567 em/manual.tester@example.com ad/123 Test Avenue, #01-02 ot/VIP` <br>
+      `find on/Manual Tester` <br>
+      `editowner oi/1 ph/87654321 at/premium rt/VIP` <br>
+      `find on/Manual Tester` <br>
       Expected: owner is added, filtered, edited, and still searchable.
 
 1. Negative test
@@ -785,11 +783,9 @@ It aims to complement the UG by suggesting a simple path for testing and providi
    1. Prerequisites: `find on/Manual Tester` shows this owner at `oi/1`.
 
    1. Test inputs:
-      ```text
-      addpet oi/1 pn/Pixel ps/Cat pr/Needs quiet handling
-      update oi/1 pi/1 pr/Needs quiet handling and short breaks
-      find pn/Pixel
-      ```
+      `addpet oi/1 pn/Pixel ps/Cat pr/Needs quiet handling` <br>
+      `update oi/1 pi/1 pr/Needs quiet handling and short breaks` <br>
+      `find pn/Pixel` <br>
       Expected: pet is added under the owner, remark updates, and owner is returned by pet search.
 
 1. Negative tests
@@ -807,11 +803,9 @@ It aims to complement the UG by suggesting a simple path for testing and providi
    1. Prerequisites: `find on/Manual Tester` shows this owner at `oi/1` with `Pixel` at `pi/1`.
 
    1. Test inputs:
-      ```text
-      addservice sn/Test Grooming sp/25.00
-      addservice sn/Test Nail Trim sp/12.50
-      addsession oi/1 pi/1 st/2026-06-01 10:00 et/2026-06-01 11:30 sn/Test Grooming sn/Test Nail Trim
-      ```
+      `addservice sn/Test Grooming sp/25.00` <br>
+      `addservice sn/Test Nail Trim sp/12.50` <br>
+      `addsession oi/1 pi/1 st/2026-06-01 10:00 et/2026-06-01 11:30 sn/Test Grooming sn/Test Nail Trim` <br>
       Expected: services appear in service panel; session appears in session panel with computed fee.
 
 1. Negative tests
@@ -841,13 +835,11 @@ It aims to complement the UG by suggesting a simple path for testing and providi
    1. Prerequisites: run previous sections first.
 
    1. Test inputs:
-      ```text
-      find on/Manual Tester
-      delete sn/Test Grooming
-      delete oi/1 pi/1 si/1
-      delete oi/1 pi/1
-      delete oi/1
-      ```
+      `find on/Manual Tester` <br>
+      `delete sn/Test Grooming` <br>
+      `delete oi/1 pi/1 si/1` <br>
+      `delete oi/1 pi/1` <br>
+      `delete oi/1` <br>
       Expected: each delete mode succeeds (service, session, pet, owner).
 
 1. Negative test:
@@ -878,7 +870,7 @@ Compared to AB3, which primarily manages a single core entity type, our project 
 
 The main challenges faced were in extending the original owner-centric data model to **support nested pet records and session tracking**, ensuring that **commands remained consistent** despite operating on **different entity types**, and keeping the UI and documentation aligned with the evolving feature set. Features such as service-linked sessions and indexed operations on pets and sessions also required more careful handling than the original AB3 workflow.
 
-The team spent about 10 hours per week over 5 weeks, for a team of 5. This gives an estimated overall effort of about 250 person-hours.
+The team spent about 10 hours per member per week over 7 weeks, for a team of 5. This gives an estimated overall effort of about 350 person-hours.
 
 Our key achievements were redesigning the model to **support richer domain relationships**, implementing features for managing pets, services, and care sessions, and producing a coherent user guide and developer guide that reflect the current architecture and feature set.
 
