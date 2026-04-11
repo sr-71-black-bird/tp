@@ -115,7 +115,7 @@ Examples:
 * `addowner on/Betsy Crowe ot/friend em/betsycrowe@example.com ad/Newgate Prison ph/1234567 ot/criminal`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-PetLog doesn't restrict what types of characters you can enter for `PHONE_NUMBER`. Want to say this new owner's phone number is the `Same as Alice's`? Or perhaps use `-` to represent that they don't have a phone number? PetLog is flexible to all these possibilities!
+You can use any types of characters for `PHONE_NUMBER`. Want to indicate that this new owner's phone number is the `Same as Alice's`? Or perhaps use `-` to represent that they don't have a phone number? PetLog is flexible to all these possibilities!
 </div>
 
 [↑ Back to ToC](UserGuide.md)
@@ -159,8 +159,8 @@ Format: `addpet oi/OWNER_INDEX pn/PET_NAME ps/SPECIES [pr/REMARKS]`
 * Attempting to add a duplicate pet, if both its name and species match an existing pet for the specified owner, will not succeed.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-A pet's owner, name and species cannot be updated once it has been added. Make sure they are all correct before adding sessions to the pet!
-If not, you can always [`delete`](#deleting-an-owner-pet-session-or-service-delete) the pet and re-add it with the corrected details.
+A pet's owner, name and species cannot be edited once it has been added. Make sure they are all correct before adding sessions to the pet!
+If not, you can still [`delete`](#deleting-an-owner-pet-session-or-service-delete) the pet and re-add it with the corrected details.
 </div>
 
 Examples:
@@ -222,8 +222,6 @@ Use `list` after using [`find`](#searching-for-owners-find) to go back to displa
 
 [↑ Back to ToC](UserGuide.md)
 
-<div style="page-break-after: always;"></div>
-
 ### Adding a service: `addservice`
 
 Adds a service to the service catalogue. A service has a name and a price.
@@ -258,11 +256,8 @@ Examples:
 * `addsession oi/1 pi/2 st/2026-05-15 14:30 et/2026-05-15 15:30 sn/Base service charge sn/Shampoo` adds a session for the 2nd pet listed under the 1st owner; it is from 2:30pm to 3:30pm on 15 May 2026; its list of services are `Base service charge` and `Shampoo`.
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-You may add more than one instance of the same service to a single session! This may be useful for longer sessions at care centres that span over several days, where you may need to walk a pet every day, for example.
-</div>
-
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-PetLog allows you to add sessions that have happened in the past, be it for bookkeeping, tracking clients' loyalty, or simply just for nostalgia!
+You may add more than one instance of the same service to a single session! This may be useful for longer sessions at care centres that span over several days, where you may need to walk a pet every day, for example. <br>
+You may also add sessions that have happened in the past, be it for bookkeeping, tracking clients' loyalty, or simply just for nostalgia!
 </div>
 
 [↑ Back to ToC](UserGuide.md)
@@ -317,8 +312,6 @@ Using a combination of both formats, e.g. `delete oi/1 sn/Ear cleaning`, is inva
 
 [↑ Back to ToC](UserGuide.md)
 
-<div style="page-break-after: always;"></div>
-
 ### Clearing all owners, pets, services and sessions: `clear`
 
 Deletes all owners, pets, services and sessions from PetLog.
@@ -339,13 +332,13 @@ Format: `exit`
 
 [↑ Back to ToC](UserGuide.md)
 
+<div style="page-break-after: always;"></div>
+
 ### Saving the data
 
 PetLog data is saved in the hard disk automatically after any command that changes the data, and upon exiting. There is no need to save manually.
 
 [↑ Back to ToC](UserGuide.md)
-
-<div style="page-break-after: always;"></div>
 
 ### Editing the data file
 
