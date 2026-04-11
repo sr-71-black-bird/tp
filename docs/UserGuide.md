@@ -97,6 +97,8 @@ Format: `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]â€¦â
 * `PHONE_NUMBER` must be 2 to 30 characters.
 * If `PHONE_NUMBER` contains any non-numeric characters, the command succeeds but shows a warning in case it was not intentional.
 * `EMAIL` must be of the form `local-part@domain`.
+  The `local-part` must be 1 to 30 characters long. It may contain alphanumeric characters and these special characters: ``!#$%&'*+-=?^_`{|}~/.``. It must start and end with an alphanumeric character, and it cannot contain consecutive periods (`..`).
+  The `domain` must be 2 to 30 characters long. Each domain label must start and end with an alphanumeric character, and may contain hyphens only in the middle. The final domain label must be at least 2 characters long.
 * `ADDRESS` must be 1 to 100 characters.
 * Each `TAG`, if provided, must be 1 to 20 characters.
 

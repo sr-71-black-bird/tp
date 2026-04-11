@@ -57,6 +57,7 @@ public class EditCommand extends Command {
             + PREFIX_EMAIL + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited owner: %1$s";
+    public static final String EDIT_SUCCESS_WARNING = "Edited owner: %1$s\nWarning: Phone has non-numeric characters.";
     public static final String MESSAGE_NOT_EDITED = "No fields provided to edit.";
     public static final String MESSAGE_DUPLICATE_PERSON = "Owner already exists.";
     public static final String MESSAGE_TAG_NOT_FOUND = "Tag not found for this owner: %1$s";
@@ -95,7 +96,10 @@ public class EditCommand extends Command {
 
         model.setPerson(personToEdit, editedPerson);
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+        String messageTemplate = editedPerson.getPhone().hasOnlyDigits()
+            ? MESSAGE_EDIT_PERSON_SUCCESS
+            : EDIT_SUCCESS_WARNING;
+        return new CommandResult(String.format(messageTemplate, Messages.format(editedPerson)));
     }
 
     /**

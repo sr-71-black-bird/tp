@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 public class EmailTest {
 
+    private static final String LOCAL_PART_SPECIAL_CHARACTERS = "!#$%&'*+-=?^_`{|}~/.";
+
     @Test
     public void constructor_null_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new Email(null));
@@ -65,6 +67,48 @@ public class EmailTest {
         assertTrue(Email.isValidEmail("if.you.dream.it_you.can.do.it@example.com")); // long local part
         assertTrue(Email.isValidEmail("e1234567@u.nus.edu")); // more than one period in domain
         assertTrue(Email.isValidEmail("  peterjack@example.com  ")); // leading/trailing whitespace is normalized
+    }
+
+    @Test
+    public void isValidEmail_localPartStartsOrEndsWithSpecialCharacter_returnsFalse() {
+        for (char specialCharacter : LOCAL_PART_SPECIAL_CHARACTERS.toCharArray()) {
+            assertFalse(Email.isValidEmail(specialCharacter + "peterjack@x-y"),
+                    "Local part should not start with special character: " + specialCharacter);
+            assertFalse(Email.isValidEmail("peterjack" + specialCharacter + "@x-y"),
+                    "Local part should not end with special character: " + specialCharacter);
+        }
+    }
+
+    @Test
+    public void isValidEmail_localPartContainsSpecialCharacterInMiddle_returnsTrue() {
+        for (char specialCharacter : LOCAL_PART_SPECIAL_CHARACTERS.toCharArray()) {
+            assertTrue(Email.isValidEmail("peter" + specialCharacter + "jack@x-y"),
+                    "Local part should allow special character in the middle: " + specialCharacter);
+        }
+    }
+
+    @Test
+    public void isValidEmail_localPartContainsOrderedPairsOfSpecialCharactersInMiddle_returnsExpectedResult() {
+        for (char firstSpecialCharacter : LOCAL_PART_SPECIAL_CHARACTERS.toCharArray()) {
+            for (char secondSpecialCharacter : LOCAL_PART_SPECIAL_CHARACTERS.toCharArray()) {
+                String email = "a" + firstSpecialCharacter + secondSpecialCharacter + "b@x-y";
+                String specialCharacterPair = "" + firstSpecialCharacter + secondSpecialCharacter;
+
+                if ("..".equals(specialCharacterPair)) {
+                    assertFalse(Email.isValidEmail(email),
+                            "Local part should not allow consecutive periods in the middle");
+                } else {
+                    assertTrue(Email.isValidEmail(email),
+                            "Local part should allow special character pair in the middle: "
+                                    + specialCharacterPair);
+                }
+            }
+        }
+    }
+
+    @Test
+    public void isValidEmail_localPartContainsManySpecialCharactersInMiddle_returnsTrue() {
+        assertTrue(Email.isValidEmail("a!#$%&'*+-=?^_`{|}~/.b@x-y"));
     }
 
     @Test

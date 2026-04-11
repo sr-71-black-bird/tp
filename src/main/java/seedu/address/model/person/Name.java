@@ -10,7 +10,8 @@ import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
  */
 public class Name {
 
-    public static final String MESSAGE_CONSTRAINTS = "Name must be 1 to 50 characters.";
+    public static final String MESSAGE_CONSTRAINTS =
+        "Name must be 1 to 50 characters, and cannot consist only of whitespaces.";
     private static final int MIN_LENGTH = 1;
     private static final int MAX_LENGTH = 50;
 
