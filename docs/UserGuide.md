@@ -109,7 +109,7 @@ Examples:
 * `addowner on/Betsy Crowe ot/friend em/betsycrowe@example.com ad/Newgate Prison ph/1234567 ot/criminal`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-PetLog doesn't restrict what types of characters you can enter for `PHONE_NUMBER`. Want to say this new owner's phone number is the `Same as Alice's`? Or perhaps the new owner is `Unwilling to share` their phone number? PetLog is flexible to all these possibilities!
+PetLog doesn't restrict what types of characters you can enter for `PHONE_NUMBER`. Want to say this new owner's phone number is the `Same as Alice's`? Or perhaps use `-` to represent that they don't have a phone number? PetLog is flexible to all these possibilities!
 </div>
 
 [Back to ToC](UserGuide.md)
