@@ -3,6 +3,7 @@ package seedu.address.ui;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -47,6 +48,10 @@ public class SessionListPanel extends UiPart<Region> {
      * Custom {@code ListCell} that displays a {@code Session} using a {@code SessionCard}.
      */
     class SessionListViewCell extends ListCell<SessionEntry> {
+        SessionListViewCell() {
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
         @Override
         protected void updateItem(SessionEntry entry, boolean empty) {
             super.updateItem(entry, empty);
@@ -55,6 +60,8 @@ public class SessionListPanel extends UiPart<Region> {
                 setText(null);
             } else {
                 VBox section = new VBox();
+                section.setFillWidth(true);
+                section.setMaxWidth(Double.MAX_VALUE);
                 if (entry.sessionIndex() == 1) {
                     Label sectionHeader = new Label(String.format(
                             "%s's %s (Owner #%d, Pet #%d)",
@@ -64,9 +71,32 @@ public class SessionListPanel extends UiPart<Region> {
                     VBox.setMargin(sectionHeader, new Insets(6, 0, 4, 10));
                     section.getChildren().add(sectionHeader);
                 }
-                section.getChildren().add(new SessionCard(entry, entry.sessionIndex()).getRoot());
+                Region sessionCardRoot = (Region) new SessionCard(entry, entry.sessionIndex()).getRoot();
+                sessionCardRoot.setMaxWidth(Double.MAX_VALUE);
+                section.getChildren().add(sessionCardRoot);
                 setGraphic(section);
             }
+        }
+
+        @Override
+        protected double computePrefHeight(double width) {
+            if (getGraphic() instanceof Region sectionRoot) {
+                double availableWidth = Math.max(0, width - snappedLeftInset() - snappedRightInset());
+                sectionRoot.setPrefWidth(availableWidth);
+                sectionRoot.setMaxWidth(availableWidth);
+                return snappedTopInset() + sectionRoot.prefHeight(availableWidth) + snappedBottomInset();
+            }
+            return super.computePrefHeight(width);
+        }
+
+        @Override
+        protected void layoutChildren() {
+            if (getGraphic() instanceof Region sectionRoot) {
+                double availableWidth = Math.max(0, getWidth() - snappedLeftInset() - snappedRightInset());
+                sectionRoot.setPrefWidth(availableWidth);
+                sectionRoot.setMaxWidth(availableWidth);
+            }
+            super.layoutChildren();
         }
     }
 }

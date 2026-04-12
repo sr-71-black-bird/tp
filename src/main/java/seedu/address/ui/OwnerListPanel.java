@@ -2,6 +2,7 @@ package seedu.address.ui;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
@@ -29,6 +30,10 @@ public class OwnerListPanel extends UiPart<Region> {
      * Custom {@code ListCell} that displays the graphics of a {@code Person} using a {@code OwnerCard}.
      */
     class OwnerListViewCell extends ListCell<Person> {
+        OwnerListViewCell() {
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
         @Override
         protected void updateItem(Person person, boolean empty) {
             super.updateItem(person, empty);
@@ -37,8 +42,27 @@ public class OwnerListPanel extends UiPart<Region> {
                 setGraphic(null);
                 setText(null);
             } else {
-                setGraphic(new OwnerCard(person, getIndex() + 1).getRoot());
+                setGraphic((Region) new OwnerCard(person, getIndex() + 1).getRoot());
             }
+        }
+
+        @Override
+        protected double computePrefHeight(double width) {
+            if (getGraphic() instanceof Region cardRoot) {
+                double availableWidth = Math.max(0, width - snappedLeftInset() - snappedRightInset());
+                cardRoot.setPrefWidth(availableWidth);
+                return snappedTopInset() + cardRoot.prefHeight(availableWidth) + snappedBottomInset();
+            }
+            return super.computePrefHeight(width);
+        }
+
+        @Override
+        protected void layoutChildren() {
+            if (getGraphic() instanceof Region cardRoot) {
+                double availableWidth = Math.max(0, getWidth() - snappedLeftInset() - snappedRightInset());
+                cardRoot.setPrefWidth(availableWidth);
+            }
+            super.layoutChildren();
         }
     }
 

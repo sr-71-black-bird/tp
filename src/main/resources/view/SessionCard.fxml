@@ -6,8 +6,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-  <VBox alignment="CENTER_LEFT" minHeight="50">
+<HBox id="cardPane" fx:id="cardPane" maxWidth="Infinity"
+      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+  <VBox alignment="CENTER_LEFT" minHeight="50" maxWidth="Infinity">
     <padding>
       <Insets top="5" right="10" bottom="5" left="15" />
     </padding>
