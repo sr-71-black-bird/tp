@@ -142,6 +142,10 @@ Examples:
 *  `editowner oi/3 rt/member at/VIP` removes the (assumed existing) `member` tag and adds a `VIP` tag to the 3rd owner.
 *  `editowner oi/2 on/Betsy Crower ot/` edits the name of the 2nd owner to be `Betsy Crower` and clears all existing tags.
 
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Having one invalid input will cause your entire command to fail! For example: Assuming the 1st owner does not have a `member` tag, running `editowner oi/1 at/VIP rt/member` will fail entirely, and hence a `VIP` tag will **not** be added to that owner.
+</div>
+
 [↑ Back to ToC](UserGuide.md)
 
 <div style="page-break-after: always;"></div>
