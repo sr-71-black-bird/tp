@@ -118,7 +118,7 @@ public class Person {
                 // Create new pet with updated remark
                 Pet tmp = new Pet(pet.getName(), pet.getSpecies(), new PetRemark(newRemark));
                 for (Session session: pet.getSessions()) {
-                    tmp.addSession(session); 
+                    tmp.addSession(session);
                 }
                 updatedPets.add(tmp);
             } else {
