@@ -21,7 +21,7 @@ public class UpdatePetRemarkCommand extends Command {
 
     public static final String COMMAND_WORD = "update";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": update the remarks of a specified pet. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": update the remarks of a specified pet.\n"
             + "Parameters: "
             + PREFIX_OWNER_INDEX + "OWNER_INDEX "
             + PREFIX_PET_INDEX + "PET_INDEX "

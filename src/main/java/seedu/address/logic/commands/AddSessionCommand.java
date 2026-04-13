@@ -30,7 +30,7 @@ public class AddSessionCommand extends Command {
 
     public static final String COMMAND_WORD = "addsession";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a session. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a session.\n"
             + "Parameters: "
             + PREFIX_OWNER_INDEX + "OWNER_INDEX "
             + PREFIX_PET_INDEX + "PET_INDEX "

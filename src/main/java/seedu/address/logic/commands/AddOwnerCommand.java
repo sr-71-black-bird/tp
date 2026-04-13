@@ -20,7 +20,7 @@ public class AddOwnerCommand extends Command {
 
     public static final String COMMAND_WORD = "addowner";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an owner to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an owner to the address book.\n"
             + "Parameters: "
             + PREFIX_OWNER_NAME + "OWNER_NAME "
             + PREFIX_PHONE + "PHONE_NUMBER "
