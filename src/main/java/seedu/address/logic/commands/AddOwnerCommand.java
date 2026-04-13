@@ -64,23 +64,40 @@ public class AddOwnerCommand extends Command {
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
 
-        if (model.hasPerson(toAdd)) {
+        boolean isFullDuplicate = model.getAddressBook().getPersonList().stream()
+                .anyMatch(existing -> existing.getMatchingIdentityFields(toAdd).size() == 4);
+
+        if (isFullDuplicate) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
         Set<String> matchedFields = collectPartialMatchFields(model);
         model.addPerson(toAdd);
 
-        StringBuilder feedback = new StringBuilder(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+        boolean hasPhoneWarning = !toAdd.getPhone().hasOnlyDigits();
+        boolean hasPartialWarning = !matchedFields.isEmpty();
 
-        if (!toAdd.getPhone().hasOnlyDigits()) {
-            appendWarning(feedback, MESSAGE_PHONE_WARNING);
+        String message;
+
+        if (hasPhoneWarning && !hasPartialWarning) {
+            message = String.format(MESSAGE_SUCCESS_WITH_PHONE_WARNING, Messages.format(toAdd));
+        } else if (!hasPhoneWarning && hasPartialWarning) {
+            message = String.format(MESSAGE_SUCCESS, Messages.format(toAdd))
+                    + "\n"
+                    + String.format(MESSAGE_PARTIAL_DUPLICATE_WARNING,
+                    formatMatchedFields(matchedFields));
+        } else if (hasPhoneWarning && hasPartialWarning) {
+            message = String.format(MESSAGE_SUCCESS, Messages.format(toAdd))
+                    + "\n"
+                    + MESSAGE_PHONE_WARNING
+                    + "\n"
+                    + String.format(MESSAGE_PARTIAL_DUPLICATE_WARNING,
+                    formatMatchedFields(matchedFields));
+        } else {
+            message = String.format(MESSAGE_SUCCESS, Messages.format(toAdd));
         }
-        if (!matchedFields.isEmpty()) {
-            appendWarning(feedback, String.format(MESSAGE_PARTIAL_DUPLICATE_WARNING,
-                    formatMatchedFields(matchedFields)));
-        }
-        return new CommandResult(feedback.toString());
+
+        return new CommandResult(message);
     }
 
     private Set<String> collectPartialMatchFields(Model model) {
@@ -89,7 +106,7 @@ public class AddOwnerCommand extends Command {
         for (Person existingPerson : model.getAddressBook().getPersonList()) {
             List<String> matchingFields = existingPerson.getMatchingIdentityFields(toAdd);
 
-            if (!matchingFields.isEmpty() && matchingFields.size() < NUMBER_OF_IDENTITY_FIELDS) {
+            if (matchingFields.size() >= 2 && matchingFields.size() < NUMBER_OF_IDENTITY_FIELDS) {
                 matchedFields.addAll(matchingFields);
             }
         }

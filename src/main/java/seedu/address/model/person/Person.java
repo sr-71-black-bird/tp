@@ -141,9 +141,9 @@ public class Person {
 
         return otherPerson != null
                 && normalizeName(otherPerson.getName()).equals(normalizeName(getName()))
-                && normalizePhone(otherPerson.getPhone()).equals(normalizePhone(getPhone()))
-                && normalizeEmail(otherPerson.getEmail()).equals(normalizeEmail(getEmail()))
-                && normalizeAddress(otherPerson.getAddress()).equals(normalizeAddress(getAddress()));
+                && normalizePhone(otherPerson.getPhone()).equals(normalizePhone(getPhone()));
+                // && normalizeEmail(otherPerson.getEmail()).equals(normalizeEmail(getEmail()))
+                // && normalizeAddress(otherPerson.getAddress()).equals(normalizeAddress(getAddress()));
     }
 
     /**
