@@ -109,6 +109,7 @@ Format: `addowner on/OWNER_NAME ph/PHONE_NUMBER em/EMAIL ad/ADDRESS [ot/TAG]â€¦â
   The `domain` must be 2 to 30 characters long. Each domain label must start and end with an alphanumeric character, and may contain hyphens only in the middle. The final domain label must be at least 2 characters long.
 * `ADDRESS` must be 1 to 100 characters.
 * Each `TAG`, if provided, must be 1 to 20 characters.
+* Attempting to add a duplicate owner, if both their name and phone number match an existing owner, will not succeed.
 * Upon successful addition of an owner, PetLog will display all owners (as if [`list`](#listing-all-owners-list) was run) and automatically scroll to the bottom of the list for you to see the newly added owner.
 
 Examples:
