@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.commons.util.StringUtil.normalizeForComparison;
-import static seedu.address.commons.util.StringUtil.normalizeWhitespace;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -142,8 +141,6 @@ public class Person {
         return otherPerson != null
                 && normalizeName(otherPerson.getName()).equals(normalizeName(getName()))
                 && normalizePhone(otherPerson.getPhone()).equals(normalizePhone(getPhone()));
-                // && normalizeEmail(otherPerson.getEmail()).equals(normalizeEmail(getEmail()))
-                // && normalizeAddress(otherPerson.getAddress()).equals(normalizeAddress(getAddress()));
     }
 
     /**
