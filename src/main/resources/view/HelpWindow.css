@@ -9,14 +9,8 @@
     -fx-border-width: 0 0 1 0;
 }
 
-#commandScrollPane > .viewport {
+#commandScrollPane > .viewport, #accordionContainer {
     -fx-background-color: #ffdab9;
-}
-
-#commandsLabel {
-    -fx-font-family: "Comfortaa";
-    -fx-font-size: 13px;
-    -fx-text-fill: #3c2f2f;
 }
 
 #helpMessageContainer {
@@ -25,5 +19,21 @@
 }
 
 #helpMessage {
+    -fx-text-fill: #3c2f2f;
+}
+
+.command-pane > .title {
+    -fx-background-color: #f0b88a;
+    -fx-font-family: "Comfortaa";
+    -fx-font-size: 13px;
+}
+
+.command-pane > .title > .text, .command-content-label {
+    -fx-fill: #3c2f2f;
+}
+
+.command-content-label {
+    -fx-font-family: "Comfortaa";
+    -fx-font-size: 12px;
     -fx-text-fill: #3c2f2f;
 }
