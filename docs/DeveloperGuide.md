@@ -909,7 +909,7 @@ The User Guide will also be updated to capture all the details above.
 
 ### 2. Redefining owner duplicate criteria
 
-With the current implementation, owners are considered duplicates if they have the same normalised (i.e. case-insensitive, whitespace-collapsed) name and normalised phone number. This duplicate criteria is used in `addowner`, where attempting to add an owner who is considered a duplicate of an existing owner is not allowed.
+With the current implementation, owners are considered duplicates if they have the same normalised (i.e. case-insensitive, whitespace-collapsed) name and normalised phone number. These duplicate criteria are used in `addowner`, where attempting to add an owner who is considered a duplicate of an existing owner is not allowed.
 
 However, it is plausible for two different people with the exact same name to have the same stored phone number, but different addresses and emails, especially since PetLog allows users to store any characters in the phone number field.
 
