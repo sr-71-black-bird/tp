@@ -351,7 +351,7 @@ Format: `exit`
 
 ### Saving the data
 
-PetLog data is saved in the hard disk automatically after any command that changes the data, and upon exiting. There is no need to save manually.
+PetLog data is saved to the hard disk automatically after any command that changes the data, and upon exiting. There is no need to save manually.
 
 [↑ Back to ToC](#table-of-contents)
 
