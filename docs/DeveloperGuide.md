@@ -887,26 +887,146 @@ Team size: 5
 
 ### 1. Improving parsers to detect invalid prefixes
 
-With the current implementation, unexpected behaviours occur when a user inputs an invalid prefix for a command with parameters (i.e. all commands other than `help`, `list`, `clear` and `exit`).
+With the current implementation, unexpected behaviours occur when a user inputs an invalid prefix for a command with parameters (i.e. all commands other than `help`, `list`, `clear`, and `exit`).
 
 If the invalid prefix is the first prefix provided, the user is shown the error `Invalid command format`. If the invalid prefix is a later prefix, it is unintentionally absorbed into the previous parameter's input.
 
 Examples:
 * _Invalid prefix as first input following command word_: <br>
   Run `addowner xy/Invalid Prefix on/Example ph/123 em/eg@example.com ad/Some Address`. <br>
-  Expected: User is shown an error that identifies the invalid input `xy/`. <br>
+  Expected: User is shown an error that identifies the invalid prefix `xy/`. <br>
   Actual: User is shown the `Invalid command format` error.
 *  _Invalid prefix as subsequent input being absorbed into previous argument with no error_: <br> 
-  Run `addowner on/Example xy/Invalid Prefix ph/123 em/eg@example.com ad/Some Address` <br>
-  Expected: User is shown an error that identifies the invalid input `xy/`. <br>
+  Run `addowner on/Example xy/Invalid Prefix ph/123 em/eg@example.com ad/Some Address`. <br>
+  Expected: User is shown an error that identifies the invalid prefix `xy/`. <br>
   Actual: The argument to the `on/` parameter is parsed as `Example xy/Invalid Prefix`, hence an owner with name `Example xy/Invalid Prefix` is added with no error.
 * _Invalid prefix as subsequent input being absorbed into previous argument resulting in an error_: <br> 
-  Run `addowner on/Example ph/123 em/eg@example.com xy/Invalid Prefix ad/Some Address` <br>
-  Expected: User is shown an error that identifies the invalid input `xy/`. <br>
+  Run `addowner on/Example ph/123 em/eg@example.com xy/Invalid Prefix ad/Some Address`. <br>
+  Expected: User is shown an error that identifies the invalid prefix `xy/`. <br>
   Actual: The argument to the `em/` parameter is parsed as `eg@example.com xy/Invalid Prefix`, which does not meet the regex for a valid email, hence the user is shown an error that the email provided is invalid.
 
-The planned enhancement is to improve the parsers to be able to detect invalid prefixes of the form `xx/` following any whitespace, where x is any (case-insensitive) alphabetical character, via regex, so that an error identifying the invalid prefix can be shown to the user.
+The planned enhancement is to improve the parsers so they can detect invalid prefixes of the form `xx/` following any whitespace, where `x` is any (case-insensitive) alphabetical character, via regex, so that an error identifying the invalid prefix can be shown to the user.
 
-However, this may give rise to new issues in edge cases, e.g. when an owner's address is `123 St/Ave`. This can further be remedied by using a backslash (`\`) to "escape" regex detection, e.g. `ad/123 \St/Ave` will be interpreted as: the argument to `ad/` is `123 St/Ave` and no error is raised.
+However, this may give rise to edge cases, e.g. when an owner's address is `123 St/Ave`. This can be addressed by using a backslash (`\`) to escape regex detection, e.g. `ad/123 \St/Ave` will be interpreted as: the argument to `ad/` is `123 St/Ave` and no error is raised.
+
+The User Guide will also be updated to capture all the details above.
+
+### 2. Redefining owner duplicate criteria
+
+With the current implementation, owners are considered duplicates if they have the same normalised (i.e. case-insensitive, whitespace-collapsed) name and normalised phone number. This duplicate criteria is used in `addowner`, where attempting to add an owner who is considered a duplicate of an existing owner is not allowed.
+
+However, it is plausible for two different people with the exact same name to have the same stored phone number, but different addresses and emails, especially since PetLog allows users to store any characters in the phone number field.
+
+Example:
+* Two different owners named `John Doe` who have phone numbers stored as `-`, but have different addresses and emails. <br>
+  Expected: PetLog treats them as different people, allowing them both to be added.<br>
+  Actual: PetLog considers them duplicates, and will not allow one to be added if the other already exists.
+
+The planned enhancement is to redefine the duplicate criteria for owners. PetLog will only consider owners as duplicates if all normalised fields (`name`, `phone`, `email`, and `address`) match one existing owner.
+
+The User Guide will also be updated to capture all the details above.
+
+### 3. Displaying warnings when provided arguments to `addowner` match an existing owner
+
+In addition to Planned Enhancement 2, we will also modify the behaviour of `addowner` to show warnings for partial owner-detail matches.
+
+Example:
+* Run `addowner on/Jane Doe ph/1234 em/janedoe@example.com ad/88 New Street`, then <br>
+  `addowner on/John Doe ph/1234 em/johndoe@example.com ad/88 New Street`. <br>
+  Expected: Owner is added and a warning identifies the matching fields (e.g. `phone and address`). <br>
+  Actual: Owner is added with no warning, making accidental duplicate details harder to detect.
+
+The planned enhancement is to show a warning whenever only some normalised owner fields match an existing owner, e.g. `Warning: phone and address match that of an existing owner. Use editowner to amend if necessary.`, helping users catch the potential mistake more easily.
+
+The User Guide will also be updated to capture all the details above.
+
+### 4. Handling duplicate services within a single `addsession`
+
+With the current implementation, a user can provide the same service multiple times in one `addsession` command, and no warning is displayed.
+
+Example:
+* `addsession oi/1 pi/1 st/2026-07-01 10:00 et/2026-07-01 11:00 sn/Shampoo sn/Shampoo`. <br>
+  Expected: Command is accepted, but user is shown a warning identifying duplicate service entries. <br>
+  Actual: Command is accepted with no warning.
+
+The planned enhancement is to add a warning that identifies duplicate `sn/` values when they are detected within the same `addsession` command, so users are alerted to the potential mistake.
+
+The User Guide will also be updated to capture all the details above.
+
+### 5. Making owner list resets explicit in command feedback
+
+With the current implementation, some successful commands reset the owner list view and therefore shift owner indices, but this can be easy to miss during command chaining.
+
+Example:
+* Run `find on/Manual Tester`, then `addowner on/New Owner ph/90000000 em/new@example.com ad/1 New Road`, then `editowner oi/1 ph/81111111`. <br>
+  Expected: Feedback clearly reminds users that indices have been reset to the full owner list before they run index-based commands. <br>
+  Actual: Users may assume old filtered indices still apply and edit the wrong owner.
+
+The planned enhancement is to append an explicit feedback note whenever a command resets the owner list and index context.
+
+The User Guide will also be updated to capture all the details above.
+
+### 6. Supporting exact-phrase search in `find`
+
+With the current implementation, `find` treats inputs as keyword tokens, which can return broader matches than intended for multi-word values.
+
+Example:
+* Run `find ad/"123 Test Avenue"`. <br>
+  Expected: Owners whose address exact-phrase search `123 Test Avenue` are returned. <br>
+  Actual: Owners whose address contain the words `"123`, `Test` or `Avenue"` are returned.
+
+The planned enhancement is to support quoted exact-phrase matching in `find` while retaining current keyword search behaviour.
+
+The User Guide will also be updated to capture all the details above.
+
+### 7. Improving invalid index errors with valid ranges
+
+With the current implementation, index-related errors are generic and do not show the valid range at the time of failure.
+
+Example:
+* Run `delete oi/99` when only 7 owners are displayed. <br>
+  Expected: Error states the valid range (e.g. `1-7`) to guide correction quickly. <br>
+  Actual: Generic invalid index error is shown.
+
+The planned enhancement is to include dynamic valid ranges in index-related error messages for owner, pet, and session indices.
+
+The User Guide will also be updated to capture all the details above.
+
+### 8. Displaying an error when attempting to add an existing tag with `editowner`
+
+With the current implementation, `editowner` can be used to add an existing tag to an owner, which results in no changes.
+
+Example:
+* Run `editowner oi/1 at/VIP` when the owner at `oi/1` has an existing `VIP` tag. <br>
+  Expected: Immediate and explicit error that the specified owner already has the `VIP` tag. <br>
+  Actual: Command executes with no error, and no changes are made.
+
+The planned enhancement is to show a dedicated error message if PetLog detects that the user is attempting to add a tag that already exists for that owner.
+
+The User Guide will also be updated to capture all the details above.
+
+### 9. Detecting conflicting tag operations in `editowner`
+
+With the current implementation, the `editowner` command can include the same tag in both `at/` and `rt/`, which is semantically conflicting.
+
+Example:
+* Run `editowner oi/1 at/VIP rt/VIP`. <br>
+  Expected: Immediate and explicit error that the same tag cannot be added and removed in one command. <br>
+  Actual: If the `VIP` tag is initially absent, the command fails with `Tag not found for this owner: VIP`. If the `VIP` tag is present, the command executes and only removes the tag. Both outcomes may be confusing to the user.
+
+The planned enhancement is to validate conflicting tag operations at parser level and show a dedicated error message.
+
+The User Guide will also be updated to capture all the details above.
+
+### 10. Adding confirmation before `clear` to prevent accidental data loss
+
+With the current implementation, `clear` deletes all owners, pets, services, and sessions immediately with no confirmation prompt.
+
+Example:
+* Run `clear` by accident (e.g. after a typo). <br>
+  Expected: PetLog asks for explicit confirmation before permanently clearing all records. <br>
+  Actual: All records are deleted immediately.
+
+The planned enhancement is to require an explicit confirmation step before executing `clear`, to reduce the risk of irreversible accidental data loss.
 
 The User Guide will also be updated to capture all the details above.
