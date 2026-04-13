@@ -25,7 +25,7 @@ public class AddPetCommand extends Command {
 
     public static final String COMMAND_WORD = "addpet";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a pet to the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a pet to the address book.\n"
             + "Parameters: "
             + PREFIX_OWNER_INDEX + "OWNER_INDEX "
             + PREFIX_PET_NAME + "PET_NAME "
