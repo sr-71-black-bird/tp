@@ -22,6 +22,9 @@
     -fx-text-fill: #3c2f2f;
 }
 
+.command-pane {
+    -fx-focus-color: transparent;
+}
 .command-pane > .title {
     -fx-background-color: #f0b88a;
     -fx-font-family: "Comfortaa";

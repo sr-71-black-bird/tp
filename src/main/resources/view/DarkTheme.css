@@ -370,6 +370,10 @@
     -fx-text-fill: #8b0000;
 }
 
+.text-input {
+    -fx-highlight-fill: #e8a070;
+}
+
 #commandTextField {
     -fx-background-color: transparent #ffe8d3 transparent #ffe8d3;
     -fx-background-insets: 0;
