@@ -1,11 +1,61 @@
 ---
 layout: page
-title: User Guide
+title: PetLog User Guide
 ---
 
-PetLog is a **desktop app designed for managers of pet day care centres or boarding services**. It is optimised for use via a **Command Line Interface** (CLI), while retaining the benefits of a **Graphical User Interface** (GUI).
-With structured commands, it helps you manage, search, and organise owners and their pets efficiently.
-You can also add and keep track of the services you offer, as well as specific sessions where a pet receives one of your services.
+## Welcome to PetLog
+
+**Your pets are in good hands. Your records should be too.**
+
+Running a pet daycare or boarding service means juggling a lot — which owner is picking up Biscuit today? Does Mochi have any dietary notes? What's the contact number for Luna's owner again?
+
+PetLog is a **desktop app** that keeps all of this organised in one place, so you can spend less time searching through notebooks and chat messages, and more time with the animals in your care.
+
+It works through simple typed commands — no clicking through menus, no complicated software to learn. If you can type, you're ready to use PetLog.
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
+
+## What PetLog Can Do For You
+
+-  **Store owner contacts** — name, phone, email, and address, all in one record
+-  **Track pets and their owners** — link each pet to their owner, with species and special care notes
+-  **Find anyone instantly** — search by owner name, email, pet name, species, or tag
+-  **Update care notes on the fly** — record feeding instructions, medical reminders, or behavioural notes
+-  **Manage services and sessions** — add the services you offer and track specific sessions for each pet
+-  **Keep your records clean** — remove owners and pets when they leave your service
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
+
+## Who Is This Guide For?
+
+PetLog is built for pet daycare and boarding service staff who want a fast, no-fuss way to manage their contacts and pet records.
+
+We assume:
+- You're comfortable typing on a keyboard
+- You have no coding or technical background — and you don't need one
+- You're using a Windows, Mac, or Linux computer
+ 
+---
+
+## How to Read This Guide
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+Important — read before you act.
+</div>
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Extra context to help you understand.
+</div>
+
+`monospace text` — Something you type into PetLog or terminals exactly as shown.
+
+--------------------------------------------------------------------------------------------------------------------
+
+<div style="page-break-after: always;"></div>
 
 ## Table of Contents
 * Table of Contents
@@ -17,19 +67,65 @@ You can also add and keep track of the services you offer, as well as specific s
 
 ## Quick start
 
-1. Ensure you have Java `17` or above installed on your computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+### Step 1 — Make sure Java is installed.
 
-1. Download the latest `petlog.jar` file from the [releases page](https://github.com/AY2526S2-CS2103T-W14-1/tp/releases).
+PetLog runs on something called Java — a free program that lets apps like PetLog work on any computer, whether it's Windows, Mac, or Linux. Think of it like a universal engine under the hood. You only need to install it once, and many computers already have it.
 
-1. Copy the file to the folder you want to use as the _home folder_ for PetLog.
+To check, open your Terminal (Mac or Linux) or Command Prompt (Windows) and type:
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and run `java -jar petlog.jar`.<br>
-   A GUI similar to the one below should appear in a few seconds. Note how the app contains some sample data.<br>
-   ![Ui](images/Ui.png)
+```
+java -version
+```
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing [`help`](#viewing-help-help) and pressing Enter will open the help window.<br>
-   Some example commands you can try:
+If you see a version number of **17 or higher** — great, move on to Step 2!
+
+If not, install it using the guide for your system:
+- [Windows: Java installation guide for Windows](https://se-education.org/guides/tutorials/javaInstallationWindows.html)
+- [Mac: Java installation guide for Mac](https://se-education.org/guides/tutorials/javaInstallationMac.html)
+- [Linux: Java installation guide for Linux](https://se-education.org/guides/tutorials/javaInstallationLinux.html)
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Not sure how to open Terminal or Command Prompt? On Windows, press the Windows key, type `cmd` and hit Enter. On Mac, press `Cmd + Space`, type `Terminal` and hit Enter.
+</div>
+
+### Step 2 — Download PetLog.
+
+Download the latest `petlog.jar` file from the [releases page](https://github.com/AY2526S2-CS2103T-W14-1/tp/releases). Look for the **Assets** section and save the file somewhere easy to find, like your Desktop or a folder called `PetLog`.
+
+### Step 3 — Launch PetLog.
+
+Open your Terminal or Command Prompt, navigate to the folder where you saved PetLog by typing:
+
+```
+cd YOUR_FOLDER_PATH
+```
+
+For example, if you saved it in a folder called `PetLog` on your Desktop:
+
+```
+cd Desktop/PetLog
+```
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+`cd` stands for "change directory" — it's just your way of telling the computer which folder to look in. Think of it like opening a folder by typing its name instead of clicking on it.
+</div>
+
+Then launch PetLog by typing:
+
+```
+java -jar petlog.jar
+```
+
+PetLog will open in a few seconds with some sample data loaded.
+   
+![Ui](images/Ui.png)
+
+### Step 4 — Try your first commands.
+
+PetLog loads with some sample data so you can explore right away. Type any of these into the command box and press Enter:
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+`clear` permanently deletes everything. There is no undo. Use with care!
+</div>
 
    * [`list`](#listing-all-owners-list) : Lists all owners, pets, and sessions.
 
